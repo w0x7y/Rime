@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.3.0
 
 These bring VS Code in line with the Neovim and Zed ports:
 
