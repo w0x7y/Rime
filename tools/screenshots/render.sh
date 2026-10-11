@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Regenerate assets/screenshot-*.png from real Neovim highlighting.
-# Needs: nvim 0.10+ with the typescript treesitter parser, chromium, python3 with Pillow.
+# Needs: nvim 0.10+ with the typescript treesitter parser, chromium, python3 with Pillow,
+# and the Maple Mono NF font installed.
 # Usage: tools/screenshots/render.sh [nvim-treesitter dir, containing parser/typescript.so and runtime/queries]
 set -euo pipefail
 here="$(cd "$(dirname "$0")" && pwd)"

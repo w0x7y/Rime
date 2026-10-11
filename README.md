@@ -2,11 +2,7 @@
 
 a colder colorscheme
 
-<img width="560" alt="demo" src="assets/screenshot-rime.png" />
-
-*the font used is dejavu sans mono. the screenshots are real neovim output*
-
-it started as the opposite of [bark](https://github.com/if-not-nil/bark), with one dark pro as the reference for how the syntax colors fit together
+It is a opposite of [bark](https://github.com/if-not-nil/bark) with a mix of [one dark pro](https://github.com/Binaryify/OneDark-Pro)
 
 **variants**
 
