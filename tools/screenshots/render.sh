@@ -22,10 +22,9 @@ shoot() { # html, width,height, png
 }
 python3 "$here/compose.py" "$work" "$work/all.html" 2 "${variants[@]}" >/dev/null
 shoot "$work/all.html" 1500,1500 "$repo/assets/screenshot-all.png"
-for v in "${variants[@]}"; do
-  python3 "$here/compose.py" "$work" "$work/single-$v.html" 1 "$v" >/dev/null
-  shoot "$work/single-$v.html" 760,760 "$repo/assets/screenshot-$v.png"
-done
+# the default variant on its own, for the Neovim README
+python3 "$here/compose.py" "$work" "$work/single-rime.html" 1 rime >/dev/null
+shoot "$work/single-rime.html" 760,760 "$repo/assets/screenshot-rime.png"
 
 # small rust demo for the top of the README
 mkdir -p "$work/demo"
