@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Regenerate assets/screenshot-*.png from real Neovim highlighting.
-# Needs: nvim 0.10+ with the typescript treesitter parser, chromium, python3 with Pillow,
+# Regenerate assets/screenshot-*.png and assets/demo.png from real Neovim highlighting.
+# Needs: nvim 0.10+ with the typescript and rust treesitter parsers, chromium, python3 with Pillow,
 # and the Maple Mono NF font installed.
 # Usage: tools/screenshots/render.sh [nvim-treesitter dir, containing parser/typescript.so and runtime/queries]
 set -euo pipefail
@@ -27,8 +27,15 @@ for v in "${variants[@]}"; do
   shoot "$work/single-$v.html" 760,760 "$repo/assets/screenshot-$v.png"
 done
 
+# small rust demo for the top of the README
+mkdir -p "$work/demo"
+nvim --headless -u NONE --cmd "set rtp^=$parsers rtp^=$parsers/runtime rtp+=$repo/nvim" \
+  -l "$here/export_html.lua" rime "$here/demo.rs" "$work/demo/rime.html" rust
+python3 "$here/compose.py" "$work/demo" "$work/demo.html" 1 rime >/dev/null
+shoot "$work/demo.html" 600,600 "$repo/assets/demo.png"
+
 # crop the transparent margin
-python3 - "$repo"/assets/screenshot-*.png <<'PY'
+python3 - "$repo"/assets/screenshot-*.png "$repo/assets/demo.png" <<'PY'
 import sys
 from PIL import Image
 for f in sys.argv[1:]:

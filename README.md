@@ -2,6 +2,8 @@
 
 a colder colorscheme
 
+<img width="500" alt="rust code in rime" src="assets/demo.png" />
+
 It is a opposite of [bark](https://github.com/if-not-nil/bark) with a mix of [one dark pro](https://github.com/Binaryify/OneDark-Pro)
 
 **variants**
@@ -22,8 +24,6 @@ four of them, all on the same `#0f1218` background
   ![rime abyss palette](assets/palette-rime-abyss.svg)
 
 <img alt="all four variants" src="assets/screenshot-all.png" />
-
-keywords aren't all one color. declarations are violet, loops yellow, conditionals bold rose, returns and exceptions rose
 
 **[neovim](./nvim)**
 
