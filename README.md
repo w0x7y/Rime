@@ -10,13 +10,13 @@ It is a opposite of [bark](https://github.com/if-not-nil/bark) with a mix of [on
 
 four of them, all on the same `#0f1218` background
 
-- **rime**: the original. every syntax role is clearly apart
+- **rime**: the original.
 
   ![rime palette](assets/palette-rime.svg)
-- **rime glacier**: soft, muted pastels for long sessions
+- **rime glacier**: soft and muted pastels.
 
   ![rime glacier palette](assets/palette-rime-glacier.svg)
-- **rime aurora**: vivid neon on the same cold base
+- **rime aurora**: vivid neon.
 
   ![rime aurora palette](assets/palette-rime-aurora.svg)
 - **rime abyss**: the coldest one. no yellow or orange, rose is the only warm color. its "yellow" is pale aqua, so yellow terminal warnings look close to green
