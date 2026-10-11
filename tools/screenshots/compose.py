@@ -18,11 +18,13 @@ for slug in slugs:
     # drop the trailing newline so the pane ends right after the last line
     pre = re.search(r"<pre>(.*?)</pre>", html, re.S)[1].rstrip()
     panes.append(f'<div class="win v-{slug}" style="border-color:{pal["base02"]}"><pre>{pre}</pre></div>')
+# a single pane hugs its code; a grid splits the width evenly
+columns = "max-content" if cols == 1 else f"repeat({cols},1fr)"
 page = f"""<!doctype html><html><head><meta charset="utf-8"><style>
 body{{margin:0;background:transparent}}
-.grid{{display:grid;grid-template-columns:repeat({cols},1fr);gap:18px;padding:0}}
+.grid{{display:grid;grid-template-columns:{columns};gap:18px;padding:0}}
 .win{{border-radius:12px;overflow:hidden;border:1px solid}}
-pre{{margin:0;padding:16px 18px 16px 6px;font:13px/1.6 "Maple Mono NF",monospace;overflow:hidden;white-space:pre}}
+pre{{margin:0;padding:16px 18px 16px 6px;font:13px/1.6 "Maple Mono NF",monospace;tab-size:4;overflow:hidden;white-space:pre}}
 {chr(10).join(css)}
 </style></head><body><div class="grid">{''.join(panes)}</div></body></html>"""
 open(out, "w").write(page)

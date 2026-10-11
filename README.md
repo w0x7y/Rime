@@ -2,7 +2,7 @@
 
 a colder colorscheme
 
-<img width="500" alt="rust code in rime" src="assets/demo.png" />
+<img width="370" alt="rust code in rime" src="assets/demo.png" />
 
 It is a opposite of [bark](https://github.com/if-not-nil/bark) with a mix of [one dark pro](https://github.com/Binaryify/OneDark-Pro)
 
