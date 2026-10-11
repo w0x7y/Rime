@@ -19,7 +19,7 @@ four of them, all on the same `#0f1218` background
 - **rime aurora**: vivid neon.
 
   ![rime aurora palette](assets/palette-rime-aurora.svg)
-- **rime abyss**: the coldest one. no yellow or orange, rose is the only warm color. its "yellow" is pale aqua, so yellow terminal warnings look close to green
+- **rime abyss**: the coldest one.
 
   ![rime abyss palette](assets/palette-rime-abyss.svg)
 
