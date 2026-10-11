@@ -1,4 +1,4 @@
-**rime**
+**Rime**
 
 a colder colorscheme
 
