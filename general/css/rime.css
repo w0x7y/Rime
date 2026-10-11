@@ -1,0 +1,39 @@
+/* Rime: The original: cool accents with clear separation between every syntax role. */
+/* https://github.com/w0x7y/Rime */
+:root {
+  /* base16 slots */
+  --base00: #0f1218;
+  --base01: #161b23;
+  --base02: #212834;
+  --base03: #56627a;
+  --base04: #8c98ad;
+  --base05: #c5cedd;
+  --base06: #dfe5ee;
+  --base07: #f3f6fa;
+  --base08: #e07a90;
+  --base09: #f2a7e0;
+  --base0A: #e3dc9e;
+  --base0B: #88d8a0;
+  --base0C: #6fd0d8;
+  --base0D: #6eaaf0;
+  --base0E: #ae94f0;
+  --base0F: #6b7fa8;
+
+  /* semantic names */
+  --rime-bg: #0f1218;
+  --rime-bg-alt: #161b23;
+  --rime-bg-sel: #212834;
+  --rime-comment: #56627a;
+  --rime-muted: #8c98ad;
+  --rime-fg: #c5cedd;
+  --rime-fg-bright: #dfe5ee;
+  --rime-white: #f3f6fa;
+  --rime-red: #e07a90;
+  --rime-pink: #f2a7e0;
+  --rime-yellow: #e3dc9e;
+  --rime-green: #88d8a0;
+  --rime-cyan: #6fd0d8;
+  --rime-blue: #6eaaf0;
+  --rime-violet: #ae94f0;
+  --rime-steel: #6b7fa8;
+}

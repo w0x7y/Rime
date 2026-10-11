@@ -1,0 +1,25 @@
+# Rime Aurora: Vivid neon accents on the same cold base.
+# https://github.com/w0x7y/Rime
+
+palette = 0=#212834
+palette = 1=#ff6f91
+palette = 2=#5ef0a6
+palette = 3=#e6f07c
+palette = 4=#4fa2ff
+palette = 5=#9b7dff
+palette = 6=#38dce8
+palette = 7=#c8d2e2
+palette = 8=#56627a
+palette = 9=#ff8fa9
+palette = 10=#81f3ba
+palette = 11=#ecf399
+palette = 12=#76b6ff
+palette = 13=#b19aff
+palette = 14=#64e4ed
+palette = 15=#f5f8fc
+background = #0f1218
+foreground = #c8d2e2
+cursor-color = #c8d2e2
+cursor-text = #0f1218
+selection-background = #212834
+selection-foreground = #e0e7f2

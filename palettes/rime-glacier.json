@@ -1,0 +1,23 @@
+{
+  "name": "Rime Glacier",
+  "slug": "rime-glacier",
+  "description": "Soft and muted pastels for long sessions.",
+  "palette": {
+    "base00": "#0f1218",
+    "base01": "#161b23",
+    "base02": "#212834",
+    "base03": "#56627a",
+    "base04": "#8c98ad",
+    "base05": "#c3ccd9",
+    "base06": "#dce2eb",
+    "base07": "#f0f3f8",
+    "base08": "#d98a9c",
+    "base09": "#e8a8cc",
+    "base0A": "#e4d098",
+    "base0B": "#9ad8ac",
+    "base0C": "#7cc4d0",
+    "base0D": "#7aa4e4",
+    "base0E": "#bb98d6",
+    "base0F": "#6c7b98"
+  }
+}

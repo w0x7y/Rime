@@ -1,0 +1,31 @@
+# Rime: The original: cool accents with clear separation between every syntax role.
+# https://github.com/w0x7y/Rime
+
+[colors]
+foreground = "#c5cedd"
+background = "#0f1218"
+cursor_bg = "#c5cedd"
+cursor_fg = "#0f1218"
+cursor_border = "#c5cedd"
+selection_fg = "#dfe5ee"
+selection_bg = "#212834"
+scrollbar_thumb = "#212834"
+split = "#1c222c"
+ansi = ["#212834", "#e07a90", "#88d8a0", "#e3dc9e", "#6eaaf0", "#ae94f0", "#6fd0d8", "#c5cedd"]
+brights = ["#56627a", "#e797a8", "#a2e1b5", "#e9e4b3", "#8ebdf3", "#c0acf3", "#8fdae1", "#f3f6fa"]
+
+[colors.tab_bar]
+background = "#0c0f14"
+
+[colors.tab_bar.active_tab]
+bg_color = "#0f1218"
+fg_color = "#dfe5ee"
+
+[colors.tab_bar.inactive_tab]
+bg_color = "#0c0f14"
+fg_color = "#56627a"
+
+[metadata]
+name = "Rime"
+author = "Idan Gilboa"
+origin_url = "https://github.com/w0x7y/Rime"

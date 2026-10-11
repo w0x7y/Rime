@@ -1,0 +1,54 @@
+# Rime Aurora: Vivid neon accents on the same cold base.
+# https://github.com/w0x7y/Rime
+
+[colors.primary]
+background = "#0f1218"
+foreground = "#c8d2e2"
+dim_foreground = "#8c98ad"
+bright_foreground = "#e0e7f2"
+
+[colors.cursor]
+text = "#0f1218"
+cursor = "#c8d2e2"
+
+[colors.selection]
+text = "CellForeground"
+background = "#212834"
+
+[colors.search.matches]
+foreground = "#0f1218"
+background = "#e6f07c"
+
+[colors.search.focused_match]
+foreground = "#0f1218"
+background = "#4fa2ff"
+
+[colors.normal]
+black = "#212834"
+red = "#ff6f91"
+green = "#5ef0a6"
+yellow = "#e6f07c"
+blue = "#4fa2ff"
+magenta = "#9b7dff"
+cyan = "#38dce8"
+white = "#c8d2e2"
+
+[colors.bright]
+black = "#56627a"
+red = "#ff8fa9"
+green = "#81f3ba"
+yellow = "#ecf399"
+blue = "#76b6ff"
+magenta = "#b19aff"
+cyan = "#64e4ed"
+white = "#f5f8fc"
+
+[colors.dim]
+black = "#1b202a"
+red = "#ab4e67"
+green = "#42a274"
+yellow = "#9ba259"
+blue = "#3970ae"
+magenta = "#6a58ae"
+cyan = "#2a959f"
+white = "#878f9b"

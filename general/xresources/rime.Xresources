@@ -1,0 +1,22 @@
+! Rime: The original: cool accents with clear separation between every syntax role.
+! https://github.com/w0x7y/Rime
+
+*.foreground: #c5cedd
+*.background: #0f1218
+*.cursorColor: #c5cedd
+*.color0: #212834
+*.color1: #e07a90
+*.color2: #88d8a0
+*.color3: #e3dc9e
+*.color4: #6eaaf0
+*.color5: #ae94f0
+*.color6: #6fd0d8
+*.color7: #c5cedd
+*.color8: #56627a
+*.color9: #e797a8
+*.color10: #a2e1b5
+*.color11: #e9e4b3
+*.color12: #8ebdf3
+*.color13: #c0acf3
+*.color14: #8fdae1
+*.color15: #f3f6fa

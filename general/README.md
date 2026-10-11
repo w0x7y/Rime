@@ -1,0 +1,101 @@
+# Rime for terminals and everything else
+
+Every file here comes in four variants (`rime`, `rime-glacier`, `rime-aurora`, `rime-abyss`). The examples use `rime`. Swap in the variant you want. Run the commands from this `general/` folder.
+
+All files are generated from `palettes/` by `tools/build.py`, so edit the palettes rather than these files.
+
+## Terminal colours
+
+All terminal themes use the same 16 colours:
+
+| Slot | Colour | Slot | Colour |
+|---|---|---|---|
+| 0 black | selection grey (`base02`) | 8 bright black | comment grey (`base03`) |
+| 1 red | rose | 9 bright red | lighter rose |
+| 2 green | green | 10 bright green | lighter green |
+| 3 yellow | yellow (pale aqua in Abyss) | 11 bright yellow | lighter yellow |
+| 4 blue | blue | 12 bright blue | lighter blue |
+| 5 magenta | violet | 13 bright magenta | lighter violet |
+| 6 cyan | cyan | 14 bright cyan | lighter cyan |
+| 7 white | text (`base05`) | 15 bright white | `base07` |
+
+Black is a visible dark grey rather than the background colour, so programs that print black text stay readable.
+
+### kitty
+
+```sh
+mkdir -p ~/.config/kitty
+cp kitty/rime.conf ~/.config/kitty/rime.conf
+echo 'include rime.conf' >> ~/.config/kitty/kitty.conf
+```
+
+### Alacritty
+
+```sh
+mkdir -p ~/.config/alacritty/themes
+cp alacritty/rime.toml ~/.config/alacritty/themes/
+```
+
+```toml
+# alacritty.toml
+[general]
+import = ["~/.config/alacritty/themes/rime.toml"]
+```
+
+Before Alacritty 0.14, `import` was a top-level key instead of living under `[general]`.
+
+### Ghostty
+
+```sh
+mkdir -p ~/.config/ghostty/themes
+cp ghostty/rime ~/.config/ghostty/themes/
+echo 'theme = rime' >> ~/.config/ghostty/config
+```
+
+### WezTerm
+
+```sh
+mkdir -p ~/.config/wezterm/colors
+cp wezterm/rime.toml ~/.config/wezterm/colors/
+```
+
+```lua
+-- wezterm.lua
+config.color_scheme = "Rime"  -- or "Rime Glacier", "Rime Aurora", "Rime Abyss"
+```
+
+### foot
+
+```sh
+cp foot/rime.ini ~/.config/foot/rime.ini
+```
+
+```ini
+# foot.ini
+[main]
+include=~/.config/foot/rime.ini
+```
+
+The file uses the `[colors-dark]` section from foot 1.26. On older foot versions, rename it to `[colors]`.
+
+### Windows Terminal
+
+Open **Settings → Open JSON file** and add the entries from `windows-terminal/rime.json` to the `"schemes"` array. Then pick the scheme under your profile's **Appearance** settings.
+
+### iTerm2
+
+Double-click `iterm2/rime.itermcolors` to import it. Then select it in **Settings → Profiles → Colors → Color Presets**.
+
+### Xresources (xterm, urxvt, st and others)
+
+```sh
+xrdb -merge xresources/rime.Xresources
+```
+
+## Other formats
+
+| Folder | Use |
+|---|---|
+| `base16/` | base16 scheme files in the [tinted-theming](https://github.com/tinted-theming/home) format. Feed them to a builder such as `tinty` to theme any app that has a base16 template. |
+| `css/` | CSS custom properties, with both the base16 slots (`--base0D`) and semantic names (`--rime-blue`). |
+| `fzf/` | `source fzf/rime.sh` to add Rime colours to `FZF_DEFAULT_OPTS`. |

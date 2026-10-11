@@ -1,0 +1,31 @@
+# Rime Glacier: Soft and muted pastels for long sessions.
+# https://github.com/w0x7y/Rime
+
+[colors]
+foreground = "#c3ccd9"
+background = "#0f1218"
+cursor_bg = "#c3ccd9"
+cursor_fg = "#0f1218"
+cursor_border = "#c3ccd9"
+selection_fg = "#dce2eb"
+selection_bg = "#212834"
+scrollbar_thumb = "#212834"
+split = "#1c222c"
+ansi = ["#212834", "#d98a9c", "#9ad8ac", "#e4d098", "#7aa4e4", "#bb98d6", "#7cc4d0", "#c3ccd9"]
+brights = ["#56627a", "#e1a4b2", "#b0e1be", "#eadaaf", "#97b8ea", "#caafdf", "#99d1da", "#f0f3f8"]
+
+[colors.tab_bar]
+background = "#0c0f14"
+
+[colors.tab_bar.active_tab]
+bg_color = "#0f1218"
+fg_color = "#dce2eb"
+
+[colors.tab_bar.inactive_tab]
+bg_color = "#0c0f14"
+fg_color = "#56627a"
+
+[metadata]
+name = "Rime Glacier"
+author = "Idan Gilboa"
+origin_url = "https://github.com/w0x7y/Rime"

@@ -1,0 +1,54 @@
+# Rime: The original: cool accents with clear separation between every syntax role.
+# https://github.com/w0x7y/Rime
+
+[colors.primary]
+background = "#0f1218"
+foreground = "#c5cedd"
+dim_foreground = "#8c98ad"
+bright_foreground = "#dfe5ee"
+
+[colors.cursor]
+text = "#0f1218"
+cursor = "#c5cedd"
+
+[colors.selection]
+text = "CellForeground"
+background = "#212834"
+
+[colors.search.matches]
+foreground = "#0f1218"
+background = "#e3dc9e"
+
+[colors.search.focused_match]
+foreground = "#0f1218"
+background = "#6eaaf0"
+
+[colors.normal]
+black = "#212834"
+red = "#e07a90"
+green = "#88d8a0"
+yellow = "#e3dc9e"
+blue = "#6eaaf0"
+magenta = "#ae94f0"
+cyan = "#6fd0d8"
+white = "#c5cedd"
+
+[colors.bright]
+black = "#56627a"
+red = "#e797a8"
+green = "#a2e1b5"
+yellow = "#e9e4b3"
+blue = "#8ebdf3"
+magenta = "#c0acf3"
+cyan = "#8fdae1"
+white = "#f3f6fa"
+
+[colors.dim]
+black = "#1b202a"
+red = "#975666"
+green = "#5e9370"
+yellow = "#99956f"
+blue = "#4d75a4"
+magenta = "#7667a4"
+cyan = "#4d8e95"
+white = "#858c98"

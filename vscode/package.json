@@ -1,0 +1,55 @@
+{
+  "name": "rime-theme",
+  "displayName": "Rime Theme",
+  "description": "A cold dark theme in four variants: Rime, Glacier, Aurora and Abyss.",
+  "version": "0.1.0",
+  "publisher": "w0x7y",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/w0x7y/Rime"
+  },
+  "engines": {
+    "vscode": "^1.70.0"
+  },
+  "categories": [
+    "Themes"
+  ],
+  "keywords": [
+    "theme",
+    "dark",
+    "cold",
+    "blue",
+    "rime",
+    "base16"
+  ],
+  "icon": "icon.png",
+  "galleryBanner": {
+    "color": "#0f1218",
+    "theme": "dark"
+  },
+  "contributes": {
+    "themes": [
+      {
+        "label": "Rime",
+        "uiTheme": "vs-dark",
+        "path": "./themes/rime-color-theme.json"
+      },
+      {
+        "label": "Rime Glacier",
+        "uiTheme": "vs-dark",
+        "path": "./themes/rime-glacier-color-theme.json"
+      },
+      {
+        "label": "Rime Aurora",
+        "uiTheme": "vs-dark",
+        "path": "./themes/rime-aurora-color-theme.json"
+      },
+      {
+        "label": "Rime Abyss",
+        "uiTheme": "vs-dark",
+        "path": "./themes/rime-abyss-color-theme.json"
+      }
+    ]
+  }
+}

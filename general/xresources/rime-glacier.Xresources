@@ -1,0 +1,22 @@
+! Rime Glacier: Soft and muted pastels for long sessions.
+! https://github.com/w0x7y/Rime
+
+*.foreground: #c3ccd9
+*.background: #0f1218
+*.cursorColor: #c3ccd9
+*.color0: #212834
+*.color1: #d98a9c
+*.color2: #9ad8ac
+*.color3: #e4d098
+*.color4: #7aa4e4
+*.color5: #bb98d6
+*.color6: #7cc4d0
+*.color7: #c3ccd9
+*.color8: #56627a
+*.color9: #e1a4b2
+*.color10: #b0e1be
+*.color11: #eadaaf
+*.color12: #97b8ea
+*.color13: #caafdf
+*.color14: #99d1da
+*.color15: #f0f3f8
