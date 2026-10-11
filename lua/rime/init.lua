@@ -1,6 +1,14 @@
 local M = {}
 
-M.variants = { "rime", "glacier", "aurora", "abyss" }
+local syntax = require("rime.syntax")
+
+--- The default style of a syntax role, as every editor port uses it.
+local function role_style(role)
+  return vim.deepcopy(syntax[role].style)
+end
+
+-- Short variant names; the first is the default. Generated from palettes/ by tools/build.py.
+M.variants = require("rime.variants")
 
 ---@class RimeConfig
 M.defaults = {
@@ -11,16 +19,17 @@ M.defaults = {
   -- Give inactive windows a slightly darker background.
   dim_inactive = false,
   -- Extra attributes per syntax group, e.g. { italic = true } or { bold = true }.
+  -- The defaults are comments italic and conditionals bold, as in the other editor ports.
   styles = {
-    comments = { italic = true },
-    keywords = {},
-    conditionals = { bold = true },
-    functions = {},
-    strings = {},
-    variables = {},
-    types = {},
+    comments = role_style("comment"),
+    keywords = role_style("keyword"),
+    conditionals = role_style("keyword.conditional"),
+    functions = role_style("function"),
+    strings = role_style("string"),
+    variables = role_style("variable"),
+    types = role_style("type"),
   },
-  -- Change semantic colours before groups are built: function(colors, variant) end
+  -- Change colours before groups are built: function(colors, variant) end
   on_colors = nil,
   -- Change or add highlight groups: function(highlights, colors, variant) end
   on_highlights = nil,
@@ -39,15 +48,21 @@ function M.setup(opts)
   end
 end
 
-local function variant_name(variant)
-  return variant == "rime" and "rime" or ("rime-" .. variant)
+--- The short name of a variant: nil gives the default, and "rime-glacier" gives "glacier".
+local function short_name(variant)
+  return variant and (variant:gsub("^rime%-", "")) or M.variants[1]
 end
 
---- Semantic colours for a variant, with `on_colors` applied,
+--- The colorscheme name of a variant, as used by :colorscheme.
+local function colors_name(key)
+  return key == "rime" and "rime" or ("rime-" .. key)
+end
+
+--- The colour names of a variant and its derived shades, with `on_colors` applied,
 --- e.g. require("rime").colors("abyss").blue
----@param variant? string rime | glacier | aurora | abyss
+---@param variant? string rime | glacier | aurora | abyss, or the full name such as rime-abyss
 function M.colors(variant)
-  variant = variant or "rime"
+  variant = short_name(variant)
   local ok, p = pcall(require, "rime.palettes." .. variant)
   if not ok then
     error(("rime: unknown variant %q (expected one of: %s)"):format(variant, table.concat(M.variants, ", ")))
@@ -77,9 +92,9 @@ function M.colors(variant)
   return c
 end
 
----@param variant? string rime | glacier | aurora | abyss
+---@param variant? string rime | glacier | aurora | abyss, or the full name such as rime-abyss
 function M.load(variant)
-  variant = variant or "rime"
+  variant = short_name(variant)
   local cfg = M.config
   local c = M.colors(variant)
 
@@ -88,7 +103,7 @@ function M.load(variant)
   end
   vim.o.termguicolors = true
   vim.o.background = "dark"
-  vim.g.colors_name = variant_name(variant)
+  vim.g.colors_name = colors_name(variant)
 
   local groups = require("rime.groups").get(c, cfg)
   if cfg.on_highlights then

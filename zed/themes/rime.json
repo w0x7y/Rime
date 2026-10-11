@@ -208,7 +208,7 @@
             "font_style": "italic"
           },
           "comment.doc": {
-            "color": "#9aa4b6",
+            "color": "#6b768c",
             "font_style": "italic"
           },
           "constant": {
@@ -265,11 +265,10 @@
             "font_style": "italic"
           },
           "link_text": {
-            "color": "#7aa4e4"
+            "color": "#7cc4d0"
           },
           "link_uri": {
-            "color": "#7cc4d0",
-            "font_style": "italic"
+            "color": "#7aa4e4"
           },
           "namespace": {
             "color": "#e4d098"
@@ -571,7 +570,7 @@
             "font_style": "italic"
           },
           "comment.doc": {
-            "color": "#9aa4b6",
+            "color": "#6b768c",
             "font_style": "italic"
           },
           "constant": {
@@ -628,11 +627,10 @@
             "font_style": "italic"
           },
           "link_text": {
-            "color": "#6eaaf0"
+            "color": "#6fd0d8"
           },
           "link_uri": {
-            "color": "#6fd0d8",
-            "font_style": "italic"
+            "color": "#6eaaf0"
           },
           "namespace": {
             "color": "#e3dc9e"
@@ -934,7 +932,7 @@
             "font_style": "italic"
           },
           "comment.doc": {
-            "color": "#9aa4b6",
+            "color": "#6b768c",
             "font_style": "italic"
           },
           "constant": {
@@ -991,11 +989,10 @@
             "font_style": "italic"
           },
           "link_text": {
-            "color": "#4fa2ff"
+            "color": "#38dce8"
           },
           "link_uri": {
-            "color": "#38dce8",
-            "font_style": "italic"
+            "color": "#4fa2ff"
           },
           "namespace": {
             "color": "#e6f07c"
@@ -1297,7 +1294,7 @@
             "font_style": "italic"
           },
           "comment.doc": {
-            "color": "#9aa4b6",
+            "color": "#6b768c",
             "font_style": "italic"
           },
           "constant": {
@@ -1354,11 +1351,10 @@
             "font_style": "italic"
           },
           "link_text": {
-            "color": "#6b9cf4"
+            "color": "#4fb4dc"
           },
           "link_uri": {
-            "color": "#4fb4dc",
-            "font_style": "italic"
+            "color": "#6b9cf4"
           },
           "namespace": {
             "color": "#9cf0dc"

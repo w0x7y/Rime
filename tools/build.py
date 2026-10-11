@@ -1,20 +1,26 @@
 #!/usr/bin/env python3
 """Generate every Rime port from the palettes in ../palettes.
 
-Usage: python3 tools/build.py
+Usage: python3 tools/build.py            rewrite every generated file
+       python3 tools/build.py --check    list generated files that are out of date, exit 1 if any
 
-The palettes are the single source of truth. Edit a palette, run this script,
-and the Neovim palette modules, Zed theme, VS Code themes and the terminal /
-general-purpose files are all rewritten. Only the Python standard library is used.
+The palettes are the single source of truth for colours, and SYNTAX below for which
+colour each kind of code gets. Edit either, run this script, and the Neovim modules,
+Zed theme, VS Code themes, extension manifests, icon and the terminal / general-purpose
+files are all rewritten. Only the Python standard library is used.
 """
 import json
+import math
 import pathlib
+import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 VERSION = "0.2.0"
 REPO = "https://github.com/w0x7y/Rime"
 AUTHOR = "Idan Gilboa"
-ORDER = ["rime", "rime-glacier", "rime-aurora", "rime-abyss"]
+EXTENSION_ID = "rime-theme"  # the Zed and VS Code extension id
+DESCRIPTION = "A cold dark theme in four variants: Rime, Glacier, Aurora and Abyss."
+ORDER = ["rime", "rime-glacier", "rime-aurora", "rime-abyss"]  # the first is the default variant
 
 
 # --------------------------------------------------------------------------- colour helpers
@@ -25,7 +31,8 @@ def rgb(h):
 
 
 def hexc(c):
-    # round half up (not Python's half-to-even) so results match the Lua blend in lua/rime/util.lua
+    # round half up (not Python's half-to-even) so results match the Lua blend in lua/rime/util.lua;
+    # tools/test_build.py checks that they agree
     return "#" + "".join(f"{max(0, min(255, int(v + 0.5))):02x}" for v in c)
 
 
@@ -40,9 +47,10 @@ def alpha(h, a):
     return h + f"{round(a * 255):02x}"
 
 
-# --------------------------------------------------------------------------- semantic roles
+# --------------------------------------------------------------------------- colour names
 
-def roles(spec):
+def colours(spec):
+    """The colour names of a variant (bg, fg, blue...), its derived shades and its 16 ANSI colours."""
     p = spec["palette"]
     r = {
         "bg": p["base00"], "bg_alt": p["base01"], "bg_sel": p["base02"], "comment": p["base03"],
@@ -50,9 +58,9 @@ def roles(spec):
         "red": p["base08"], "pink": p["base09"], "yellow": p["base0A"], "green": p["base0B"],
         "cyan": p["base0C"], "blue": p["base0D"], "violet": p["base0E"], "steel": p["base0F"],
     }
-    r["chrome"] = mix(r["bg"], "#000000", 0.18)  # sidebars, status/title bars in GUI editors
+    # derived shades, named as in lua/rime/init.lua, which blends the same way at load time
+    r["bg_dark"] = mix(r["bg"], "#000000", 0.18)  # sidebars, status/title bars in GUI editors
     r["border"] = mix(r["bg_alt"], r["bg_sel"], 0.5)
-    r["colorcolumn"] = mix(r["bg"], r["bg_alt"], 0.5)
     # 16 ANSI colours: black is a visible surface tone, brights are lifted versions
     normal = [r["bg_sel"], r["red"], r["green"], r["yellow"], r["blue"], r["violet"], r["cyan"], r["fg"]]
     bright = [r["comment"]] + [mix(c, "#ffffff", 0.22) for c in normal[1:7]] + [r["white"]]
@@ -64,10 +72,77 @@ def roles(spec):
 ANSI_NAMES = ["black", "red", "green", "yellow", "blue", "magenta", "cyan", "white"]
 
 
-def write(path, text):
-    path = ROOT / path
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(text)
+# --------------------------------------------------------------------------- syntax roles
+
+# The colour name and default style of every syntax role that two or more editor ports
+# share. Role names follow Neovim's treesitter captures. Each port decides which of its own
+# scopes belong to which role; the colours are decided only here. Neovim reads this table
+# from lua/rime/syntax.lua, which is generated from it. Neovim users can restyle a whole group
+# of roles at once (`styles` in lua/rime/init.lua), so roles in one group share one style.
+SYNTAX = {
+    "comment": ("comment", "italic"),
+    "comment.tag": ("muted", "italic"),  # tags inside doc comments, such as @param
+    "string": ("green", ""),
+    "string.documentation": ("green", ""),
+    "string.escape": ("cyan", ""),
+    "string.regexp": ("cyan", ""),
+    "string.special": ("cyan", ""),
+    "string.special.symbol": ("pink", ""),
+    "number": ("pink", ""),
+    "boolean": ("pink", ""),
+    "constant": ("pink", ""),  # also enum members
+    "constant.builtin": ("cyan", ""),  # null, undefined
+    "variable": ("fg", ""),
+    "variable.builtin": ("cyan", ""),  # self, this
+    "variable.parameter": ("fg", ""),
+    "variable.member": ("fg", ""),  # fields and property access
+    "property": ("red", ""),  # keys in key/value data such as JSON, YAML and CSS
+    "function": ("blue", ""),
+    "function.builtin": ("cyan", ""),
+    "function.macro": ("cyan", ""),
+    "constructor": ("cyan", ""),
+    "attribute": ("cyan", ""),  # decorators and annotations
+    "type": ("yellow", ""),
+    "type.builtin": ("cyan", ""),
+    "module": ("yellow", ""),
+    "lifetime": ("pink", "italic"),
+    "label": ("yellow", ""),
+    "keyword": ("violet", ""),
+    "keyword.conditional": ("red", "bold"),
+    "keyword.repeat": ("yellow", ""),
+    "keyword.return": ("red", ""),
+    "keyword.exception": ("red", ""),
+    "keyword.import": ("violet", ""),
+    "keyword.modifier": ("violet", ""),
+    "keyword.directive": ("yellow", ""),  # preprocessor
+    "operator": ("muted", ""),
+    "punctuation": ("steel", ""),
+    "punctuation.special": ("cyan", ""),  # string interpolation brackets
+    "tag": ("red", ""),
+    "tag.attribute": ("yellow", ""),
+    "selector": ("yellow", ""),
+    "selector.pseudo": ("violet", ""),
+    "markup.heading": ("blue", "bold"),
+    "markup.strong": (None, "bold"),
+    "markup.italic": (None, "italic"),
+    "markup.strikethrough": (None, "strikethrough"),
+    "markup.quote": ("muted", "italic"),
+    "markup.list": ("red", ""),
+    "markup.raw": ("green", ""),
+    "markup.link.label": ("cyan", ""),
+    "markup.link.url": ("blue", "underline"),
+    "diff.plus": ("green", ""),
+    "diff.minus": ("red", ""),
+    "diff.delta": ("blue", ""),
+    "diff.range": ("violet", ""),
+    "deprecated": (None, "strikethrough"),
+}
+
+
+def syntax(c, role):
+    """A syntax role as (colour or None, style), with the colour name resolved."""
+    name, style = SYNTAX[role]
+    return (c[name] if name else None), style
 
 
 def header(spec, comment="#"):
@@ -77,7 +152,27 @@ def header(spec, comment="#"):
 
 # --------------------------------------------------------------------------- neovim
 
-NVIM_KEYS = {"rime": "rime", "rime-glacier": "glacier", "rime-aurora": "aurora", "rime-abyss": "abyss"}
+def nvim_key(slug):
+    """The short variant name the Lua API uses: rime-glacier -> glacier, rime -> rime."""
+    return slug.removeprefix("rime-")
+
+
+def nvim_variants(specs):
+    keys = ", ".join(f'"{nvim_key(spec["slug"])}"' for spec in specs)
+    return ("-- Generated by tools/build.py from palettes/. Do not edit.\n"
+            "-- Short variant names in order; the first is the default.\n"
+            f"return {{ {keys} }}\n")
+
+
+def nvim_syntax():
+    def entry(role):
+        name, style = SYNTAX[role]
+        fg = f'fg = "{name}", ' if name else ""
+        attrs = ", ".join(f"{a} = true" for a in style.split())
+        return f'  ["{role}"] = {{ {fg}style = {{{f" {attrs} " if attrs else ""}}} }},'
+    return ("-- Generated by tools/build.py from its SYNTAX table. Do not edit.\n"
+            "-- The colour name and default style of every syntax role the editor ports share.\n"
+            "return {\n" + "\n".join(entry(role) for role in SYNTAX) + "\n}\n")
 
 
 def nvim_palette(spec):
@@ -91,10 +186,10 @@ def nvim_palette(spec):
 # --------------------------------------------------------------------------- zed
 
 def zed_theme(spec):
-    c = roles(spec)
+    c = colours(spec)
     st = lambda col, a: alpha(col, a)
     style = {
-        "background": c["chrome"],
+        "background": c["bg_dark"],
         "background.appearance": "opaque",
         "border": c["border"],
         "border.variant": c["bg_alt"],
@@ -103,7 +198,7 @@ def zed_theme(spec):
         "border.transparent": "#00000000",
         "border.disabled": c["bg_alt"],
         "elevated_surface.background": c["bg_alt"],
-        "surface.background": c["chrome"],
+        "surface.background": c["bg_dark"],
         "element.background": c["bg_alt"],
         "element.hover": st(c["fg"], 0.08),
         "element.active": st(c["fg"], 0.14),
@@ -125,15 +220,15 @@ def zed_theme(spec):
         "icon.disabled": c["comment"],
         "icon.placeholder": c["comment"],
         "icon.accent": c["blue"],
-        "status_bar.background": c["chrome"],
-        "title_bar.background": c["chrome"],
-        "title_bar.inactive_background": c["chrome"],
+        "status_bar.background": c["bg_dark"],
+        "title_bar.background": c["bg_dark"],
+        "title_bar.inactive_background": c["bg_dark"],
         "toolbar.background": c["bg"],
-        "tab_bar.background": c["chrome"],
-        "tab.inactive_background": c["chrome"],
+        "tab_bar.background": c["bg_dark"],
+        "tab.inactive_background": c["bg_dark"],
         "tab.active_background": c["bg"],
         "search.match_background": st(c["yellow"], 0.25),
-        "panel.background": c["chrome"],
+        "panel.background": c["bg_dark"],
         "panel.focused_border": st(c["blue"], 0.5),
         "panel.indent_guide": c["bg_sel"],
         "panel.indent_guide_active": c["comment"],
@@ -189,75 +284,86 @@ def zed_theme(spec):
     style["accents"] = [c["blue"], c["violet"], c["cyan"], c["green"], c["yellow"], c["pink"]]
 
     def s(col, italic=False, weight=None):
-        d = {"color": col}
+        d = {"color": col} if col else {}
         if italic:
             d["font_style"] = "italic"
         if weight:
             d["font_weight"] = weight
         return d
 
+    def r(role):  # Zed has no underline or strikethrough in syntax styles
+        col, style = syntax(c, role)
+        return s(col, "italic" in style.split(), 700 if "bold" in style.split() else None)
+
     style["syntax"] = {
-        "attribute": s(c["cyan"]),
-        "boolean": s(c["pink"]),
-        "comment": s(c["comment"], italic=True),
-        "comment.doc": s(c["muted"], italic=True),
-        "constant": s(c["pink"]),
-        "constant.builtin": s(c["cyan"]),
-        "constructor": s(c["cyan"]),
+        "attribute": r("attribute"),
+        "boolean": r("boolean"),
+        "comment": r("comment"),
+        "comment.doc": r("comment"),
+        "constant": r("constant"),
+        "constant.builtin": r("constant.builtin"),
+        "constructor": r("constructor"),
         "embedded": s(c["fg"]),
-        "emphasis": {"font_style": "italic"},
-        "emphasis.strong": {"font_weight": 700},
-        "enum": s(c["yellow"]),
-        "function": s(c["blue"]),
-        "function.builtin": s(c["cyan"]),
-        "function.method": s(c["blue"]),
+        "emphasis": r("markup.italic"),
+        "emphasis.strong": r("markup.strong"),
+        "enum": r("type"),
+        "function": r("function"),
+        "function.builtin": r("function.builtin"),
+        "function.method": r("function"),
         "hint": s(c["comment"], italic=True),
-        "keyword": s(c["violet"]),
-        "keyword.control": s(c["red"]),
-        "keyword.import": s(c["violet"]),
-        "keyword.operator": s(c["violet"]),
-        "label": s(c["yellow"]),
-        "lifetime": s(c["pink"], italic=True),
-        "link_text": s(c["blue"]),
-        "link_uri": s(c["cyan"], italic=True),
-        "namespace": s(c["yellow"]),
-        "number": s(c["pink"]),
-        "operator": s(c["muted"]),
+        "keyword": r("keyword"),
+        # if, for, return and try share this capture in Zed, so they share the return colour
+        "keyword.control": r("keyword.return"),
+        "keyword.import": r("keyword.import"),
+        "keyword.operator": r("keyword"),
+        "label": r("label"),
+        "lifetime": r("lifetime"),
+        "link_text": r("markup.link.label"),
+        "link_uri": r("markup.link.url"),
+        "namespace": r("module"),
+        "number": r("number"),
+        "operator": r("operator"),
         "predictive": s(c["comment"], italic=True),
-        "preproc": s(c["yellow"]),
+        "preproc": r("keyword.directive"),
         "primary": s(c["fg"]),
-        "property": s(c["fg"]),
-        "property.json_key": s(c["red"]),
-        "punctuation": s(c["steel"]),
-        "punctuation.bracket": s(c["steel"]),
-        "punctuation.delimiter": s(c["steel"]),
-        "punctuation.list_marker": s(c["red"]),
-        "punctuation.special": s(c["cyan"]),
-        "selector": s(c["yellow"]),
-        "selector.pseudo": s(c["violet"]),
-        "string": s(c["green"]),
-        "string.doc": s(c["green"]),
-        "string.escape": s(c["cyan"]),
-        "string.regex": s(c["cyan"]),
-        "string.special": s(c["cyan"]),
-        "string.special.symbol": s(c["pink"]),
-        "tag": s(c["red"]),
-        "text.literal": s(c["green"]),
-        "title": s(c["blue"], weight=700),
-        "type": s(c["yellow"]),
-        "type.builtin": s(c["cyan"]),
-        "variable": s(c["fg"]),
-        "variable.parameter": s(c["fg"]),
-        "variable.special": s(c["cyan"]),
-        "variant": s(c["pink"]),
+        "property": r("variable.member"),  # Zed uses one capture for keys and property access
+        "property.json_key": r("property"),
+        "punctuation": r("punctuation"),
+        "punctuation.bracket": r("punctuation"),
+        "punctuation.delimiter": r("punctuation"),
+        "punctuation.list_marker": r("markup.list"),
+        "punctuation.special": r("punctuation.special"),
+        "selector": r("selector"),
+        "selector.pseudo": r("selector.pseudo"),
+        "string": r("string"),
+        "string.doc": r("string.documentation"),
+        "string.escape": r("string.escape"),
+        "string.regex": r("string.regexp"),
+        "string.special": r("string.special"),
+        "string.special.symbol": r("string.special.symbol"),
+        "tag": r("tag"),
+        "text.literal": r("markup.raw"),
+        "title": r("markup.heading"),
+        "type": r("type"),
+        "type.builtin": r("type.builtin"),
+        "variable": r("variable"),
+        "variable.parameter": r("variable.parameter"),
+        "variable.special": r("variable.builtin"),
+        "variant": r("constant"),
     }
     return {"name": spec["name"], "appearance": "dark", "style": style}
+
+
+def zed_extension():
+    return ("# Generated by tools/build.py. Change VERSION and DESCRIPTION there.\n"
+            f'id = "{EXTENSION_ID}"\nname = "Rime"\nversion = "{VERSION}"\nschema_version = 1\n'
+            f'authors = ["{AUTHOR}"]\ndescription = "{DESCRIPTION}"\nrepository = "{REPO}"\n')
 
 
 # --------------------------------------------------------------------------- vs code
 
 def vscode_theme(spec):
-    c = roles(spec)
+    c = colours(spec)
     a = alpha
     colors = {
         "foreground": c["fg"],
@@ -308,11 +414,11 @@ def vscode_theme(spec):
         "scrollbarSlider.hoverBackground": a(c["comment"], 0.5),
         "scrollbarSlider.activeBackground": a(c["comment"], 0.7),
 
-        "titleBar.activeBackground": c["chrome"],
+        "titleBar.activeBackground": c["bg_dark"],
         "titleBar.activeForeground": c["muted"],
-        "titleBar.inactiveBackground": c["chrome"],
+        "titleBar.inactiveBackground": c["bg_dark"],
         "titleBar.inactiveForeground": c["comment"],
-        "titleBar.border": c["chrome"],
+        "titleBar.border": c["bg_dark"],
         "menu.background": c["bg_alt"],
         "menu.foreground": c["fg"],
         "menu.selectionBackground": c["bg_sel"],
@@ -320,18 +426,18 @@ def vscode_theme(spec):
         "menu.separatorBackground": c["border"],
         "menu.border": c["border"],
         "menubar.selectionBackground": c["bg_alt"],
-        "activityBar.background": c["chrome"],
+        "activityBar.background": c["bg_dark"],
         "activityBar.foreground": c["fg"],
         "activityBar.inactiveForeground": c["comment"],
         "activityBar.activeBorder": c["blue"],
-        "activityBar.border": c["chrome"],
+        "activityBar.border": c["bg_dark"],
         "activityBarBadge.background": c["blue"],
         "activityBarBadge.foreground": c["bg"],
-        "sideBar.background": c["chrome"],
+        "sideBar.background": c["bg_dark"],
         "sideBar.foreground": c["muted"],
-        "sideBar.border": c["chrome"],
+        "sideBar.border": c["bg_dark"],
         "sideBarTitle.foreground": c["muted"],
-        "sideBarSectionHeader.background": c["chrome"],
+        "sideBarSectionHeader.background": c["bg_dark"],
         "sideBarSectionHeader.foreground": c["fg"],
         "sideBarSectionHeader.border": c["border"],
         "list.activeSelectionBackground": c["bg_sel"],
@@ -360,16 +466,16 @@ def vscode_theme(spec):
 
         "editorGroup.border": c["border"],
         "editorGroup.dropBackground": a(c["blue"], 0.12),
-        "editorGroupHeader.tabsBackground": c["chrome"],
-        "editorGroupHeader.tabsBorder": c["chrome"],
-        "editorGroupHeader.noTabsBackground": c["chrome"],
+        "editorGroupHeader.tabsBackground": c["bg_dark"],
+        "editorGroupHeader.tabsBorder": c["bg_dark"],
+        "editorGroupHeader.noTabsBackground": c["bg_dark"],
         "tab.activeBackground": c["bg"],
         "tab.activeForeground": c["fg_bright"],
         "tab.activeBorderTop": c["blue"],
-        "tab.inactiveBackground": c["chrome"],
+        "tab.inactiveBackground": c["bg_dark"],
         "tab.inactiveForeground": c["comment"],
         "tab.hoverBackground": c["bg_alt"],
-        "tab.border": c["chrome"],
+        "tab.border": c["bg_dark"],
         "tab.unfocusedActiveBorderTop": c["comment"],
         "tab.unfocusedActiveForeground": c["muted"],
         "tab.unfocusedInactiveForeground": c["comment"],
@@ -454,10 +560,10 @@ def vscode_theme(spec):
         "peekView.border": c["blue"],
         "peekViewEditor.background": c["bg_alt"],
         "peekViewEditor.matchHighlightBackground": a(c["yellow"], 0.25),
-        "peekViewResult.background": c["chrome"],
+        "peekViewResult.background": c["bg_dark"],
         "peekViewResult.matchHighlightBackground": a(c["yellow"], 0.25),
         "peekViewResult.selectionBackground": c["bg_sel"],
-        "peekViewTitle.background": c["chrome"],
+        "peekViewTitle.background": c["bg_dark"],
         "peekViewTitleLabel.foreground": c["fg_bright"],
         "peekViewTitleDescription.foreground": c["muted"],
         "minimapSlider.background": a(c["comment"], 0.2),
@@ -477,16 +583,16 @@ def vscode_theme(spec):
         "merge.incomingHeaderBackground": a(c["blue"], 0.35),
         "merge.incomingContentBackground": a(c["blue"], 0.12),
 
-        "panel.background": c["chrome"],
+        "panel.background": c["bg_dark"],
         "panel.border": c["border"],
         "panelTitle.activeBorder": c["blue"],
         "panelTitle.activeForeground": c["fg_bright"],
         "panelTitle.inactiveForeground": c["comment"],
         "panelInput.border": c["border"],
-        "statusBar.background": c["chrome"],
+        "statusBar.background": c["bg_dark"],
         "statusBar.foreground": c["muted"],
-        "statusBar.border": c["chrome"],
-        "statusBar.noFolderBackground": c["chrome"],
+        "statusBar.border": c["bg_dark"],
+        "statusBar.noFolderBackground": c["bg_dark"],
         "statusBar.debuggingBackground": c["violet"],
         "statusBar.debuggingForeground": c["bg"],
         "statusBarItem.hoverBackground": c["bg_alt"],
@@ -499,14 +605,14 @@ def vscode_theme(spec):
         "notifications.background": c["bg_alt"],
         "notifications.foreground": c["fg"],
         "notifications.border": c["border"],
-        "notificationCenterHeader.background": c["chrome"],
+        "notificationCenterHeader.background": c["bg_dark"],
         "notificationCenterHeader.foreground": c["fg"],
         "notificationLink.foreground": c["blue"],
         "notificationsErrorIcon.foreground": c["red"],
         "notificationsWarningIcon.foreground": c["yellow"],
         "notificationsInfoIcon.foreground": c["blue"],
 
-        "terminal.background": c["chrome"],
+        "terminal.background": c["bg_dark"],
         "terminal.foreground": c["fg"],
         "terminal.selectionBackground": a(c["blue"], 0.3),
         "terminalCursor.foreground": c["fg"],
@@ -553,104 +659,120 @@ def vscode_theme(spec):
             settings["fontStyle"] = style
         return {"name": name, "scope": scope, "settings": settings}
 
+    def rule(name, scope, role):
+        col, style = syntax(c, role)
+        return tc(name, scope, col, style or None)
+
     token_colors = [
-        tc("Comments", ["comment", "punctuation.definition.comment"], c["comment"], "italic"),
-        tc("Doc comment tags", ["comment.block.documentation storage.type", "comment.block.documentation entity.name.type"], c["muted"], "italic"),
-        tc("Variables", ["variable", "variable.other.readwrite", "variable.other.object", "variable.parameter",
-                         "meta.definition.variable", "variable.other.property", "variable.other.object.property"], c["fg"]),
-        tc("Builtin variables", ["variable.language", "support.variable", "variable.language.this",
-                                 "variable.language.self", "variable.language.super"], c["cyan"]),
-        tc("JSON, YAML and CSS keys", ["support.type.property-name", "entity.name.tag.yaml",
-                                       "support.type.property-name.json"], c["red"]),
-        tc("Strings", ["string", "punctuation.definition.string", "string.quoted", "string.template",
-                       "markup.inline.raw", "constant.other.symbol"], c["green"]),
-        tc("Escapes and regex", ["constant.character.escape", "string.regexp", "constant.other.character-class",
-                                 "constant.character.format.placeholder", "punctuation.definition.template-expression",
-                                 "punctuation.section.embedded"], c["cyan"]),
-        tc("Numbers and booleans", ["constant.numeric", "constant.language.boolean", "constant.other.color",
-                                    "keyword.other.unit", "constant.character"], c["pink"]),
-        tc("Constants", ["constant.other", "variable.other.constant.property", "entity.name.constant",
-                         "support.constant", "variable.other.enummember"], c["pink"]),
-        tc("null, undefined and builtins", ["constant.language", "support.constant.math", "support.constant.json"], c["cyan"]),
-        tc("Functions", ["entity.name.function", "support.function", "meta.function-call.generic",
-                         "variable.function", "entity.name.method"], c["blue"]),
-        tc("Macros and decorators", ["entity.name.function.macro", "entity.name.function.preprocessor",
-                                     "meta.decorator", "punctuation.decorator", "entity.name.function.decorator",
-                                     "meta.attribute", "entity.other.attribute-name.pragma"], c["cyan"]),
-        tc("Types", ["entity.name.type", "entity.name.class", "entity.name.struct", "entity.name.enum",
-                     "entity.name.interface", "entity.name.trait", "entity.other.inherited-class",
-                     "entity.name.type.class", "support.type", "support.class", "entity.name.namespace",
-                     "entity.name.type.module", "entity.name.scope-resolution"], c["yellow"]),
-        tc("Builtin types", ["support.type.primitive", "support.type.builtin", "keyword.type",
-                             "storage.type.primitive", "storage.type.built-in", "support.class.builtin",
-                             "support.class.promise", "support.class.console"], c["cyan"]),
-        tc("Keywords", ["keyword", "storage.type", "storage.modifier", "keyword.control",
-                        "keyword.control.import", "keyword.control.export", "keyword.control.from",
-                        "keyword.operator.new", "keyword.operator.expression", "keyword.operator.logical.python",
-                        "keyword.other", "storage.type.function.arrow"], c["violet"]),
-        tc("Conditionals", ["keyword.control.conditional", "keyword.control.switch", "keyword.control.case",
-                            "keyword.control.else", "keyword.control.if"], c["red"], "bold"),
-        tc("Loops", ["keyword.control.loop", "keyword.control.for", "keyword.control.while", "keyword.control.do",
-                     "keyword.control.repeat", "keyword.control.break", "keyword.control.continue",
-                     "keyword.operator.expression.of"], c["yellow"]),
-        tc("Return and exceptions", ["keyword.control.return", "keyword.control.flow", "keyword.control.trycatch",
-                                     "keyword.control.exception", "keyword.control.throw", "keyword.control.try",
-                                     "keyword.control.catch", "keyword.control.finally"], c["red"]),
-        tc("Operators", ["keyword.operator", "punctuation.accessor", "punctuation.separator.key-value"], c["muted"]),
-        tc("Punctuation", ["punctuation", "meta.brace", "punctuation.separator", "punctuation.terminator",
-                           "punctuation.definition.block", "punctuation.definition.parameters",
-                           "punctuation.definition.array", "punctuation.definition.dictionary",
-                           "punctuation.section", "punctuation.definition.tag", "meta.tag.sgml"], c["steel"]),
-        tc("Template and string interpolation brackets", ["punctuation.definition.template-expression.begin",
-                                                          "punctuation.definition.template-expression.end",
-                                                          "punctuation.section.interpolation"], c["cyan"]),
-        tc("Tags", ["entity.name.tag", "support.class.component", "entity.name.tag.html"], c["red"]),
-        tc("Attributes", ["entity.other.attribute-name", "entity.other.attribute-name.html",
-                          "entity.other.attribute-name.jsx"], c["yellow"]),
-        tc("CSS selectors", ["entity.other.attribute-name.class.css", "entity.other.attribute-name.id.css",
-                             "entity.name.tag.css"], c["yellow"]),
-        tc("CSS pseudo", ["entity.other.attribute-name.pseudo-class", "entity.other.attribute-name.pseudo-element"], c["violet"]),
+        rule("Comments", ["comment", "punctuation.definition.comment"], "comment"),
+        rule("Doc comment tags", ["comment.block.documentation storage.type", "comment.block.documentation entity.name.type"], "comment.tag"),
+        rule("Variables", ["variable", "variable.other.readwrite", "variable.other.object", "meta.definition.variable"], "variable"),
+        rule("Parameters", ["variable.parameter"], "variable.parameter"),
+        rule("Properties", ["variable.other.property", "variable.other.object.property"], "variable.member"),
+        rule("Builtin variables", ["variable.language", "support.variable", "variable.language.this",
+                                   "variable.language.self", "variable.language.super"], "variable.builtin"),
+        rule("JSON, YAML and CSS keys", ["support.type.property-name", "entity.name.tag.yaml",
+                                         "support.type.property-name.json"], "property"),
+        rule("Strings", ["string", "punctuation.definition.string", "string.quoted", "string.template"], "string"),
+        rule("Inline code", ["markup.inline.raw"], "markup.raw"),
+        rule("Symbols", ["constant.other.symbol", "constant.language.symbol"], "string.special.symbol"),
+        rule("Escapes", ["constant.character.escape", "constant.character.format.placeholder"], "string.escape"),
+        rule("Regex", ["string.regexp", "constant.other.character-class"], "string.regexp"),
+        rule("Embedded expression brackets", ["punctuation.definition.template-expression",
+                                              "punctuation.section.embedded"], "punctuation.special"),
+        rule("Numbers", ["constant.numeric", "constant.other.color", "keyword.other.unit", "constant.character"], "number"),
+        rule("Booleans", ["constant.language.boolean"], "boolean"),
+        rule("Constants", ["constant.other", "variable.other.constant.property", "entity.name.constant",
+                           "support.constant", "variable.other.enummember"], "constant"),
+        rule("null, undefined and builtins", ["constant.language", "support.constant.math", "support.constant.json"], "constant.builtin"),
+        rule("Functions", ["entity.name.function", "support.function", "meta.function-call.generic",
+                           "variable.function", "entity.name.method"], "function"),
+        rule("Macros", ["entity.name.function.macro", "entity.name.function.preprocessor"], "function.macro"),
+        rule("Decorators and attributes", ["meta.decorator", "punctuation.decorator", "entity.name.function.decorator",
+                                           "meta.attribute", "entity.other.attribute-name.pragma"], "attribute"),
+        rule("Types", ["entity.name.type", "entity.name.class", "entity.name.struct", "entity.name.enum",
+                       "entity.name.interface", "entity.name.trait", "entity.other.inherited-class",
+                       "entity.name.type.class", "support.type", "support.class"], "type"),
+        rule("Modules", ["entity.name.namespace", "entity.name.type.module", "entity.name.scope-resolution"], "module"),
+        rule("Builtin types", ["support.type.primitive", "support.type.builtin", "keyword.type",
+                               "storage.type.primitive", "storage.type.built-in", "support.class.builtin",
+                               "support.class.promise", "support.class.console"], "type.builtin"),
+        rule("Keywords", ["keyword", "storage.type", "keyword.control", "keyword.operator.new",
+                          "keyword.operator.expression", "keyword.operator.logical.python",
+                          "keyword.other", "storage.type.function.arrow"], "keyword"),
+        rule("Modifiers", ["storage.modifier"], "keyword.modifier"),
+        rule("Imports", ["keyword.control.import", "keyword.control.export", "keyword.control.from"], "keyword.import"),
+        rule("Conditionals", ["keyword.control.conditional", "keyword.control.switch", "keyword.control.case",
+                              "keyword.control.else", "keyword.control.if"], "keyword.conditional"),
+        rule("Loops", ["keyword.control.loop", "keyword.control.for", "keyword.control.while", "keyword.control.do",
+                       "keyword.control.repeat", "keyword.control.break", "keyword.control.continue",
+                       "keyword.operator.expression.of"], "keyword.repeat"),
+        rule("Returns", ["keyword.control.return", "keyword.control.flow"], "keyword.return"),
+        rule("Exceptions", ["keyword.control.trycatch", "keyword.control.exception", "keyword.control.throw",
+                            "keyword.control.try", "keyword.control.catch", "keyword.control.finally"], "keyword.exception"),
+        rule("Operators", ["keyword.operator", "punctuation.accessor", "punctuation.separator.key-value"], "operator"),
+        rule("Punctuation", ["punctuation", "meta.brace", "punctuation.separator", "punctuation.terminator",
+                             "punctuation.definition.block", "punctuation.definition.parameters",
+                             "punctuation.definition.array", "punctuation.definition.dictionary",
+                             "punctuation.section", "punctuation.definition.tag", "meta.tag.sgml"], "punctuation"),
+        rule("Template and string interpolation brackets", ["punctuation.definition.template-expression.begin",
+                                                            "punctuation.definition.template-expression.end",
+                                                            "punctuation.section.interpolation"], "punctuation.special"),
+        rule("Tags", ["entity.name.tag", "support.class.component", "entity.name.tag.html"], "tag"),
+        rule("Attributes", ["entity.other.attribute-name", "entity.other.attribute-name.html",
+                            "entity.other.attribute-name.jsx"], "tag.attribute"),
+        rule("CSS selectors", ["entity.other.attribute-name.class.css", "entity.other.attribute-name.id.css",
+                               "entity.name.tag.css"], "selector"),
+        rule("CSS pseudo", ["entity.other.attribute-name.pseudo-class", "entity.other.attribute-name.pseudo-element"], "selector.pseudo"),
         tc("CSS values", ["support.constant.property-value", "support.constant.font-name"], c["cyan"]),
-        tc("Labels", ["entity.name.label", "punctuation.definition.label"], c["yellow"]),
-        tc("Lifetimes", ["entity.name.type.lifetime", "storage.modifier.lifetime"], c["pink"], "italic"),
-        tc("Headings", ["markup.heading", "entity.name.section", "markup.heading entity.name"], c["blue"], "bold"),
-        tc("Bold", ["markup.bold"], None, "bold"),
-        tc("Italic", ["markup.italic"], None, "italic"),
-        tc("Strikethrough", ["markup.strikethrough"], None, "strikethrough"),
-        tc("Links", ["markup.underline.link", "string.other.link", "constant.other.reference.link"], c["blue"]),
-        tc("Quotes", ["markup.quote"], c["muted"], "italic"),
-        tc("Lists", ["markup.list punctuation.definition.list", "punctuation.definition.list.begin.markdown"], c["red"]),
-        tc("Diff inserted", ["markup.inserted", "meta.diff.header.to-file"], c["green"]),
-        tc("Diff deleted", ["markup.deleted", "meta.diff.header.from-file"], c["red"]),
-        tc("Diff changed", ["markup.changed"], c["blue"]),
-        tc("Diff ranges", ["meta.diff.range", "meta.diff.header"], c["violet"]),
+        rule("Labels", ["entity.name.label", "punctuation.definition.label"], "label"),
+        rule("Lifetimes", ["entity.name.type.lifetime", "storage.modifier.lifetime"], "lifetime"),
+        rule("Headings", ["markup.heading", "entity.name.section", "markup.heading entity.name"], "markup.heading"),
+        rule("Bold", ["markup.bold"], "markup.strong"),
+        rule("Italic", ["markup.italic"], "markup.italic"),
+        rule("Strikethrough", ["markup.strikethrough"], "markup.strikethrough"),
+        rule("Link URLs", ["markup.underline.link"], "markup.link.url"),
+        rule("Link text", ["string.other.link", "constant.other.reference.link"], "markup.link.label"),
+        rule("Quotes", ["markup.quote"], "markup.quote"),
+        rule("Lists", ["markup.list punctuation.definition.list", "punctuation.definition.list.begin.markdown"], "markup.list"),
+        rule("Diff inserted", ["markup.inserted", "meta.diff.header.to-file"], "diff.plus"),
+        rule("Diff deleted", ["markup.deleted", "meta.diff.header.from-file"], "diff.minus"),
+        rule("Diff changed", ["markup.changed"], "diff.delta"),
+        rule("Diff ranges", ["meta.diff.range", "meta.diff.header"], "diff.range"),
         tc("Invalid", ["invalid", "invalid.illegal"], c["red"], "underline"),
         tc("Deprecated", ["invalid.deprecated"], c["muted"], "strikethrough"),
     ]
 
+    def sem(role):
+        col, style = syntax(c, role)
+        if not style:
+            return col
+        return {**({"foreground": col} if col else {}), **{attr: True for attr in style.split()}}
+
     semantic = {
-        "namespace": c["yellow"],
-        "type": c["yellow"],
-        "class": c["yellow"],
-        "enum": c["yellow"],
-        "interface": c["yellow"],
-        "struct": c["yellow"],
-        "typeParameter": c["yellow"],
-        "builtinType": c["cyan"],
-        "class.defaultLibrary": c["cyan"],
-        "type.defaultLibrary": c["cyan"],
-        "variable.defaultLibrary": c["cyan"],
-        "selfKeyword": c["cyan"],
-        "parameter": c["fg"],
-        "variable": c["fg"],
-        "property": c["fg"],
-        "enumMember": c["pink"],
-        "function": c["blue"],
-        "method": c["blue"],
-        "macro": c["cyan"],
-        "decorator": c["cyan"],
-        "lifetime": {"foreground": c["pink"], "italic": True},
-        "*.deprecated": {"strikethrough": True},
+        "namespace": sem("module"),
+        "type": sem("type"),
+        "class": sem("type"),
+        "enum": sem("type"),
+        "interface": sem("type"),
+        "struct": sem("type"),
+        "typeParameter": sem("type"),
+        "builtinType": sem("type.builtin"),
+        "class.defaultLibrary": sem("type.builtin"),
+        "type.defaultLibrary": sem("type.builtin"),
+        "variable.defaultLibrary": sem("variable.builtin"),
+        "function.defaultLibrary": sem("function.builtin"),
+        "selfKeyword": sem("variable.builtin"),
+        "parameter": sem("variable.parameter"),
+        "variable": sem("variable"),
+        "property": sem("variable.member"),
+        "enumMember": sem("constant"),
+        "function": sem("function"),
+        "method": sem("function"),
+        "macro": sem("function.macro"),
+        "decorator": sem("attribute"),
+        "lifetime": sem("lifetime"),
+        "*.deprecated": sem("deprecated"),
     }
     return {
         "$schema": "vscode://schemas/color-theme",
@@ -665,9 +787,9 @@ def vscode_theme(spec):
 
 def vscode_package(specs):
     return {
-        "name": "rime-theme",
+        "name": EXTENSION_ID,
         "displayName": "Rime Theme",
-        "description": "A cold dark theme in four variants: Rime, Glacier, Aurora and Abyss.",
+        "description": DESCRIPTION,
         "version": VERSION,
         "publisher": "w0x7y",
         "license": "MIT",
@@ -696,7 +818,7 @@ def base16_yaml(spec):
 
 
 def kitty(spec):
-    c = roles(spec)
+    c = colours(spec)
     out = [header(spec),
            f"foreground {c['fg']}", f"background {c['bg']}",
            f"selection_foreground {c['fg_bright']}", f"selection_background {c['bg_sel']}",
@@ -704,15 +826,15 @@ def kitty(spec):
            f"active_border_color {c['blue']}", f"inactive_border_color {c['bg_sel']}",
            f"bell_border_color {c['yellow']}",
            f"active_tab_foreground {c['fg_bright']}", f"active_tab_background {c['bg']}",
-           f"inactive_tab_foreground {c['comment']}", f"inactive_tab_background {c['chrome']}",
-           f"tab_bar_background {c['chrome']}", f"mark1_background {c['blue']}",
+           f"inactive_tab_foreground {c['comment']}", f"inactive_tab_background {c['bg_dark']}",
+           f"tab_bar_background {c['bg_dark']}", f"mark1_background {c['blue']}",
            f"mark2_background {c['violet']}", f"mark3_background {c['cyan']}", ""]
     out += [f"color{i} {col}" for i, col in enumerate(c["ansi"])]
     return "\n".join(out) + "\n"
 
 
 def alacritty(spec):
-    c = roles(spec)
+    c = colours(spec)
     def block(name, cols):
         return f"[colors.{name}]\n" + "\n".join(f'{n} = "{cols[i]}"' for i, n in enumerate(ANSI_NAMES)) + "\n"
     return (header(spec) +
@@ -727,7 +849,7 @@ def alacritty(spec):
 
 
 def ghostty(spec):
-    c = roles(spec)
+    c = colours(spec)
     out = [header(spec)] + [f"palette = {i}={col}" for i, col in enumerate(c["ansi"])]
     out += [f"background = {c['bg']}", f"foreground = {c['fg']}", f"cursor-color = {c['fg']}",
             f"cursor-text = {c['bg']}", f"selection-background = {c['bg_sel']}",
@@ -736,7 +858,7 @@ def ghostty(spec):
 
 
 def wezterm(spec):
-    c = roles(spec)
+    c = colours(spec)
     q = lambda cols: "[" + ", ".join(f'"{x}"' for x in cols) + "]"
     return (header(spec) +
             f'\n[colors]\nforeground = "{c["fg"]}"\nbackground = "{c["bg"]}"\n'
@@ -744,14 +866,14 @@ def wezterm(spec):
             f'selection_fg = "{c["fg_bright"]}"\nselection_bg = "{c["bg_sel"]}"\n'
             f'scrollbar_thumb = "{c["bg_sel"]}"\nsplit = "{c["border"]}"\n'
             f'ansi = {q(c["ansi"][:8])}\nbrights = {q(c["ansi"][8:])}\n'
-            f'\n[colors.tab_bar]\nbackground = "{c["chrome"]}"\n'
+            f'\n[colors.tab_bar]\nbackground = "{c["bg_dark"]}"\n'
             f'\n[colors.tab_bar.active_tab]\nbg_color = "{c["bg"]}"\nfg_color = "{c["fg_bright"]}"\n'
-            f'\n[colors.tab_bar.inactive_tab]\nbg_color = "{c["chrome"]}"\nfg_color = "{c["comment"]}"\n'
+            f'\n[colors.tab_bar.inactive_tab]\nbg_color = "{c["bg_dark"]}"\nfg_color = "{c["comment"]}"\n'
             f'\n[metadata]\nname = "{spec["name"]}"\nauthor = "{AUTHOR}"\norigin_url = "{REPO}"\n')
 
 
 def foot(spec):
-    c = roles(spec)
+    c = colours(spec)
     n = lambda h: h.lstrip("#")
     out = [header(spec), "# foot 1.26+; rename the section to [colors] for older versions", "[colors-dark]", f"foreground={n(c['fg'])}", f"background={n(c['bg'])}",
            f"selection-foreground={n(c['fg_bright'])}", f"selection-background={n(c['bg_sel'])}",
@@ -765,7 +887,7 @@ def foot(spec):
 def windows_terminal(specs):
     schemes = []
     for spec in specs:
-        c = roles(spec)
+        c = colours(spec)
         names = ["black", "red", "green", "yellow", "blue", "purple", "cyan", "white"]
         s = {"name": spec["name"], "background": c["bg"], "foreground": c["fg"],
              "cursorColor": c["fg"], "selectionBackground": c["bg_sel"]}
@@ -777,7 +899,7 @@ def windows_terminal(specs):
 
 
 def xresources(spec):
-    c = roles(spec)
+    c = colours(spec)
     out = [header(spec, "!"), f"*.foreground: {c['fg']}", f"*.background: {c['bg']}",
            f"*.cursorColor: {c['fg']}"]
     out += [f"*.color{i}: {col}" for i, col in enumerate(c["ansi"])]
@@ -785,7 +907,7 @@ def xresources(spec):
 
 
 def iterm(spec):
-    c = roles(spec)
+    c = colours(spec)
     def entry(key, h):
         r, g, b = (v / 255 for v in rgb(h))
         return (f"\t<key>{key}</key>\n\t<dict>\n"
@@ -805,17 +927,17 @@ def iterm(spec):
 
 
 def css(spec):
-    c = roles(spec)
+    c = colours(spec)
     names = ["bg", "bg_alt", "bg_sel", "comment", "muted", "fg", "fg_bright", "white",
              "red", "pink", "yellow", "green", "cyan", "blue", "violet", "steel"]
     base = "\n".join(f"  --{k}: {v};" for k, v in spec["palette"].items())
     sem = "\n".join(f"  --rime-{n.replace('_', '-')}: {c[n]};" for n in names)
     return (f"/* {spec['name']}: {spec['description']} */\n/* {REPO} */\n"
-            f":root {{\n  /* base16 slots */\n{base}\n\n  /* semantic names */\n{sem}\n}}\n")
+            f":root {{\n  /* base16 slots */\n{base}\n\n  /* colour names */\n{sem}\n}}\n")
 
 
 def fzf(spec):
-    c = roles(spec)
+    c = colours(spec)
     colors = ",".join([
         f"fg:{c['fg']}", f"bg:{c['bg']}", f"hl:{c['blue']}",
         f"fg+:{c['fg_bright']}", f"bg+:{c['bg_alt']}", f"hl+:{c['blue']}",
@@ -842,37 +964,101 @@ def swatch_svg(spec):
             f"{rects}</svg>\n")
 
 
+def icon_svg(spec):
+    """The extension icon: a frost crystal with blue, cyan and violet arms."""
+    p = spec["palette"]
+
+    def line(x1, y1, x2, y2, colour):
+        return f'<line x1="{x1}" y1="{y1}" x2="{x2:.1f}" y2="{y2:.1f}" stroke="{colour}"/>'
+
+    arms = []
+    for angle, colour in ((90, p["base0D"]), (270, p["base0D"]), (150, p["base0C"]),
+                          (330, p["base0C"]), (210, p["base0E"]), (30, p["base0E"])):
+        def step(x, y, length, a):
+            return x + length * math.cos(math.radians(a)), y - length * math.sin(math.radians(a))
+        arms.append(line(128, 128, *step(128, 128, 82, angle), colour))
+        for dist, length in ((48, 22), (68, 14)):  # two pairs of side branches along each arm
+            bx, by = step(128, 128, dist, angle)
+            for turn in (40, -40):
+                arms.append(line(f"{bx:.1f}", f"{by:.1f}", *step(bx, by, length, angle + turn), colour))
+    return ('<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">'
+            f'<rect width="256" height="256" rx="56" fill="{p["base00"]}"/>'
+            f'<rect x="1.5" y="1.5" width="253" height="253" rx="55" fill="none" stroke="{p["base02"]}" stroke-width="3"/>'
+            f'<g stroke-width="10" stroke-linecap="round">{"".join(arms)}</g>'
+            f'<circle cx="128" cy="128" r="10" fill="{p["base07"]}"/></svg>\n')
+
+
 # --------------------------------------------------------------------------- main
 
-def main():
+def load():
+    """The inputs: every palette in ORDER, and the licence text."""
     specs = [json.loads((ROOT / "palettes" / f"{slug}.json").read_text()) for slug in ORDER]
+    return specs, (ROOT / "LICENSE").read_text()
+
+
+def build(specs, licence):
+    """Every generated file as {path relative to the repository: contents}. Writes nothing."""
+    files = {}
     zed_themes = []
     for spec in specs:
         slug = spec["slug"]
-        write(f"lua/rime/palettes/{NVIM_KEYS[slug]}.lua", nvim_palette(spec))
+        key = nvim_key(slug)
+        files[f"lua/rime/palettes/{key}.lua"] = nvim_palette(spec)
+        files[f"colors/{slug}.lua"] = f'require("rime").load("{key}")\n'
+        files[f"lua/lualine/themes/{slug}.lua"] = f'return require("rime.lualine").theme("{key}")\n'
         zed_themes.append(zed_theme(spec))
-        write(f"vscode/themes/{slug}-color-theme.json", json.dumps(vscode_theme(spec), indent=2) + "\n")
-        write(f"general/base16/{slug}.yaml", base16_yaml(spec))
-        write(f"general/kitty/{slug}.conf", kitty(spec))
-        write(f"general/alacritty/{slug}.toml", alacritty(spec))
-        write(f"general/ghostty/{slug}", ghostty(spec))
-        write(f"general/wezterm/{slug}.toml", wezterm(spec))
-        write(f"general/foot/{slug}.ini", foot(spec))
-        write(f"general/xresources/{slug}.Xresources", xresources(spec))
-        write(f"general/iterm2/{slug}.itermcolors", iterm(spec))
-        write(f"general/css/{slug}.css", css(spec))
-        write(f"general/fzf/{slug}.sh", fzf(spec))
-        write(f"assets/palette-{slug}.svg", swatch_svg(spec))
-    write("zed/themes/rime.json", json.dumps({
+        files[f"vscode/themes/{slug}-color-theme.json"] = json.dumps(vscode_theme(spec), indent=2) + "\n"
+        files[f"general/base16/{slug}.yaml"] = base16_yaml(spec)
+        files[f"general/kitty/{slug}.conf"] = kitty(spec)
+        files[f"general/alacritty/{slug}.toml"] = alacritty(spec)
+        files[f"general/ghostty/{slug}"] = ghostty(spec)
+        files[f"general/wezterm/{slug}.toml"] = wezterm(spec)
+        files[f"general/foot/{slug}.ini"] = foot(spec)
+        files[f"general/xresources/{slug}.Xresources"] = xresources(spec)
+        files[f"general/iterm2/{slug}.itermcolors"] = iterm(spec)
+        files[f"general/css/{slug}.css"] = css(spec)
+        files[f"general/fzf/{slug}.sh"] = fzf(spec)
+        files[f"assets/palette-{slug}.svg"] = swatch_svg(spec)
+    files["zed/themes/rime.json"] = json.dumps({
         "$schema": "https://zed.dev/schema/themes/v0.2.0.json",
-        "name": "Rime", "author": AUTHOR, "themes": zed_themes}, indent=2) + "\n")
-    write("vscode/package.json", json.dumps(vscode_package(specs), indent=2) + "\n")
-    write("general/windows-terminal/rime.json", windows_terminal(specs))
+        "name": "Rime", "author": AUTHOR, "themes": zed_themes}, indent=2) + "\n"
+    files["lua/rime/variants.lua"] = nvim_variants(specs)
+    files["lua/rime/syntax.lua"] = nvim_syntax()
+    files["zed/extension.toml"] = zed_extension()
+    files["vscode/package.json"] = json.dumps(vscode_package(specs), indent=2) + "\n"
+    files["assets/icon.svg"] = icon_svg(specs[0])
+    files["general/windows-terminal/rime.json"] = windows_terminal(specs)
     # extension folders are published on their own, so each carries the licence
     for folder in ("zed", "vscode"):
-        write(f"{folder}/LICENSE", (ROOT / "LICENSE").read_text())
-    print(f"built {len(specs)} variants")
+        files[f"{folder}/LICENSE"] = licence
+    return files
+
+
+def stale(files):
+    """The paths whose contents on disk differ from `files`."""
+    return [path for path, text in files.items()
+            if not (ROOT / path).is_file() or (ROOT / path).read_text() != text]
+
+
+def main(args):
+    if args not in ([], ["--check"]):
+        print(__doc__, file=sys.stderr)
+        return 2
+    files = build(*load())
+    if args == ["--check"]:
+        outdated = stale(files)
+        for path in outdated:
+            print(f"out of date: {path}")
+        if outdated:
+            print("run python3 tools/build.py to regenerate them", file=sys.stderr)
+        return 1 if outdated else 0
+    for path, text in files.items():
+        target = ROOT / path
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(text)
+    print(f"wrote {len(files)} files")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main(sys.argv[1:]))
