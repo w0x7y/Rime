@@ -12,7 +12,7 @@ trap 'rm -rf "$work"' EXIT
 variants=(rime rime-glacier rime-aurora rime-abyss)
 
 for v in "${variants[@]}"; do
-  nvim --headless -u NONE --cmd "set rtp^=$parsers rtp^=$parsers/runtime rtp+=$repo/nvim" \
+  nvim --headless -u NONE --cmd "set rtp^=$parsers rtp^=$parsers/runtime rtp+=$repo" \
     -l "$here/export_html.lua" "$v" "$here/sample.ts" "$work/$v.html"
 done
 
@@ -29,7 +29,7 @@ done
 
 # small rust demo for the top of the README
 mkdir -p "$work/demo"
-nvim --headless -u NONE --cmd "set rtp^=$parsers rtp^=$parsers/runtime rtp+=$repo/nvim" \
+nvim --headless -u NONE --cmd "set rtp^=$parsers rtp^=$parsers/runtime rtp+=$repo" \
   -l "$here/export_html.lua" rime "$here/demo.rs" "$work/demo/rime.html" rust
 python3 "$here/compose.py" "$work/demo" "$work/demo.html" 1 rime >/dev/null
 shoot "$work/demo.html" 600,600 "$repo/assets/demo.png"

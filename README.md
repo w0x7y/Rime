@@ -34,8 +34,7 @@ with lazy.nvim
   "w0x7y/Rime",
   lazy = false,
   priority = 1000,
-  config = function(plugin)
-    vim.opt.rtp:append(plugin.dir .. "/nvim")
+  config = function()
     vim.cmd.colorscheme("rime")
   end,
 }

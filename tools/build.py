@@ -25,7 +25,7 @@ def rgb(h):
 
 
 def hexc(c):
-    # round half up (not Python's half-to-even) so results match the Lua blend in nvim/
+    # round half up (not Python's half-to-even) so results match the Lua blend in lua/rime/util.lua
     return "#" + "".join(f"{max(0, min(255, int(v + 0.5))):02x}" for v in c)
 
 
@@ -849,7 +849,7 @@ def main():
     zed_themes = []
     for spec in specs:
         slug = spec["slug"]
-        write(f"nvim/lua/rime/palettes/{NVIM_KEYS[slug]}.lua", nvim_palette(spec))
+        write(f"lua/rime/palettes/{NVIM_KEYS[slug]}.lua", nvim_palette(spec))
         zed_themes.append(zed_theme(spec))
         write(f"vscode/themes/{slug}-color-theme.json", json.dumps(vscode_theme(spec), indent=2) + "\n")
         write(f"general/base16/{slug}.yaml", base16_yaml(spec))

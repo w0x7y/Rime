@@ -17,8 +17,6 @@ Tested on Neovim 0.12. Treesitter capture names follow Neovim 0.10+.
 
 ## Install
 
-The plugin lives in the `nvim/` folder of the repository, so tell your plugin manager to add that folder to the runtime path.
-
 **lazy.nvim**
 
 ```lua
@@ -26,18 +24,24 @@ The plugin lives in the `nvim/` folder of the repository, so tell your plugin ma
   "w0x7y/Rime",
   lazy = false,
   priority = 1000,
-  config = function(plugin)
-    vim.opt.rtp:append(plugin.dir .. "/nvim")
+  config = function()
     require("rime").setup({})
     vim.cmd.colorscheme("rime")
   end,
 }
 ```
 
+**vim.pack** (Neovim 0.12+)
+
+```lua
+vim.pack.add({ "https://github.com/w0x7y/Rime" })
+vim.cmd.colorscheme("rime")
+```
+
 **vim-plug**
 
 ```vim
-Plug 'w0x7y/Rime', { 'rtp': 'nvim' }
+Plug 'w0x7y/Rime'
 " after plug#end()
 colorscheme rime
 ```
@@ -45,7 +49,7 @@ colorscheme rime
 **packer.nvim**
 
 ```lua
-use({ "w0x7y/Rime", rtp = "nvim" })
+use("w0x7y/Rime")
 -- after packer has loaded it
 vim.cmd.colorscheme("rime")
 ```
@@ -53,10 +57,10 @@ vim.cmd.colorscheme("rime")
 **Manual**
 
 ```sh
-git clone https://github.com/w0x7y/Rime ~/src/Rime
-mkdir -p ~/.local/share/nvim/site/pack/rime/start
-ln -s ~/src/Rime/nvim ~/.local/share/nvim/site/pack/rime/start/rime
+git clone https://github.com/w0x7y/Rime ~/.local/share/nvim/site/pack/rime/start/rime
 ```
+
+Earlier versions kept the plugin in the repository's `nvim/` folder. If your config adds that folder to the runtime path or sets `rtp = 'nvim'`, remove it. The plugin now sits at the top of the repository.
 
 ## Configuration
 
