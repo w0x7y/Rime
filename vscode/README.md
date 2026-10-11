@@ -6,6 +6,18 @@ A cold dark theme in four variants: **Rime**, **Rime Glacier**, **Rime Aurora** 
 
 All four share a blue-black background (`#0f1218`) and lean on blues, teals and violets. Keywords are split by kind: declarations are violet, loops yellow, conditionals bold rose, and returns and exceptions rose.
 
+## Install
+
+Search for **Rime Theme** in the Extensions view, or run:
+
+```sh
+code --install-extension w0x7y.rime-theme
+```
+
+VSCodium, Cursor and other editors that use Open VSX can install it from [open-vsx.org](https://open-vsx.org/extension/w0x7y/rime-theme).
+
+Then run **Preferences: Color Theme** and pick a Rime variant.
+
 ## Install from source
 
 ```sh
@@ -14,8 +26,6 @@ cd Rime/vscode
 npx @vscode/vsce package
 code --install-extension rime-theme-0.1.0.vsix
 ```
-
-Then run **Preferences: Color Theme** and pick a Rime variant.
 
 ## Notes
 
