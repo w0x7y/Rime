@@ -50,13 +50,13 @@ zed puts `if`, `for` and `return` in one group, so there they share a color
 
 **[vscode](./vscode)**
 
+search for **rime theme** in the extensions view, or run
+
 ```sh
-cd vscode
-npx @vscode/vsce package
-code --install-extension rime-theme-0.2.0.vsix
+code --install-extension w0x7y.rime-theme
 ```
 
-then `Preferences: Color Theme` and pick a rime variant
+it's on the [vs code marketplace](https://marketplace.visualstudio.com/items?itemName=w0x7y.rime-theme), and on [open vsx](https://open-vsx.org/extension/w0x7y/rime-theme) for vscodium, cursor and other forks. then `Preferences: Color Theme` and pick a rime variant. building it from source is in [vscode/](./vscode)
 
 **[base16](./general/base16)**
 
