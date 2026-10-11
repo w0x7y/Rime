@@ -4,6 +4,7 @@ Run: python3 -m unittest discover -s tools
 """
 import json
 import os
+import pathlib
 import re
 import shutil
 import subprocess
@@ -18,6 +19,16 @@ class GeneratedFiles(unittest.TestCase):
     def test_committed_files_match_the_palettes(self):
         self.assertEqual(build.stale(build.build(*build.load())), [],
                          "run python3 tools/build.py and commit the result")
+
+    def test_check_compares_exact_bytes(self):
+        with tempfile.TemporaryDirectory() as tmp, mock.patch.object(build, "ROOT", pathlib.Path(tmp)):
+            (pathlib.Path(tmp) / "crlf").write_bytes(b"a\r\n")
+            (pathlib.Path(tmp) / "same").write_bytes(b"a\n")
+            self.assertEqual(build.stale({"crlf": "a\n", "same": "a\n", "missing": "a\n"}), ["crlf", "missing"])
+
+    def test_every_variant_names_its_appearance(self):
+        for spec in build.load()[0]:
+            self.assertIn(spec.get("appearance"), ("dark", "light"), spec["slug"])
 
 
 class SyntaxRoles(unittest.TestCase):

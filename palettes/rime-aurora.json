@@ -2,6 +2,7 @@
   "name": "Rime Aurora",
   "slug": "rime-aurora",
   "description": "Vivid neon accents on the same cold base.",
+  "appearance": "dark",
   "palette": {
     "base00": "#23272e",
     "base01": "#2b3038",

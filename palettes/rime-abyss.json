@@ -2,6 +2,7 @@
   "name": "Rime Abyss",
   "slug": "rime-abyss",
   "description": "The coldest take: no yellow or orange anywhere, with rose as the only warm accent.",
+  "appearance": "dark",
   "palette": {
     "base00": "#23272e",
     "base01": "#2b3038",

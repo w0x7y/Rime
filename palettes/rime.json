@@ -2,6 +2,7 @@
   "name": "Rime",
   "slug": "rime",
   "description": "Soft and muted pastels for long sessions.",
+  "appearance": "dark",
   "palette": {
     "base00": "#23272e",
     "base01": "#2b3038",

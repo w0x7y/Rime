@@ -114,7 +114,7 @@ require("rime").setup({
 Colour names available in `c`:
 
 - Base colours: `bg`, `bg_alt`, `bg_sel`, `comment`, `muted`, `fg`, `fg_bright`, `white`, `red`, `pink`, `yellow`, `green`, `cyan`, `blue`, `violet`, `steel`
-- Derived shades: `bg_dark`, `border`, `colorcolumn`, `whitespace`, `search`, `diff_add`, `diff_change`, `diff_text`, `diff_delete`
+- Derived shades: `bg_dark`, `border`, `colorcolumn`, `whitespace`, `search`, `diff_add`, `diff_change`, `diff_text`, `diff_delete`, and the diagnostic virtual-text backgrounds `diag_error`, `diag_warn`, `diag_info`, `diag_hint`, `diag_ok`
 - `none`, meaning "NONE" (no colour)
 
 ## Using the colours elsewhere

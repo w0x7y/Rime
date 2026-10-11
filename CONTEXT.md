@@ -5,7 +5,7 @@ A cold dark colorscheme, shipped as several variants and ported to many editors 
 ## Language
 
 **Variant**:
-One complete colorscheme: Rime, Rime Glacier, Rime Aurora or Rime Abyss. The first, Rime, is the default.
+One complete colorscheme: Rime, Rime Glacier, Rime Aurora or Rime Abyss. The first, Rime, is the default. Each variant has an appearance, dark or light; all four are dark.
 _Avoid_: flavour, style, theme (when you mean one variant)
 
 **Palette**:

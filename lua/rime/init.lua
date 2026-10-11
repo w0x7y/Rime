@@ -88,6 +88,11 @@ function M.colors(variant)
   c.diff_text = c.diff_text or blend(c.blue, c.bg, 0.7)
   c.diff_delete = c.diff_delete or blend(c.red, c.bg, 0.85)
   c.search = c.search or blend(c.yellow, c.bg, 0.72)
+  c.diag_error = c.diag_error or blend(c.red, c.bg, 0.9)
+  c.diag_warn = c.diag_warn or blend(c.yellow, c.bg, 0.9)
+  c.diag_info = c.diag_info or blend(c.blue, c.bg, 0.9)
+  c.diag_hint = c.diag_hint or blend(c.cyan, c.bg, 0.9)
+  c.diag_ok = c.diag_ok or blend(c.green, c.bg, 0.9)
   c.none = "NONE"
   return c
 end
@@ -102,7 +107,7 @@ function M.load(variant)
     vim.cmd("hi clear")
   end
   vim.o.termguicolors = true
-  vim.o.background = "dark"
+  vim.o.background = require("rime.palettes." .. variant).appearance or "dark"
   vim.g.colors_name = colors_name(variant)
 
   local groups = require("rime.groups").get(c, cfg)
