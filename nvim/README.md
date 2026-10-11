@@ -87,7 +87,7 @@ require("rime").setup({
 
 A style table replaces the default rather than merging into it, so `comments = {}` turns comment italics off. `keywords` applies to every keyword kind except conditionals, which use `conditionals`.
 
-`on_colors` changes the semantic colours before any group is built. Derived shades such as `bg_dark`, `border` and the diff backgrounds follow your changes:
+`on_colors` changes the colours before any group is built. Derived shades such as `bg_dark`, `border` and the diff backgrounds follow your changes:
 
 ```lua
 require("rime").setup({
@@ -120,7 +120,7 @@ Colour names available in `c`:
 ## Using the colours elsewhere
 
 ```lua
-local c = require("rime").colors("abyss") -- "rime", "glacier", "aurora" or "abyss"; on_colors is applied
+local c = require("rime").colors("abyss") -- "rime", "glacier", "aurora", "abyss" or a full name like "rime-abyss"; on_colors is applied
 print(c.blue)
 ```
 
@@ -155,8 +155,14 @@ end
 
 ## Files
 
-- `colors/*.lua`: one entry point per variant
 - `lua/rime/init.lua`: `setup`, `load` and `colors`
 - `lua/rime/groups.lua`: all highlight groups
-- `lua/rime/palettes/*.lua`: generated from `palettes/` by `tools/build.py`, so don't edit these by hand
-- `lua/lualine/themes/*.lua`: lualine themes
+- `lua/rime/lualine.lua`: the lualine theme for any variant
+
+`tools/build.py` generates these from `palettes/` and its `SYNTAX` table, so don't edit them by hand:
+
+- `colors/*.lua`: one entry point per variant
+- `lua/lualine/themes/*.lua`: one lualine theme per variant
+- `lua/rime/palettes/*.lua`: the colours of each variant
+- `lua/rime/variants.lua`: the variant names, default first
+- `lua/rime/syntax.lua`: the colour and default style of each syntax role, shared with Zed and VS Code

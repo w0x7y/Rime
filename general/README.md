@@ -97,5 +97,5 @@ xrdb -merge xresources/rime.Xresources
 | Folder | Use |
 |---|---|
 | `base16/` | base16 scheme files in the [tinted-theming](https://github.com/tinted-theming/home) format. Feed them to a builder such as `tinty` to theme any app that has a base16 template. |
-| `css/` | CSS custom properties, with both the base16 slots (`--base0D`) and semantic names (`--rime-blue`). |
+| `css/` | CSS custom properties, with both the base16 slots (`--base0D`) and colour names (`--rime-blue`). |
 | `fzf/` | `source fzf/rime.sh` to add Rime colours to `FZF_DEFAULT_OPTS`. |

@@ -72,7 +72,9 @@ for kitty, put `general/kitty/rime.conf` into `~/.config/kitty/rime.conf`, then 
 
 **[changing colors](./palettes)**
 
-every variant is 16 colors in `palettes/`. edit one and run `python3 tools/build.py`. it rewrites the zed, vscode, terminal and neovim palette files with only the python standard library
+every variant is 16 colors in `palettes/`. which color each kind of code gets (functions, keywords, comments) is the `SYNTAX` table in `tools/build.py`, shared by neovim, zed and vscode. edit either and run `python3 tools/build.py`. it rewrites the neovim, zed, vscode and terminal files with only the python standard library
+
+`python3 tools/build.py --check` lists anything out of date and `python3 -m unittest discover -s tools` runs the tests. the screenshots and the vscode icon png come from `python3 tools/screenshots/render.py`
 
 **[your own](https://github.com/w0x7y/Rime/pulls)**
 
