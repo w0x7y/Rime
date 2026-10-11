@@ -3,11 +3,11 @@
   "slug": "rime-aurora",
   "description": "Vivid neon accents on the same cold base.",
   "palette": {
-    "base00": "#0f1218",
-    "base01": "#161b23",
-    "base02": "#212834",
-    "base03": "#56627a",
-    "base04": "#8c98ad",
+    "base00": "#23272e",
+    "base01": "#2b3038",
+    "base02": "#3a404b",
+    "base03": "#6b768c",
+    "base04": "#9aa4b6",
     "base05": "#c8d2e2",
     "base06": "#e0e7f2",
     "base07": "#f5f8fc",
@@ -18,6 +18,6 @@
     "base0C": "#38dce8",
     "base0D": "#4fa2ff",
     "base0E": "#9b7dff",
-    "base0F": "#6278b0"
+    "base0F": "#7084b7"
   }
 }

@@ -1,3 +1,3 @@
-# Rime Glacier: Soft and muted pastels for long sessions.
+# Rime Glacier: Crisper accents with clear separation between every syntax role.
 # https://github.com/w0x7y/Rime
-export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --color=fg:#c3ccd9,bg:#0f1218,hl:#7aa4e4,fg+:#dce2eb,bg+:#161b23,hl+:#7aa4e4,info:#8c98ad,prompt:#bb98d6,pointer:#7cc4d0,marker:#9ad8ac,spinner:#7cc4d0,header:#e4d098,border:#1c222c,gutter:#0f1218"
+export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --color=fg:#c5cedd,bg:#23272e,hl:#6eaaf0,fg+:#dfe5ee,bg+:#2b3038,hl+:#6eaaf0,info:#9aa4b6,prompt:#ae94f0,pointer:#6fd0d8,marker:#88d8a0,spinner:#6fd0d8,header:#e3dc9e,border:#333842,gutter:#23272e"

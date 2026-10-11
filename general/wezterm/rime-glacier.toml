@@ -1,29 +1,29 @@
-# Rime Glacier: Soft and muted pastels for long sessions.
+# Rime Glacier: Crisper accents with clear separation between every syntax role.
 # https://github.com/w0x7y/Rime
 
 [colors]
-foreground = "#c3ccd9"
-background = "#0f1218"
-cursor_bg = "#c3ccd9"
-cursor_fg = "#0f1218"
-cursor_border = "#c3ccd9"
-selection_fg = "#dce2eb"
-selection_bg = "#212834"
-scrollbar_thumb = "#212834"
-split = "#1c222c"
-ansi = ["#212834", "#d98a9c", "#9ad8ac", "#e4d098", "#7aa4e4", "#bb98d6", "#7cc4d0", "#c3ccd9"]
-brights = ["#56627a", "#e1a4b2", "#b0e1be", "#eadaaf", "#97b8ea", "#caafdf", "#99d1da", "#f0f3f8"]
+foreground = "#c5cedd"
+background = "#23272e"
+cursor_bg = "#c5cedd"
+cursor_fg = "#23272e"
+cursor_border = "#c5cedd"
+selection_fg = "#dfe5ee"
+selection_bg = "#3a404b"
+scrollbar_thumb = "#3a404b"
+split = "#333842"
+ansi = ["#3a404b", "#e07a90", "#88d8a0", "#e3dc9e", "#6eaaf0", "#ae94f0", "#6fd0d8", "#c5cedd"]
+brights = ["#6b768c", "#e797a8", "#a2e1b5", "#e9e4b3", "#8ebdf3", "#c0acf3", "#8fdae1", "#f3f6fa"]
 
 [colors.tab_bar]
-background = "#0c0f14"
+background = "#1d2026"
 
 [colors.tab_bar.active_tab]
-bg_color = "#0f1218"
-fg_color = "#dce2eb"
+bg_color = "#23272e"
+fg_color = "#dfe5ee"
 
 [colors.tab_bar.inactive_tab]
-bg_color = "#0c0f14"
-fg_color = "#56627a"
+bg_color = "#1d2026"
+fg_color = "#6b768c"
 
 [metadata]
 name = "Rime Glacier"

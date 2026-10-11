@@ -2,29 +2,29 @@
 # https://github.com/w0x7y/Rime
 
 [colors.primary]
-background = "#0f1218"
+background = "#23272e"
 foreground = "#c8d2e2"
-dim_foreground = "#8c98ad"
+dim_foreground = "#9aa4b6"
 bright_foreground = "#e0e7f2"
 
 [colors.cursor]
-text = "#0f1218"
+text = "#23272e"
 cursor = "#c8d2e2"
 
 [colors.selection]
 text = "CellForeground"
-background = "#212834"
+background = "#3a404b"
 
 [colors.search.matches]
-foreground = "#0f1218"
+foreground = "#23272e"
 background = "#e6f07c"
 
 [colors.search.focused_match]
-foreground = "#0f1218"
+foreground = "#23272e"
 background = "#4fa2ff"
 
 [colors.normal]
-black = "#212834"
+black = "#3a404b"
 red = "#ff6f91"
 green = "#5ef0a6"
 yellow = "#e6f07c"
@@ -34,7 +34,7 @@ cyan = "#38dce8"
 white = "#c8d2e2"
 
 [colors.bright]
-black = "#56627a"
+black = "#6b768c"
 red = "#ff8fa9"
 green = "#81f3ba"
 yellow = "#ecf399"
@@ -44,11 +44,11 @@ cyan = "#64e4ed"
 white = "#f5f8fc"
 
 [colors.dim]
-black = "#1b202a"
-red = "#ab4e67"
-green = "#42a274"
-yellow = "#9ba259"
-blue = "#3970ae"
-magenta = "#6a58ae"
-cyan = "#2a959f"
-white = "#878f9b"
+black = "#323741"
+red = "#b2566e"
+green = "#49aa7c"
+yellow = "#a2aa61"
+blue = "#4077b6"
+magenta = "#715fb6"
+cyan = "#319da7"
+white = "#8e96a3"

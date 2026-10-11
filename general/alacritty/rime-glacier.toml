@@ -1,54 +1,54 @@
-# Rime Glacier: Soft and muted pastels for long sessions.
+# Rime Glacier: Crisper accents with clear separation between every syntax role.
 # https://github.com/w0x7y/Rime
 
 [colors.primary]
-background = "#0f1218"
-foreground = "#c3ccd9"
-dim_foreground = "#8c98ad"
-bright_foreground = "#dce2eb"
+background = "#23272e"
+foreground = "#c5cedd"
+dim_foreground = "#9aa4b6"
+bright_foreground = "#dfe5ee"
 
 [colors.cursor]
-text = "#0f1218"
-cursor = "#c3ccd9"
+text = "#23272e"
+cursor = "#c5cedd"
 
 [colors.selection]
 text = "CellForeground"
-background = "#212834"
+background = "#3a404b"
 
 [colors.search.matches]
-foreground = "#0f1218"
-background = "#e4d098"
+foreground = "#23272e"
+background = "#e3dc9e"
 
 [colors.search.focused_match]
-foreground = "#0f1218"
-background = "#7aa4e4"
+foreground = "#23272e"
+background = "#6eaaf0"
 
 [colors.normal]
-black = "#212834"
-red = "#d98a9c"
-green = "#9ad8ac"
-yellow = "#e4d098"
-blue = "#7aa4e4"
-magenta = "#bb98d6"
-cyan = "#7cc4d0"
-white = "#c3ccd9"
+black = "#3a404b"
+red = "#e07a90"
+green = "#88d8a0"
+yellow = "#e3dc9e"
+blue = "#6eaaf0"
+magenta = "#ae94f0"
+cyan = "#6fd0d8"
+white = "#c5cedd"
 
 [colors.bright]
-black = "#56627a"
-red = "#e1a4b2"
-green = "#b0e1be"
-yellow = "#eadaaf"
-blue = "#97b8ea"
-magenta = "#caafdf"
-cyan = "#99d1da"
-white = "#f0f3f8"
+black = "#6b768c"
+red = "#e797a8"
+green = "#a2e1b5"
+yellow = "#e9e4b3"
+blue = "#8ebdf3"
+magenta = "#c0acf3"
+cyan = "#8fdae1"
+white = "#f3f6fa"
 
 [colors.dim]
-black = "#1b202a"
-red = "#92606e"
-green = "#699378"
-yellow = "#998e6b"
-blue = "#55719d"
-magenta = "#7f6994"
-cyan = "#568690"
-white = "#848b95"
+black = "#323741"
+red = "#9e5d6e"
+green = "#659a78"
+yellow = "#a09d77"
+blue = "#547cac"
+magenta = "#7d6eac"
+cyan = "#54959d"
+white = "#8c94a0"

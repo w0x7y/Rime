@@ -8,12 +8,12 @@ It is a opposite of [bark](https://github.com/if-not-nil/bark) with a mix of [on
 
 **variants**
 
-four of them, all on the same `#0f1218` background
+four of them, all on the same `#23272e` background
 
-- **rime**: the original.
+- **rime**: soft and muted pastels.
 
   ![rime palette](assets/palette-rime.svg)
-- **rime glacier**: soft and muted pastels.
+- **rime glacier**: crisper accents that keep every syntax role apart.
 
   ![rime glacier palette](assets/palette-rime-glacier.svg)
 - **rime aurora**: vivid neon.
@@ -54,7 +54,7 @@ zed puts `if`, `for` and `return` in one group, so there they share a color
 ```sh
 cd vscode
 npx @vscode/vsce package
-code --install-extension rime-theme-0.1.0.vsix
+code --install-extension rime-theme-0.2.0.vsix
 ```
 
 then `Preferences: Color Theme` and pick a rime variant

@@ -11,7 +11,7 @@ import json
 import pathlib
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-VERSION = "0.1.0"
+VERSION = "0.2.0"
 REPO = "https://github.com/w0x7y/Rime"
 AUTHOR = "Idan Gilboa"
 ORDER = ["rime", "rime-glacier", "rime-aurora", "rime-abyss"]

@@ -3,11 +3,11 @@
   "slug": "rime-abyss",
   "description": "The coldest take: no yellow or orange anywhere, with rose as the only warm accent.",
   "palette": {
-    "base00": "#0f1218",
-    "base01": "#161b23",
-    "base02": "#212834",
-    "base03": "#56627a",
-    "base04": "#8c98ad",
+    "base00": "#23272e",
+    "base01": "#2b3038",
+    "base02": "#3a404b",
+    "base03": "#6b768c",
+    "base04": "#9aa4b6",
     "base05": "#c2cde0",
     "base06": "#dde5f2",
     "base07": "#f2f6fc",
@@ -18,6 +18,6 @@
     "base0C": "#4fb4dc",
     "base0D": "#6b9cf4",
     "base0E": "#937ff2",
-    "base0F": "#6577a0"
+    "base0F": "#7182a8"
   }
 }

@@ -1,6 +1,6 @@
 id = "rime-theme"
 name = "Rime"
-version = "0.1.0"
+version = "0.2.0"
 schema_version = 1
 authors = ["Idan Gilboa"]
 description = "A cold dark theme in four variants: Rime, Glacier, Aurora and Abyss."

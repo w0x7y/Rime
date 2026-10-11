@@ -2,7 +2,7 @@
   "name": "rime-theme",
   "displayName": "Rime Theme",
   "description": "A cold dark theme in four variants: Rime, Glacier, Aurora and Abyss.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "publisher": "w0x7y",
   "license": "MIT",
   "repository": {
@@ -25,7 +25,7 @@
   ],
   "icon": "icon.png",
   "galleryBanner": {
-    "color": "#0f1218",
+    "color": "#23272e",
     "theme": "dark"
   },
   "contributes": {

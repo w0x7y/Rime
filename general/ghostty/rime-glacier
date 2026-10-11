@@ -1,25 +1,25 @@
-# Rime Glacier: Soft and muted pastels for long sessions.
+# Rime Glacier: Crisper accents with clear separation between every syntax role.
 # https://github.com/w0x7y/Rime
 
-palette = 0=#212834
-palette = 1=#d98a9c
-palette = 2=#9ad8ac
-palette = 3=#e4d098
-palette = 4=#7aa4e4
-palette = 5=#bb98d6
-palette = 6=#7cc4d0
-palette = 7=#c3ccd9
-palette = 8=#56627a
-palette = 9=#e1a4b2
-palette = 10=#b0e1be
-palette = 11=#eadaaf
-palette = 12=#97b8ea
-palette = 13=#caafdf
-palette = 14=#99d1da
-palette = 15=#f0f3f8
-background = #0f1218
-foreground = #c3ccd9
-cursor-color = #c3ccd9
-cursor-text = #0f1218
-selection-background = #212834
-selection-foreground = #dce2eb
+palette = 0=#3a404b
+palette = 1=#e07a90
+palette = 2=#88d8a0
+palette = 3=#e3dc9e
+palette = 4=#6eaaf0
+palette = 5=#ae94f0
+palette = 6=#6fd0d8
+palette = 7=#c5cedd
+palette = 8=#6b768c
+palette = 9=#e797a8
+palette = 10=#a2e1b5
+palette = 11=#e9e4b3
+palette = 12=#8ebdf3
+palette = 13=#c0acf3
+palette = 14=#8fdae1
+palette = 15=#f3f6fa
+background = #23272e
+foreground = #c5cedd
+cursor-color = #c5cedd
+cursor-text = #23272e
+selection-background = #3a404b
+selection-foreground = #dfe5ee

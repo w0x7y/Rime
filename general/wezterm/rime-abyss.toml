@@ -3,27 +3,27 @@
 
 [colors]
 foreground = "#c2cde0"
-background = "#0f1218"
+background = "#23272e"
 cursor_bg = "#c2cde0"
-cursor_fg = "#0f1218"
+cursor_fg = "#23272e"
 cursor_border = "#c2cde0"
 selection_fg = "#dde5f2"
-selection_bg = "#212834"
-scrollbar_thumb = "#212834"
-split = "#1c222c"
-ansi = ["#212834", "#e8879f", "#6fd0a8", "#9cf0dc", "#6b9cf4", "#937ff2", "#4fb4dc", "#c2cde0"]
-brights = ["#56627a", "#eda1b4", "#8fdabb", "#b2f3e4", "#8cb2f6", "#ab9bf5", "#76c5e4", "#f2f6fc"]
+selection_bg = "#3a404b"
+scrollbar_thumb = "#3a404b"
+split = "#333842"
+ansi = ["#3a404b", "#e8879f", "#6fd0a8", "#9cf0dc", "#6b9cf4", "#937ff2", "#4fb4dc", "#c2cde0"]
+brights = ["#6b768c", "#eda1b4", "#8fdabb", "#b2f3e4", "#8cb2f6", "#ab9bf5", "#76c5e4", "#f2f6fc"]
 
 [colors.tab_bar]
-background = "#0c0f14"
+background = "#1d2026"
 
 [colors.tab_bar.active_tab]
-bg_color = "#0f1218"
+bg_color = "#23272e"
 fg_color = "#dde5f2"
 
 [colors.tab_bar.inactive_tab]
-bg_color = "#0c0f14"
-fg_color = "#56627a"
+bg_color = "#1d2026"
+fg_color = "#6b768c"
 
 [metadata]
 name = "Rime Abyss"

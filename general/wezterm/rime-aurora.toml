@@ -3,27 +3,27 @@
 
 [colors]
 foreground = "#c8d2e2"
-background = "#0f1218"
+background = "#23272e"
 cursor_bg = "#c8d2e2"
-cursor_fg = "#0f1218"
+cursor_fg = "#23272e"
 cursor_border = "#c8d2e2"
 selection_fg = "#e0e7f2"
-selection_bg = "#212834"
-scrollbar_thumb = "#212834"
-split = "#1c222c"
-ansi = ["#212834", "#ff6f91", "#5ef0a6", "#e6f07c", "#4fa2ff", "#9b7dff", "#38dce8", "#c8d2e2"]
-brights = ["#56627a", "#ff8fa9", "#81f3ba", "#ecf399", "#76b6ff", "#b19aff", "#64e4ed", "#f5f8fc"]
+selection_bg = "#3a404b"
+scrollbar_thumb = "#3a404b"
+split = "#333842"
+ansi = ["#3a404b", "#ff6f91", "#5ef0a6", "#e6f07c", "#4fa2ff", "#9b7dff", "#38dce8", "#c8d2e2"]
+brights = ["#6b768c", "#ff8fa9", "#81f3ba", "#ecf399", "#76b6ff", "#b19aff", "#64e4ed", "#f5f8fc"]
 
 [colors.tab_bar]
-background = "#0c0f14"
+background = "#1d2026"
 
 [colors.tab_bar.active_tab]
-bg_color = "#0f1218"
+bg_color = "#23272e"
 fg_color = "#e0e7f2"
 
 [colors.tab_bar.inactive_tab]
-bg_color = "#0c0f14"
-fg_color = "#56627a"
+bg_color = "#1d2026"
+fg_color = "#6b768c"
 
 [metadata]
 name = "Rime Aurora"

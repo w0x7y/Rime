@@ -2,11 +2,11 @@
 /* https://github.com/w0x7y/Rime */
 :root {
   /* base16 slots */
-  --base00: #0f1218;
-  --base01: #161b23;
-  --base02: #212834;
-  --base03: #56627a;
-  --base04: #8c98ad;
+  --base00: #23272e;
+  --base01: #2b3038;
+  --base02: #3a404b;
+  --base03: #6b768c;
+  --base04: #9aa4b6;
   --base05: #c2cde0;
   --base06: #dde5f2;
   --base07: #f2f6fc;
@@ -17,14 +17,14 @@
   --base0C: #4fb4dc;
   --base0D: #6b9cf4;
   --base0E: #937ff2;
-  --base0F: #6577a0;
+  --base0F: #7182a8;
 
   /* semantic names */
-  --rime-bg: #0f1218;
-  --rime-bg-alt: #161b23;
-  --rime-bg-sel: #212834;
-  --rime-comment: #56627a;
-  --rime-muted: #8c98ad;
+  --rime-bg: #23272e;
+  --rime-bg-alt: #2b3038;
+  --rime-bg-sel: #3a404b;
+  --rime-comment: #6b768c;
+  --rime-muted: #9aa4b6;
   --rime-fg: #c2cde0;
   --rime-fg-bright: #dde5f2;
   --rime-white: #f2f6fc;
@@ -35,5 +35,5 @@
   --rime-cyan: #4fb4dc;
   --rime-blue: #6b9cf4;
   --rime-violet: #937ff2;
-  --rime-steel: #6577a0;
+  --rime-steel: #7182a8;
 }
