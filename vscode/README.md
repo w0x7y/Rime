@@ -24,7 +24,7 @@ Then run **Preferences: Color Theme** and pick a Rime variant.
 git clone https://github.com/w0x7y/Rime
 cd Rime/vscode
 npx @vscode/vsce package
-code --install-extension rime-theme-0.3.1.vsix
+code --install-extension rime-theme-0.4.0.vsix
 ```
 
 ## Notes
