@@ -111,7 +111,7 @@ custom_palette = "rime"  # or "rime-glacier", "rime-aurora", "rime-abyss"
 
 You can also pick the palette in Noctalia's settings after choosing the custom source, or run `noctalia msg color-scheme-set custom rime`.
 
-The shell takes its colours from Rime's Zed and VS Code themes. The bar and panels use the editors' title and status bar background, cards use their popup background, and hovered items use the grey of their list selection. Blue is the primary accent, violet the secondary and cyan the tertiary. Its terminal colours are the 16 above, and Noctalia's terminal templates (kitty, foot, Ghostty, Alacritty and others) pass them on.
+The shell takes its colours from Rime's Zed and VS Code themes. The bar and panels use the editors' background, cards use their popup background, and hovered items use the grey of their list selection. Blue is the primary accent, violet the secondary and cyan the tertiary. Its terminal colours are the 16 above, and Noctalia's terminal templates (kitty, foot, Ghostty, Alacritty and others) pass them on.
 
 Rime has no light mode, so Noctalia uses the dark colours in light mode too. Keep `mode = "dark"` so the apps Noctalia themes stay dark as well.
 

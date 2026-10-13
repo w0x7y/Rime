@@ -119,12 +119,19 @@ class Noctalia(unittest.TestCase):
         for spec in build.load()[0]:
             zed, vscode = build.zed_theme(spec)["style"], build.vscode_theme(spec)["colors"]
             mode = build.noctalia(spec)["dark"]
-            self.assertEqual(mode["mSurface"], zed["background"], spec["slug"])
-            self.assertEqual(mode["mSurface"], vscode["statusBar.background"], spec["slug"])
+            self.assertEqual(mode["mSurface"], zed["editor.background"], spec["slug"])
+            self.assertEqual(mode["mSurface"], vscode["editor.background"], spec["slug"])
             self.assertEqual(mode["mSurfaceVariant"], zed["elevated_surface.background"], spec["slug"])
             self.assertEqual(mode["mHover"], vscode["list.activeSelectionBackground"], spec["slug"])
             self.assertEqual(mode["mOnPrimary"], vscode["button.foreground"], spec["slug"])
             self.assertEqual(mode["mOutline"], zed["border"], spec["slug"])
+
+    def test_terminals_share_the_theme_background(self):
+        for spec in build.load()[0]:
+            zed, vscode = build.zed_theme(spec)["style"], build.vscode_theme(spec)["colors"]
+            terminals = [zed["terminal.background"], vscode["terminal.background"],
+                         build.noctalia(spec)["dark"]["terminal"]["background"]]
+            self.assertEqual(terminals, [spec["palette"]["base00"]] * 3, spec["slug"])
 
 
 class Docs(unittest.TestCase):

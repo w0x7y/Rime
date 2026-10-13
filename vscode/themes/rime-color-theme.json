@@ -243,7 +243,7 @@
     "notificationsErrorIcon.foreground": "#d98a9c",
     "notificationsWarningIcon.foreground": "#e4d098",
     "notificationsInfoIcon.foreground": "#7aa4e4",
-    "terminal.background": "#1d2026",
+    "terminal.background": "#23272e",
     "terminal.foreground": "#c3ccd9",
     "terminal.selectionBackground": "#7aa4e44c",
     "terminalCursor.foreground": "#c3ccd9",
