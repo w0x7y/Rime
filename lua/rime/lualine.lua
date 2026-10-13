@@ -2,7 +2,7 @@ local M = {}
 
 --- lualine theme for a Rime variant. Used by lua/lualine/themes/rime*.lua, so
 --- `theme = "auto"` or `theme = "rime-abyss"` both work.
----@param variant string rime | glacier | aurora | abyss
+---@param variant string rime | glacier | aurora | abyss | frost
 function M.theme(variant)
 	local c = require("rime").colors(variant)
 	local function mode(accent)

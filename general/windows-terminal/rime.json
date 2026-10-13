@@ -90,5 +90,28 @@
 		"brightCyan": "#76c5e4",
 		"white": "#c2cde0",
 		"brightWhite": "#f2f6fc"
+	},
+	{
+		"name": "Rime Frost",
+		"background": "#eef1f5",
+		"foreground": "#363d4a",
+		"cursorColor": "#363d4a",
+		"selectionBackground": "#d2d8e2",
+		"black": "#363d4a",
+		"brightBlack": "#566073",
+		"red": "#b83d63",
+		"brightRed": "#90304d",
+		"green": "#267b4f",
+		"brightGreen": "#1e603e",
+		"yellow": "#866405",
+		"brightYellow": "#694e04",
+		"blue": "#2e62c0",
+		"brightBlue": "#244c96",
+		"purple": "#7650c4",
+		"brightPurple": "#5c3e99",
+		"cyan": "#0f7480",
+		"brightCyan": "#0c5a64",
+		"white": "#7f899b",
+		"brightWhite": "#9ba3b2"
 	}
 ]

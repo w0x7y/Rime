@@ -16,7 +16,7 @@ M.defaults = {
 	transparent = false,
 	-- Set vim.g.terminal_color_0..15 for :terminal buffers.
 	terminal_colors = true,
-	-- Give inactive windows a slightly darker background.
+	-- Give inactive windows the sidebar background (bg_dark).
 	dim_inactive = false,
 	-- Extra attributes per syntax group, e.g. { italic = true } or { bold = true }.
 	-- The defaults are comments italic and conditionals bold, as in the other editor ports.
@@ -60,7 +60,7 @@ end
 
 --- The colour names of a variant and its derived shades, with `on_colors` applied,
 --- e.g. require("rime").colors("abyss").blue
----@param variant? string rime | glacier | aurora | abyss, or the full name such as rime-abyss
+---@param variant? string rime | glacier | aurora | abyss | frost, or the full name such as rime-abyss
 function M.colors(variant)
 	variant = short_name(variant)
 	local ok, p = pcall(require, "rime.palettes." .. variant)
@@ -91,7 +91,12 @@ function M.colors(variant)
 	-- Derived shades come after on_colors so they follow any changed base colour,
 	-- but a shade set explicitly in on_colors is kept.
 	local blend = require("rime.util").blend
-	c.bg_dark = c.bg_dark or blend(c.bg, "#000000", 0.18)
+	-- the sidebar shade sits darker than the editor on a dark variant and lighter on a light one
+	if p.appearance == "light" then
+		c.bg_dark = c.bg_dark or blend(c.bg, "#ffffff", 0.5)
+	else
+		c.bg_dark = c.bg_dark or blend(c.bg, "#000000", 0.18)
+	end
 	c.colorcolumn = c.colorcolumn or blend(c.bg, c.bg_alt, 0.5)
 	c.border = c.border or blend(c.bg_alt, c.bg_sel, 0.5)
 	c.whitespace = c.whitespace or blend(c.comment, c.bg, 0.45)
@@ -109,7 +114,7 @@ function M.colors(variant)
 	return c
 end
 
----@param variant? string rime | glacier | aurora | abyss, or the full name such as rime-abyss
+---@param variant? string rime | glacier | aurora | abyss | frost, or the full name such as rime-abyss
 function M.load(variant)
 	variant = short_name(variant)
 	local cfg = M.config
@@ -119,7 +124,8 @@ function M.load(variant)
 		vim.cmd("hi clear")
 	end
 	vim.o.termguicolors = true
-	vim.o.background = require("rime.palettes." .. variant).appearance or "dark"
+	local light = require("rime.palettes." .. variant).appearance == "light"
+	vim.o.background = light and "light" or "dark"
 	vim.g.colors_name = colors_name(variant)
 
 	local groups = require("rime.groups").get(c, cfg)
@@ -131,29 +137,36 @@ function M.load(variant)
 	end
 
 	if cfg.terminal_colors then
+		local blend = require("rime.util").blend
+		-- as in the terminal ports: black and white keep their meaning, so on a light variant
+		-- black is the text and white a readable grey
+		local black, white, bright_black, bright_white = c.bg_sel, c.fg, c.comment, c.white
+		if light then
+			black, white, bright_black = c.fg, c.comment, c.muted
+			bright_white = blend(c.comment, c.bg, 0.25)
+		end
 		local ansi = {
-			c.bg_sel,
+			black,
 			c.red,
 			c.green,
 			c.yellow,
 			c.blue,
 			c.violet,
 			c.cyan,
-			c.fg,
-			c.comment,
+			white,
+			bright_black,
 			c.red,
 			c.green,
 			c.yellow,
 			c.blue,
 			c.violet,
 			c.cyan,
-			c.white,
+			bright_white,
 		}
-		local lighten = require("rime.util").blend
 		for i, col in ipairs(ansi) do
-			-- brights are lifted versions of the normal accents, as in the terminal ports
+			-- brights are the normal accents lifted away from the background
 			if i >= 10 and i <= 15 then
-				col = lighten(col, "#ffffff", 0.22)
+				col = blend(col, light and "#000000" or "#ffffff", 0.22)
 			end
 			vim.g["terminal_color_" .. (i - 1)] = col
 		end

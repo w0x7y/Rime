@@ -8,7 +8,7 @@ It is a opposite of [bark](https://github.com/if-not-nil/bark) with a mix of [on
 
 **variants**
 
-four of them, all on the same `#23272e` background
+four dark ones on the same `#23272e` background, and a light one
 
 - **rime**: soft and muted pastels.
 
@@ -26,7 +26,11 @@ four of them, all on the same `#23272e` background
 
     ![rime abyss palette](assets/palette-rime-abyss.svg)
 
-<img alt="all four variants" src="assets/screenshot-all.png" />
+- **rime frost**: the light one, the same cold accents deepened to read on frost white.
+
+    ![rime frost palette](assets/palette-rime-frost.svg)
+
+<img alt="all five variants" src="assets/screenshot-all.png" />
 
 **[neovim](./nvim)**
 
@@ -43,7 +47,7 @@ with lazy.nvim
 }
 ```
 
-then `:colorscheme rime`, `rime-glacier`, `rime-aurora` or `rime-abyss`. other plugin managers, options and lualine are in [nvim/](./nvim)
+then `:colorscheme rime`, `rime-glacier`, `rime-aurora`, `rime-abyss` or `rime-frost`. other plugin managers, options and lualine are in [nvim/](./nvim)
 
 **[zed](./zed)**
 

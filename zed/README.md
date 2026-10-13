@@ -1,6 +1,6 @@
 # Rime for Zed
 
-Four themes in one extension: **Rime**, **Rime Glacier**, **Rime Aurora** and **Rime Abyss**.
+Five themes in one extension: **Rime**, **Rime Glacier**, **Rime Aurora** and **Rime Abyss**, which are dark, and the light **Rime Frost**.
 
 ## Install
 
@@ -22,9 +22,9 @@ Then open the theme selector (`cmd-k cmd-t` on macOS, `ctrl-k ctrl-t` on Linux) 
 ```json
 {
 	"theme": {
-		"mode": "dark",
+		"mode": "system",
 		"dark": "Rime",
-		"light": "One Light"
+		"light": "Rime Frost"
 	}
 }
 ```

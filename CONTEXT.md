@@ -1,11 +1,11 @@
 # Rime
 
-A cold dark colorscheme, shipped as several variants and ported to many editors and terminals.
+A cold colorscheme, shipped as several variants and ported to many editors and terminals.
 
 ## Language
 
 **Variant**:
-One complete colorscheme: Rime, Rime Glacier, Rime Aurora or Rime Abyss. The first, Rime, is the default. Each variant has an appearance, dark or light; all four are dark.
+One complete colorscheme: Rime, Rime Glacier, Rime Aurora, Rime Abyss or Rime Frost. The first, Rime, is the default. Each variant has an appearance, dark or light; Rime Frost is light and the other four are dark.
 _Avoid_: flavour, style, theme (when you mean one variant)
 
 **Palette**:

@@ -1,12 +1,12 @@
 # Rime for terminals and everything else
 
-Every file here comes in four variants (`rime`, `rime-glacier`, `rime-aurora`, `rime-abyss`). The examples use `rime`. Swap in the variant you want. Run the commands from this `general/` folder.
+Every file here comes in five variants (`rime`, `rime-glacier`, `rime-aurora`, `rime-abyss` and the light `rime-frost`). The examples use `rime`. Swap in the variant you want. Run the commands from this `general/` folder.
 
 All files are generated from `palettes/` by `tools/build.py`, so edit the palettes rather than these files.
 
 ## Terminal colours
 
-All terminal themes use the same 16 colours:
+The dark variants use these 16 colours:
 
 | Slot      | Colour                      | Slot              | Colour                  |
 | --------- | --------------------------- | ----------------- | ----------------------- |
@@ -20,6 +20,8 @@ All terminal themes use the same 16 colours:
 | 7 white   | text (`base05`)             | 15 bright white   | `base07`                |
 
 Black is a visible dark grey rather than the background colour, so programs that print black text stay readable.
+
+Rime Frost keeps black dark and white light, as most light terminal themes do: black is the text colour (`base05`), white a readable grey (`base03`), bright black `base04` and bright white a lighter grey. Its bright accents are darker than the normal ones rather than lighter, so they stand out on the light background.
 
 ### kitty
 
@@ -76,7 +78,7 @@ cp foot/rime.ini ~/.config/foot/rime.ini
 include=~/.config/foot/rime.ini
 ```
 
-The file uses the `[colors-dark]` section from foot 1.26. On older foot versions, rename it to `[colors]`.
+The files use foot 1.26's `[colors-dark]` section, or `[colors-light]` for Rime Frost. On older foot versions, rename it to `[colors]`.
 
 ### Windows Terminal
 
@@ -106,14 +108,14 @@ cp noctalia/rime.json ~/.config/noctalia/palettes/
 [theme]
 mode           = "dark"
 source         = "custom"
-custom_palette = "rime"  # or "rime-glacier", "rime-aurora", "rime-abyss"
+custom_palette = "rime"  # or "rime-glacier", "rime-aurora", "rime-abyss", "rime-frost"
 ```
 
 You can also pick the palette in Noctalia's settings after choosing the custom source, or run `noctalia msg color-scheme-set custom rime`.
 
 The shell takes its colours from Rime's Zed and VS Code themes. The bar and panels use the editors' background, cards use their popup background, and hovered items use the grey of their list selection. Blue is the primary accent, violet the secondary and cyan the tertiary. Its terminal colours are the 16 above, and Noctalia's terminal templates (kitty, foot, Ghostty, Alacritty and others) pass them on.
 
-Rime has no light mode, so Noctalia uses the dark colours in light mode too. Keep `mode = "dark"` so the apps Noctalia themes stay dark as well.
+Each palette holds one variant, so Noctalia uses the same colours in light and dark mode. With a dark variant, keep `mode = "dark"` so the apps Noctalia themes stay dark as well; with `rime-frost`, set `mode = "light"`.
 
 Noctalia 4 called these colour schemes and read the same file from `~/.config/noctalia/colorschemes/rime/rime.json`.
 

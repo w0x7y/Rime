@@ -7,6 +7,7 @@ and the Maple Mono NF font installed. Run tools/build.py first so the colorschem
 Usage: python3 tools/screenshots/render.py [dir containing parser/typescript.so and queries]
 """
 
+import math
 import pathlib
 import re
 import subprocess
@@ -20,22 +21,23 @@ ROOT = HERE.parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
 import build  # noqa: E402
 
-# Each shot renders `sample` in every variant listed, as a grid of panes `cols` wide.
-# `size` is the browser window; the transparent margin around the panes is cropped away.
+# Each shot renders `sample` in every variant listed, as rows of panes: `rows` gives the number of
+# panes in each row, and each row splits the width evenly. `size` is the browser window; the
+# transparent margin around the panes is cropped away.
 SHOTS = [
     {
         "out": "assets/screenshot-all.png",
         "variants": build.ORDER,
         "sample": "sample.ts",
-        "cols": 2,
-        "size": (1500, 1500),
+        "rows": [2, 3],
+        "size": (2200, 1500),
     },
     # the default variant on its own, for the Neovim README
     {
         "out": "assets/screenshot-rime.png",
         "variants": build.ORDER[:1],
         "sample": "sample.ts",
-        "cols": 1,
+        "rows": [1],
         "size": (760, 760),
     },
     # a small Rust demo for the top of the README
@@ -43,7 +45,7 @@ SHOTS = [
         "out": "assets/demo.png",
         "variants": build.ORDER[:1],
         "sample": "demo.rs",
-        "cols": 1,
+        "rows": [1],
         "size": (600, 600),
     },
 ]
@@ -72,11 +74,14 @@ def export(variant, sample, parsers, out):
     )
 
 
-def compose(exports, cols):
+def compose(exports, rows):
     """One page with each variant's export in a rounded code pane. `exports` maps slug to :TOhtml output."""
     palettes = {spec["slug"]: spec["palette"] for spec in build.load()[0]}
+    # the grid has enough columns for every row to split evenly; a pane in a row of n spans width/n
+    width = math.lcm(*rows)
+    spans = [width // n for n in rows for _ in range(n)]
     css, panes = [], []
-    for slug, html in exports.items():
+    for (slug, html), span in zip(exports.items(), spans, strict=True):
         style = re.search(r"<style>(.*?)</style>", html, re.S)[1]
         for line in style.strip().splitlines():
             m = re.match(r"^(\S.*?)\s*\{(.*)\}\s*$", line)
@@ -91,10 +96,10 @@ def compose(exports, cols):
         # drop the trailing newline so the pane ends right after the last line
         pre = re.search(r"<pre>(.*?)</pre>", html, re.S)[1].rstrip()
         panes.append(
-            f'<div class="win v-{slug}" style="border-color:{palettes[slug]["base02"]}"><pre>{pre}</pre></div>'
+            f'<div class="win v-{slug}" style="border-color:{palettes[slug]["base02"]};grid-column:span {span}"><pre>{pre}</pre></div>'
         )
     # a single pane hugs its code; a grid splits the width evenly
-    columns = "max-content" if cols == 1 else f"repeat({cols},1fr)"
+    columns = "max-content" if rows == [1] else f"repeat({width},1fr)"
     return f"""<!doctype html><html><head><meta charset="utf-8"><style>
 body{{margin:0;background:transparent}}
 .grid{{display:grid;grid-template-columns:{columns};gap:18px;padding:0}}
@@ -149,7 +154,7 @@ def main(args):
             page.write_text(
                 compose(
                     {v: exported[(v, shot["sample"])] for v in shot["variants"]},
-                    shot["cols"],
+                    shot["rows"],
                 )
             )
             shoot(page, shot["size"], ROOT / shot["out"])

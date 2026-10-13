@@ -1,10 +1,10 @@
 # Rime Theme
 
-A cold dark theme in four variants: **Rime**, **Rime Glacier**, **Rime Aurora** and **Rime Abyss**.
+A cold theme in five variants: **Rime**, **Rime Glacier**, **Rime Aurora** and **Rime Abyss**, which are dark, and the light **Rime Frost**.
 
 ![Rime variants](https://raw.githubusercontent.com/w0x7y/Rime/main/assets/screenshot-all.png)
 
-All four share a cool grey background (`#23272e`) and lean on blues, teals and violets. Keywords are split by kind: declarations are violet, loops yellow, conditionals bold rose, and returns and exceptions rose.
+The dark four share a cool grey background (`#23272e`), and Rime Frost sits on frost white. All lean on blues, teals and violets. Keywords are split by kind: declarations are violet, loops yellow, conditionals bold rose, and returns and exceptions rose.
 
 ## Install
 

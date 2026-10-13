@@ -1,6 +1,6 @@
 # Rime
 
-A colorscheme in four variants, ported to Neovim, Zed, VS Code and many terminals. Read `CONTEXT.md` before naming anything: it defines variant, palette, port, colour name, syntax role and derived shade.
+A colorscheme in five variants, ported to Neovim, Zed, VS Code and many terminals. Read `CONTEXT.md` before naming anything: it defines variant, palette, port, colour name, syntax role and derived shade.
 
 ## Sources of truth
 
