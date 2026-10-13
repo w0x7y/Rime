@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.3.1
 
 - The integrated terminal uses the editor background instead of the darker panel shade, like the Zed theme and the terminal ports.
 
