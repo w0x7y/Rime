@@ -949,6 +949,33 @@ def fzf(spec):
     return header(spec) + f'export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --color={colors}"\n'
 
 
+def noctalia(spec):
+    """A Noctalia v5 palette: the shell's 16 colour roles, plus the terminal colours its templates write."""
+    c = colours(spec)
+    ansi = lambda cols: dict(zip(ANSI_NAMES, cols))
+    # the shell is dressed like the GUI editors' chrome: bars and panels as their title and status
+    # bars, cards as their popups, hover as their list and menu selection, text on accents as on their buttons
+    mode = {
+        "mPrimary": c["blue"], "mOnPrimary": c["bg"],
+        "mSecondary": c["violet"], "mOnSecondary": c["bg"],
+        "mTertiary": c["cyan"], "mOnTertiary": c["bg"],
+        "mError": c["red"], "mOnError": c["bg"],
+        "mSurface": c["bg_dark"], "mOnSurface": c["fg"],
+        "mSurfaceVariant": c["bg_alt"], "mOnSurfaceVariant": c["muted"],
+        # Noctalia lifts the outline to 3:1 against the surface, then draws borders a shade darker;
+        # starting from the editors' border keeps them as close to it as Noctalia allows
+        "mOutline": c["border"], "mShadow": "#000000",
+        "mHover": c["bg_sel"], "mOnHover": c["fg_bright"],
+        "terminal": {
+            "background": c["bg"], "foreground": c["fg"], "cursor": c["fg"], "cursorText": c["bg"],
+            "selectionBg": c["bg_sel"], "selectionFg": c["fg_bright"],
+            "normal": ansi(c["ansi"][:8]), "bright": ansi(c["ansi"][8:]),
+        },
+    }
+    # Noctalia requires a dark mode and reuses it when there is no light one, so a light variant fills both
+    return {"dark": mode} if spec["appearance"] == "dark" else {"dark": mode, "light": mode}
+
+
 def swatch_svg(spec):
     """A small palette strip for the README."""
     p = spec["palette"]
@@ -1019,6 +1046,7 @@ def build(specs, licence):
         files[f"general/iterm2/{slug}.itermcolors"] = iterm(spec)
         files[f"general/css/{slug}.css"] = css(spec)
         files[f"general/fzf/{slug}.sh"] = fzf(spec)
+        files[f"general/noctalia/{slug}.json"] = json.dumps(noctalia(spec), indent=2) + "\n"
         files[f"assets/palette-{slug}.svg"] = swatch_svg(spec)
     files["zed/themes/rime.json"] = json.dumps({
         "$schema": "https://zed.dev/schema/themes/v0.2.0.json",
