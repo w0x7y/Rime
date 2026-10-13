@@ -612,7 +612,7 @@ def vscode_theme(spec):
         "notificationsWarningIcon.foreground": c["yellow"],
         "notificationsInfoIcon.foreground": c["blue"],
 
-        "terminal.background": c["bg_dark"],
+        "terminal.background": c["bg"],
         "terminal.foreground": c["fg"],
         "terminal.selectionBackground": a(c["blue"], 0.3),
         "terminalCursor.foreground": c["fg"],
@@ -953,14 +953,14 @@ def noctalia(spec):
     """A Noctalia v5 palette: the shell's 16 colour roles, plus the terminal colours its templates write."""
     c = colours(spec)
     ansi = lambda cols: dict(zip(ANSI_NAMES, cols))
-    # the shell is dressed like the GUI editors' chrome: bars and panels as their title and status
-    # bars, cards as their popups, hover as their list and menu selection, text on accents as on their buttons
+    # the shell is dressed like the GUI editors: bars and panels on the theme background, cards as
+    # their popups, hover as their list and menu selection, text on accents as on their buttons
     mode = {
         "mPrimary": c["blue"], "mOnPrimary": c["bg"],
         "mSecondary": c["violet"], "mOnSecondary": c["bg"],
         "mTertiary": c["cyan"], "mOnTertiary": c["bg"],
         "mError": c["red"], "mOnError": c["bg"],
-        "mSurface": c["bg_dark"], "mOnSurface": c["fg"],
+        "mSurface": c["bg"], "mOnSurface": c["fg"],
         "mSurfaceVariant": c["bg_alt"], "mOnSurfaceVariant": c["muted"],
         # Noctalia lifts the outline to 3:1 against the surface, then draws borders a shade darker;
         # starting from the editors' border keeps them as close to it as Noctalia allows

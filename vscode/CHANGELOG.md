@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- The integrated terminal uses the editor background instead of the darker panel shade, like the Zed theme and the terminal ports.
+
 ## 0.3.0
 
 These bring VS Code in line with the Neovim and Zed ports:
