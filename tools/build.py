@@ -1582,13 +1582,26 @@ def build(specs, licence):
     return files
 
 
+def same_content(path, a, b):
+    """Whether two versions of a generated file say the same thing, however they are formatted.
+
+    JSON is compared as parsed values; anything else as its whitespace-separated tokens,
+    so indentation, line endings and line wrapping don't count."""
+    if path.endswith(".json"):
+        try:
+            return json.loads(a) == json.loads(b)
+        except ValueError:
+            return False
+    return a.split() == b.split()
+
+
 def stale(files):
-    """The paths whose bytes on disk differ from `files`, line endings included."""
+    """The paths whose contents on disk differ from `files`, ignoring formatting."""
     return [
         path
         for path, text in files.items()
         if not (ROOT / path).is_file()
-        or (ROOT / path).read_bytes() != text.encode("utf-8")
+        or not same_content(path, (ROOT / path).read_text("utf-8"), text)
     ]
 
 
@@ -1604,11 +1617,12 @@ def main(args):
         if outdated:
             print("run python3 tools/build.py to regenerate them", file=sys.stderr)
         return 1 if outdated else 0
-    for path, text in files.items():
+    outdated = stale(files)  # leave files that only differ in formatting alone
+    for path in outdated:
         target = ROOT / path
         target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_bytes(text.encode("utf-8"))  # always UTF-8 with LF line endings
-    print(f"wrote {len(files)} files")
+        target.write_bytes(files[path].encode("utf-8"))  # always UTF-8 with LF line endings
+    print(f"wrote {len(outdated)} of {len(files)} files")
     return 0
 
 

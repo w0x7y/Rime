@@ -1,2 +1,2 @@
-# tools/build.py writes LF and --check compares exact bytes, so keep LF in every checkout
+# tools/build.py writes LF, so keep LF in every checkout
 * text=auto eol=lf
