@@ -20,12 +20,13 @@ VERSION = "0.3.1"
 REPO = "https://github.com/w0x7y/Rime"
 AUTHOR = "Idan Gilboa"
 EXTENSION_ID = "rime-theme"  # the Zed and VS Code extension id
-DESCRIPTION = "A cold dark theme in four variants: Rime, Glacier, Aurora and Abyss."
+DESCRIPTION = "A cold theme in five variants: Rime, Glacier, Aurora and Abyss, and the light Frost."
 ORDER = [
     "rime",
     "rime-glacier",
     "rime-aurora",
     "rime-abyss",
+    "rime-frost",
 ]  # the first is the default variant
 
 
@@ -47,6 +48,11 @@ def mix(a, b, t):
     """Blend colour a towards b by t (0 = a, 1 = b)."""
     ra, rb = rgb(a), rgb(b)
     return hexc(ra[i] + (rb[i] - ra[i]) * t for i in range(3))
+
+
+def lift(spec, h, t):
+    """Move colour h away from the background by t: towards white on a dark variant, black on a light one."""
+    return mix(h, "#ffffff" if spec["appearance"] == "dark" else "#000000", t)
 
 
 def alpha(h, a):
@@ -78,25 +84,24 @@ def colours(spec):
         "violet": p["base0E"],
         "steel": p["base0F"],
     }
-    # derived shades, named as in lua/rime/init.lua, which blends the same way at load time
-    r["bg_dark"] = mix(
-        r["bg"], "#000000", 0.18
-    )  # sidebars, status/title bars in GUI editors
-    r["border"] = mix(r["bg_alt"], r["bg_sel"], 0.5)
-    # 16 ANSI colours: black is a visible surface tone, brights are lifted versions
-    normal = [
-        r["bg_sel"],
-        r["red"],
-        r["green"],
-        r["yellow"],
-        r["blue"],
-        r["violet"],
-        r["cyan"],
-        r["fg"],
-    ]
-    bright = (
-        [r["comment"]] + [mix(c, "#ffffff", 0.22) for c in normal[1:7]] + [r["white"]]
+    dark = spec["appearance"] == "dark"
+    # derived shades, named as in lua/rime/init.lua, which blends the same way at load time.
+    # bg_dark is the chrome (sidebars, bars); lighter than bg on a light variant so hovers still show
+    r["bg_dark"] = (
+        mix(r["bg"], "#000000", 0.18) if dark else mix(r["bg"], "#ffffff", 0.5)
     )
+    r["border"] = mix(r["bg_alt"], r["bg_sel"], 0.5)
+    # 16 ANSI colours: black stays dark and white light, so a light variant swaps which is the text;
+    # brights are lifted away from the background
+    accents = [r[n] for n in ("red", "green", "yellow", "blue", "violet", "cyan")]
+    if dark:
+        black, white = r["bg_sel"], r["fg"]
+        bright_black, bright_white = r["comment"], r["white"]
+    else:
+        black, white = r["fg"], r["comment"]
+        bright_black, bright_white = r["muted"], mix(r["comment"], r["bg"], 0.25)
+    normal = [black] + accents + [white]
+    bright = [bright_black] + [lift(spec, c, 0.22) for c in accents] + [bright_white]
     r["ansi"] = normal + bright
     r["ansi_dim"] = [mix(c, r["bg"], 0.35) for c in normal]
     return r
@@ -441,6 +446,7 @@ def zed_extension():
 def vscode_theme(spec):
     c = colours(spec)
     a = alpha
+    dark = spec["appearance"] == "dark"
     colors = {
         "foreground": c["fg"],
         "descriptionForeground": c["muted"],
@@ -448,8 +454,8 @@ def vscode_theme(spec):
         "icon.foreground": c["muted"],
         "focusBorder": a(c["blue"], 0.45),
         "selection.background": a(c["blue"], 0.3),
-        "widget.shadow": "#00000066",
-        "scrollbar.shadow": "#00000040",
+        "widget.shadow": "#00000066" if dark else "#00000029",
+        "scrollbar.shadow": "#00000040" if dark else "#0000001a",
         "textLink.foreground": c["blue"],
         "textLink.activeForeground": c["cyan"],
         "textPreformat.foreground": c["green"],
@@ -459,10 +465,10 @@ def vscode_theme(spec):
         "textSeparator.foreground": c["border"],
         "button.background": c["blue"],
         "button.foreground": c["bg"],
-        "button.hoverBackground": mix(c["blue"], "#ffffff", 0.15),
+        "button.hoverBackground": lift(spec, c["blue"], 0.15),
         "button.secondaryBackground": c["bg_sel"],
         "button.secondaryForeground": c["fg"],
-        "button.secondaryHoverBackground": mix(c["bg_sel"], "#ffffff", 0.06),
+        "button.secondaryHoverBackground": lift(spec, c["bg_sel"], 0.06),
         "badge.background": c["blue"],
         "badge.foreground": c["bg"],
         "progressBar.background": c["blue"],
@@ -1141,7 +1147,7 @@ def vscode_package(specs):
         "repository": {"type": "git", "url": REPO},
         "engines": {"vscode": "^1.70.0"},
         "categories": ["Themes"],
-        "keywords": ["theme", "dark", "cold", "blue", "rime", "base16"],
+        "keywords": ["theme", "dark", "light", "cold", "blue", "rime", "base16"],
         "icon": "icon.png",
         "galleryBanner": {
             "color": specs[0]["palette"]["base00"],
@@ -1461,9 +1467,11 @@ def swatch_svg(spec):
         f'font-family="monospace" font-size="10" text-anchor="middle">{p[k]}</text>'
         for i, k in enumerate(accents)
     )
+    height = pad * 2 + h + 18
+    # sized in units: some viewers resolve a 100% background against the wrong box
     return (
-        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{pad * 2 + h + 18}" '
-        f'viewBox="0 0 {width} {pad * 2 + h + 18}"><rect width="100%" height="100%" rx="10" fill="{p["base00"]}"/>'
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" '
+        f'viewBox="0 0 {width} {height}"><rect width="{width}" height="{height}" rx="10" fill="{p["base00"]}"/>'
         f"{rects}</svg>\n"
     )
 

@@ -1,0 +1,31 @@
+# Rime Frost: Frost-white paper under the same cold accents, deepened to read on it.
+# https://github.com/w0x7y/Rime
+
+[colors]
+foreground = "#363d4a"
+background = "#eef1f5"
+cursor_bg = "#363d4a"
+cursor_fg = "#eef1f5"
+cursor_border = "#363d4a"
+selection_fg = "#272d37"
+selection_bg = "#d2d8e2"
+scrollbar_thumb = "#d2d8e2"
+split = "#dbe0e8"
+ansi = ["#363d4a", "#b83d63", "#267b4f", "#866405", "#2e62c0", "#7650c4", "#0f7480", "#7f899b"]
+brights = ["#566073", "#90304d", "#1e603e", "#694e04", "#244c96", "#5c3e99", "#0c5a64", "#9ba3b2"]
+
+[colors.tab_bar]
+background = "#f7f8fa"
+
+[colors.tab_bar.active_tab]
+bg_color = "#eef1f5"
+fg_color = "#272d37"
+
+[colors.tab_bar.inactive_tab]
+bg_color = "#f7f8fa"
+fg_color = "#7f899b"
+
+[metadata]
+name = "Rime Frost"
+author = "Idan Gilboa"
+origin_url = "https://github.com/w0x7y/Rime"

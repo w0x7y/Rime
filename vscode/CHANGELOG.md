@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Rime Frost, a light variant: frost-white background with the same cold accents, deepened to stay readable.
+
 ## 0.3.1
 
 - The integrated terminal uses the editor background instead of the darker panel shade, like the Zed theme and the terminal ports.

@@ -2,7 +2,7 @@
 
 ![Rime in Neovim](../assets/screenshot-rime.png)
 
-A Lua colour scheme with four variants:
+A Lua colour scheme with five variants:
 
 | Command                     | Variant      |
 | --------------------------- | ------------ |
@@ -10,6 +10,7 @@ A Lua colour scheme with four variants:
 | `:colorscheme rime-glacier` | Rime Glacier |
 | `:colorscheme rime-aurora`  | Rime Aurora  |
 | `:colorscheme rime-abyss`   | Rime Abyss   |
+| `:colorscheme rime-frost`   | Rime Frost   |
 
 It covers the editor UI, legacy syntax groups, treesitter captures, LSP semantic tokens, diagnostics and terminal colours. It also styles gitsigns, mini.diff, telescope, fzf-lua, snacks, nvim-cmp, blink.cmp, which-key, indent-blankline, flash, noice, lazy.nvim, mason, nvim-tree, neo-tree and lualine.
 
@@ -70,7 +71,7 @@ Earlier versions kept the plugin in the repository's `nvim/` folder. If your con
 require("rime").setup({
   transparent = false,     -- leave the background unset so the terminal shows through
   terminal_colors = true,  -- set vim.g.terminal_color_0..15
-  dim_inactive = false,    -- darker background in inactive windows
+  dim_inactive = false,    -- sidebar background (bg_dark) in inactive windows
   styles = {
     comments = { italic = true },
     keywords = {},
@@ -114,13 +115,13 @@ require("rime").setup({
 Colour names available in `c`:
 
 - Base colours: `bg`, `bg_alt`, `bg_sel`, `comment`, `muted`, `fg`, `fg_bright`, `white`, `red`, `pink`, `yellow`, `green`, `cyan`, `blue`, `violet`, `steel`
-- Derived shades: `bg_dark`, `border`, `colorcolumn`, `whitespace`, `search`, `diff_add`, `diff_change`, `diff_text`, `diff_delete`, and the diagnostic virtual-text backgrounds `diag_error`, `diag_warn`, `diag_info`, `diag_hint`, `diag_ok`
+- Derived shades: `bg_dark` (the sidebar shade, darker than `bg` on dark variants and lighter on Rime Frost), `border`, `colorcolumn`, `whitespace`, `search`, `diff_add`, `diff_change`, `diff_text`, `diff_delete`, and the diagnostic virtual-text backgrounds `diag_error`, `diag_warn`, `diag_info`, `diag_hint`, `diag_ok`
 - `none`, meaning "NONE" (no colour)
 
 ## Using the colours elsewhere
 
 ```lua
-local c = require("rime").colors("abyss") -- "rime", "glacier", "aurora", "abyss" or a full name like "rime-abyss"; on_colors is applied
+local c = require("rime").colors("abyss") -- "rime", "glacier", "aurora", "abyss", "frost" or a full name like "rime-abyss"; on_colors is applied
 print(c.blue)
 ```
 
