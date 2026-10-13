@@ -1,39 +1,39 @@
 /* Rime Aurora: Vivid neon accents on the same cold base. */
 /* https://github.com/w0x7y/Rime */
 :root {
-  /* base16 slots */
-  --base00: #23272e;
-  --base01: #2b3038;
-  --base02: #3a404b;
-  --base03: #6b768c;
-  --base04: #9aa4b6;
-  --base05: #c8d2e2;
-  --base06: #e0e7f2;
-  --base07: #f5f8fc;
-  --base08: #ff6f91;
-  --base09: #ff8fe0;
-  --base0A: #e6f07c;
-  --base0B: #5ef0a6;
-  --base0C: #38dce8;
-  --base0D: #4fa2ff;
-  --base0E: #9b7dff;
-  --base0F: #7084b7;
+	/* base16 slots */
+	--base00: #23272e;
+	--base01: #2b3038;
+	--base02: #3a404b;
+	--base03: #6b768c;
+	--base04: #9aa4b6;
+	--base05: #c8d2e2;
+	--base06: #e0e7f2;
+	--base07: #f5f8fc;
+	--base08: #ff6f91;
+	--base09: #ff8fe0;
+	--base0A: #e6f07c;
+	--base0B: #5ef0a6;
+	--base0C: #38dce8;
+	--base0D: #4fa2ff;
+	--base0E: #9b7dff;
+	--base0F: #7084b7;
 
-  /* colour names */
-  --rime-bg: #23272e;
-  --rime-bg-alt: #2b3038;
-  --rime-bg-sel: #3a404b;
-  --rime-comment: #6b768c;
-  --rime-muted: #9aa4b6;
-  --rime-fg: #c8d2e2;
-  --rime-fg-bright: #e0e7f2;
-  --rime-white: #f5f8fc;
-  --rime-red: #ff6f91;
-  --rime-pink: #ff8fe0;
-  --rime-yellow: #e6f07c;
-  --rime-green: #5ef0a6;
-  --rime-cyan: #38dce8;
-  --rime-blue: #4fa2ff;
-  --rime-violet: #9b7dff;
-  --rime-steel: #7084b7;
+	/* colour names */
+	--rime-bg: #23272e;
+	--rime-bg-alt: #2b3038;
+	--rime-bg-sel: #3a404b;
+	--rime-comment: #6b768c;
+	--rime-muted: #9aa4b6;
+	--rime-fg: #c8d2e2;
+	--rime-fg-bright: #e0e7f2;
+	--rime-white: #f5f8fc;
+	--rime-red: #ff6f91;
+	--rime-pink: #ff8fe0;
+	--rime-yellow: #e6f07c;
+	--rime-green: #5ef0a6;
+	--rime-cyan: #38dce8;
+	--rime-blue: #4fa2ff;
+	--rime-violet: #9b7dff;
+	--rime-steel: #7084b7;
 }

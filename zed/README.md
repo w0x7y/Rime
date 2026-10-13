@@ -21,11 +21,11 @@ Then open the theme selector (`cmd-k cmd-t` on macOS, `ctrl-k ctrl-t` on Linux) 
 
 ```json
 {
-  "theme": {
-    "mode": "dark",
-    "dark": "Rime",
-    "light": "One Light"
-  }
+	"theme": {
+		"mode": "dark",
+		"dark": "Rime",
+		"light": "One Light"
+	}
 }
 ```
 

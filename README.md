@@ -12,16 +12,19 @@ four of them, all on the same `#23272e` background
 
 - **rime**: soft and muted pastels.
 
-  ![rime palette](assets/palette-rime.svg)
+    ![rime palette](assets/palette-rime.svg)
+
 - **rime glacier**: crisper accents that keep every syntax role apart.
 
-  ![rime glacier palette](assets/palette-rime-glacier.svg)
+    ![rime glacier palette](assets/palette-rime-glacier.svg)
+
 - **rime aurora**: vivid neon.
 
-  ![rime aurora palette](assets/palette-rime-aurora.svg)
+    ![rime aurora palette](assets/palette-rime-aurora.svg)
+
 - **rime abyss**: the coldest one.
 
-  ![rime abyss palette](assets/palette-rime-abyss.svg)
+    ![rime abyss palette](assets/palette-rime-abyss.svg)
 
 <img alt="all four variants" src="assets/screenshot-all.png" />
 
@@ -80,4 +83,4 @@ every variant is 16 colors in `palettes/`. which color each kind of code gets (f
 
 if you port it into your software of choice, open a pull request
 
-*credits: [bark](https://github.com/if-not-nil/bark) by if-not-nil, the warm scheme rime flips around. license: [mit](./LICENSE)*
+_credits: [bark](https://github.com/if-not-nil/bark) by if-not-nil, the warm scheme rime flips around. license: [mit](./LICENSE)_

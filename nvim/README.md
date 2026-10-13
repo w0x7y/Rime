@@ -4,12 +4,12 @@
 
 A Lua colour scheme with four variants:
 
-| Command | Variant |
-|---|---|
-| `:colorscheme rime` | Rime |
+| Command                     | Variant      |
+| --------------------------- | ------------ |
+| `:colorscheme rime`         | Rime         |
 | `:colorscheme rime-glacier` | Rime Glacier |
-| `:colorscheme rime-aurora` | Rime Aurora |
-| `:colorscheme rime-abyss` | Rime Abyss |
+| `:colorscheme rime-aurora`  | Rime Aurora  |
+| `:colorscheme rime-abyss`   | Rime Abyss   |
 
 It covers the editor UI, legacy syntax groups, treesitter captures, LSP semantic tokens, diagnostics and terminal colours. It also styles gitsigns, mini.diff, telescope, fzf-lua, snacks, nvim-cmp, blink.cmp, which-key, indent-blankline, flash, noice, lazy.nvim, mason, nvim-tree, neo-tree and lualine.
 
@@ -136,12 +136,12 @@ require("lualine").setup({ options = { theme = "rime-glacier" } })
 
 Rime gives each kind of keyword its own colour instead of painting them all the same:
 
-| Treesitter group | Colour | Examples |
-|---|---|---|
-| `@keyword`, `@keyword.function`, `@keyword.import` | violet | `const`, `function`, `import` |
-| `@keyword.repeat` | yellow | `for`, `while`, `continue` |
-| `@keyword.conditional` | bold rose | `if`, `else` |
-| `@keyword.return`, `@keyword.exception` | rose | `return`, `try`, `throw` |
+| Treesitter group                                   | Colour    | Examples                      |
+| -------------------------------------------------- | --------- | ----------------------------- |
+| `@keyword`, `@keyword.function`, `@keyword.import` | violet    | `const`, `function`, `import` |
+| `@keyword.repeat`                                  | yellow    | `for`, `while`, `continue`    |
+| `@keyword.conditional`                             | bold rose | `if`, `else`                  |
+| `@keyword.return`, `@keyword.exception`            | rose      | `return`, `try`, `throw`      |
 
 To make every keyword one colour, link them back in `on_highlights`:
 

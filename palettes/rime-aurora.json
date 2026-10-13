@@ -1,24 +1,24 @@
 {
-  "name": "Rime Aurora",
-  "slug": "rime-aurora",
-  "description": "Vivid neon accents on the same cold base.",
-  "appearance": "dark",
-  "palette": {
-    "base00": "#23272e",
-    "base01": "#2b3038",
-    "base02": "#3a404b",
-    "base03": "#6b768c",
-    "base04": "#9aa4b6",
-    "base05": "#c8d2e2",
-    "base06": "#e0e7f2",
-    "base07": "#f5f8fc",
-    "base08": "#ff6f91",
-    "base09": "#ff8fe0",
-    "base0A": "#e6f07c",
-    "base0B": "#5ef0a6",
-    "base0C": "#38dce8",
-    "base0D": "#4fa2ff",
-    "base0E": "#9b7dff",
-    "base0F": "#7084b7"
-  }
+	"name": "Rime Aurora",
+	"slug": "rime-aurora",
+	"description": "Vivid neon accents on the same cold base.",
+	"appearance": "dark",
+	"palette": {
+		"base00": "#23272e",
+		"base01": "#2b3038",
+		"base02": "#3a404b",
+		"base03": "#6b768c",
+		"base04": "#9aa4b6",
+		"base05": "#c8d2e2",
+		"base06": "#e0e7f2",
+		"base07": "#f5f8fc",
+		"base08": "#ff6f91",
+		"base09": "#ff8fe0",
+		"base0A": "#e6f07c",
+		"base0B": "#5ef0a6",
+		"base0C": "#38dce8",
+		"base0D": "#4fa2ff",
+		"base0E": "#9b7dff",
+		"base0F": "#7084b7"
+	}
 }

@@ -1,39 +1,39 @@
 /* Rime Abyss: The coldest take: no yellow or orange anywhere, with rose as the only warm accent. */
 /* https://github.com/w0x7y/Rime */
 :root {
-  /* base16 slots */
-  --base00: #23272e;
-  --base01: #2b3038;
-  --base02: #3a404b;
-  --base03: #6b768c;
-  --base04: #9aa4b6;
-  --base05: #c2cde0;
-  --base06: #dde5f2;
-  --base07: #f2f6fc;
-  --base08: #e8879f;
-  --base09: #d4aaff;
-  --base0A: #9cf0dc;
-  --base0B: #6fd0a8;
-  --base0C: #4fb4dc;
-  --base0D: #6b9cf4;
-  --base0E: #937ff2;
-  --base0F: #7182a8;
+	/* base16 slots */
+	--base00: #23272e;
+	--base01: #2b3038;
+	--base02: #3a404b;
+	--base03: #6b768c;
+	--base04: #9aa4b6;
+	--base05: #c2cde0;
+	--base06: #dde5f2;
+	--base07: #f2f6fc;
+	--base08: #e8879f;
+	--base09: #d4aaff;
+	--base0A: #9cf0dc;
+	--base0B: #6fd0a8;
+	--base0C: #4fb4dc;
+	--base0D: #6b9cf4;
+	--base0E: #937ff2;
+	--base0F: #7182a8;
 
-  /* colour names */
-  --rime-bg: #23272e;
-  --rime-bg-alt: #2b3038;
-  --rime-bg-sel: #3a404b;
-  --rime-comment: #6b768c;
-  --rime-muted: #9aa4b6;
-  --rime-fg: #c2cde0;
-  --rime-fg-bright: #dde5f2;
-  --rime-white: #f2f6fc;
-  --rime-red: #e8879f;
-  --rime-pink: #d4aaff;
-  --rime-yellow: #9cf0dc;
-  --rime-green: #6fd0a8;
-  --rime-cyan: #4fb4dc;
-  --rime-blue: #6b9cf4;
-  --rime-violet: #937ff2;
-  --rime-steel: #7182a8;
+	/* colour names */
+	--rime-bg: #23272e;
+	--rime-bg-alt: #2b3038;
+	--rime-bg-sel: #3a404b;
+	--rime-comment: #6b768c;
+	--rime-muted: #9aa4b6;
+	--rime-fg: #c2cde0;
+	--rime-fg-bright: #dde5f2;
+	--rime-white: #f2f6fc;
+	--rime-red: #e8879f;
+	--rime-pink: #d4aaff;
+	--rime-yellow: #9cf0dc;
+	--rime-green: #6fd0a8;
+	--rime-cyan: #4fb4dc;
+	--rime-blue: #6b9cf4;
+	--rime-violet: #937ff2;
+	--rime-steel: #7182a8;
 }

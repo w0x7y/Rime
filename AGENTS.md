@@ -6,13 +6,13 @@ A colorscheme in four variants, ported to Neovim, Zed, VS Code and many terminal
 
 Most ports are generated. Edit the source, then run `python3 tools/build.py` and commit the regenerated files with it.
 
-| To change | Edit |
-|---|---|
-| A variant's colours and appearance (dark or light) | `palettes/<slug>.json` |
-| Which colour each kind of code gets in Neovim, Zed and VS Code | `SYNTAX` in `tools/build.py` |
-| Version, extension description, variant list and order | constants at the top of `tools/build.py` (the first variant in `ORDER` is the default) |
-| Neovim UI and plugin highlights, options | `lua/rime/groups.lua`, `lua/rime/init.lua` |
-| Screenshots and `vscode/icon.png` | run `python3 tools/screenshots/render.py` after the above |
+| To change                                                      | Edit                                                                                   |
+| -------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| A variant's colours and appearance (dark or light)             | `palettes/<slug>.json`                                                                 |
+| Which colour each kind of code gets in Neovim, Zed and VS Code | `SYNTAX` in `tools/build.py`                                                           |
+| Version, extension description, variant list and order         | constants at the top of `tools/build.py` (the first variant in `ORDER` is the default) |
+| Neovim UI and plugin highlights, options                       | `lua/rime/groups.lua`, `lua/rime/init.lua`                                             |
+| Screenshots and `vscode/icon.png`                              | run `python3 tools/screenshots/render.py` after the above                              |
 
 A generated file is anything `build()` in `tools/build.py` returns; `python3 tools/build.py --check` names the stale ones. `tools/build.py` uses only the Python standard library.
 

@@ -2,6 +2,7 @@
 
 Run: python3 -m unittest discover -s tools
 """
+
 import json
 import os
 import pathlib
@@ -17,14 +18,22 @@ import build
 
 class GeneratedFiles(unittest.TestCase):
     def test_committed_files_match_the_palettes(self):
-        self.assertEqual(build.stale(build.build(*build.load())), [],
-                         "run python3 tools/build.py and commit the result")
+        self.assertEqual(
+            build.stale(build.build(*build.load())),
+            [],
+            "run python3 tools/build.py and commit the result",
+        )
 
     def test_check_compares_exact_bytes(self):
-        with tempfile.TemporaryDirectory() as tmp, mock.patch.object(build, "ROOT", pathlib.Path(tmp)):
+        with tempfile.TemporaryDirectory() as tmp, mock.patch.object(
+            build, "ROOT", pathlib.Path(tmp)
+        ):
             (pathlib.Path(tmp) / "crlf").write_bytes(b"a\r\n")
             (pathlib.Path(tmp) / "same").write_bytes(b"a\n")
-            self.assertEqual(build.stale({"crlf": "a\n", "same": "a\n", "missing": "a\n"}), ["crlf", "missing"])
+            self.assertEqual(
+                build.stale({"crlf": "a\n", "same": "a\n", "missing": "a\n"}),
+                ["crlf", "missing"],
+            )
 
     def test_every_variant_names_its_appearance(self):
         for spec in build.load()[0]:
@@ -38,7 +47,12 @@ class SyntaxRoles(unittest.TestCase):
         return (build.ROOT / "lua/rime" / name).read_text()
 
     def neovim_roles(self):
-        return set(re.findall(r'\b(?:role|colour|role_style)\("([^"]+)"', self.lua("groups.lua") + self.lua("init.lua")))
+        return set(
+            re.findall(
+                r'\b(?:role|colour|role_style)\("([^"]+)"',
+                self.lua("groups.lua") + self.lua("init.lua"),
+            )
+        )
 
     def roles_used_by(self, port):
         used = set()
@@ -53,24 +67,40 @@ class SyntaxRoles(unittest.TestCase):
         return used
 
     def test_neovim_names_only_known_roles(self):
-        self.assertEqual(self.neovim_roles() - set(build.SYNTAX), set(), "unknown roles in lua/rime")
+        self.assertEqual(
+            self.neovim_roles() - set(build.SYNTAX), set(), "unknown roles in lua/rime"
+        )
 
     def test_roles_in_a_neovim_style_group_share_its_default(self):
         # e.g. Neovim styles keyword.return with `styles.keywords`, whose default is the keyword role's style
-        defaults = dict(re.findall(r'(\w+) = role_style\("([^"]+)"\)', self.lua("init.lua")))
-        for role, group in re.findall(r'\brole\("([^"]+)", st\.(\w+)\)', self.lua("groups.lua")):
-            self.assertEqual(build.SYNTAX[role][1], build.SYNTAX[defaults[group]][1],
-                             f"Neovim styles {role} with styles.{group}, which defaults to {defaults[group]}'s style")
+        defaults = dict(
+            re.findall(r'(\w+) = role_style\("([^"]+)"\)', self.lua("init.lua"))
+        )
+        for role, group in re.findall(
+            r'\brole\("([^"]+)", st\.(\w+)\)', self.lua("groups.lua")
+        ):
+            self.assertEqual(
+                build.SYNTAX[role][1],
+                build.SYNTAX[defaults[group]][1],
+                f"Neovim styles {role} with styles.{group}, which defaults to {defaults[group]}'s style",
+            )
 
     def test_every_role_is_shared_by_two_ports(self):
-        ports = {"Neovim": self.neovim_roles(), "Zed": self.roles_used_by(build.zed_theme),
-                 "VS Code": self.roles_used_by(build.vscode_theme)}
+        ports = {
+            "Neovim": self.neovim_roles(),
+            "Zed": self.roles_used_by(build.zed_theme),
+            "VS Code": self.roles_used_by(build.vscode_theme),
+        }
         for role in build.SYNTAX:
             users = [port for port, roles in ports.items() if role in roles]
-            self.assertGreaterEqual(len(users), 2, f"{role} is only used by {users}; keep it in that port")
+            self.assertGreaterEqual(
+                len(users), 2, f"{role} is only used by {users}; keep it in that port"
+            )
 
 
-@unittest.skipUnless(shutil.which("nvim") or os.environ.get("RIME_REQUIRE_NVIM"), "needs nvim")
+@unittest.skipUnless(
+    shutil.which("nvim") or os.environ.get("RIME_REQUIRE_NVIM"), "needs nvim"
+)
 class LuaMatchesPython(unittest.TestCase):
     """Neovim blends its derived shades at load time, after on_colors. Unchanged, they must equal the generated ports'."""
 
@@ -90,11 +120,28 @@ class LuaMatchesPython(unittest.TestCase):
         with tempfile.NamedTemporaryFile("w", suffix=".lua") as script:
             script.write(self.LUA)
             script.flush()
-            run = subprocess.run(["nvim", "--headless", "-u", "NONE", "--cmd", f"set rtp^={build.ROOT}",
-                                  "-l", script.name], capture_output=True, text=True, check=True)
+            run = subprocess.run(
+                [
+                    "nvim",
+                    "--headless",
+                    "-u",
+                    "NONE",
+                    "--cmd",
+                    f"set rtp^={build.ROOT}",
+                    "-l",
+                    script.name,
+                ],
+                capture_output=True,
+                text=True,
+                check=True,
+            )
         for spec, lua in zip(build.load()[0], json.loads(run.stdout)):
             py = build.colours(spec)
-            self.assertEqual(lua, {"bg_dark": py["bg_dark"], "border": py["border"], "ansi": py["ansi"]}, spec["slug"])
+            self.assertEqual(
+                lua,
+                {"bg_dark": py["bg_dark"], "border": py["border"], "ansi": py["ansi"]},
+                spec["slug"],
+            )
 
 
 class Noctalia(unittest.TestCase):
@@ -103,34 +150,68 @@ class Noctalia(unittest.TestCase):
     @staticmethod
     def contrast(a, b):
         def luminance(h):
-            r, g, b = (v / 255 / 12.92 if v <= 10 else ((v / 255 + 0.055) / 1.055) ** 2.4 for v in build.rgb(h))
+            r, g, b = (
+                v / 255 / 12.92 if v <= 10 else ((v / 255 + 0.055) / 1.055) ** 2.4
+                for v in build.rgb(h)
+            )
             return 0.2126 * r + 0.7152 * g + 0.0722 * b
+
         hi, lo = sorted((luminance(a), luminance(b)), reverse=True)
         return (hi + 0.05) / (lo + 0.05)
 
     def test_on_colours_are_readable(self):
         for spec in build.load()[0]:
             for mode in build.noctalia(spec).values():
-                for role in ("Primary", "Secondary", "Tertiary", "Error", "Surface", "SurfaceVariant", "Hover"):
-                    self.assertGreaterEqual(self.contrast(mode[f"mOn{role}"], mode[f"m{role}"]), 4.5,
-                                            f"{spec['slug']}: mOn{role}")
+                for role in (
+                    "Primary",
+                    "Secondary",
+                    "Tertiary",
+                    "Error",
+                    "Surface",
+                    "SurfaceVariant",
+                    "Hover",
+                ):
+                    self.assertGreaterEqual(
+                        self.contrast(mode[f"mOn{role}"], mode[f"m{role}"]),
+                        4.5,
+                        f"{spec['slug']}: mOn{role}",
+                    )
 
     def test_shell_matches_the_editor_chrome(self):
         for spec in build.load()[0]:
-            zed, vscode = build.zed_theme(spec)["style"], build.vscode_theme(spec)["colors"]
+            zed, vscode = (
+                build.zed_theme(spec)["style"],
+                build.vscode_theme(spec)["colors"],
+            )
             mode = build.noctalia(spec)["dark"]
             self.assertEqual(mode["mSurface"], zed["editor.background"], spec["slug"])
-            self.assertEqual(mode["mSurface"], vscode["editor.background"], spec["slug"])
-            self.assertEqual(mode["mSurfaceVariant"], zed["elevated_surface.background"], spec["slug"])
-            self.assertEqual(mode["mHover"], vscode["list.activeSelectionBackground"], spec["slug"])
-            self.assertEqual(mode["mOnPrimary"], vscode["button.foreground"], spec["slug"])
+            self.assertEqual(
+                mode["mSurface"], vscode["editor.background"], spec["slug"]
+            )
+            self.assertEqual(
+                mode["mSurfaceVariant"],
+                zed["elevated_surface.background"],
+                spec["slug"],
+            )
+            self.assertEqual(
+                mode["mHover"], vscode["list.activeSelectionBackground"], spec["slug"]
+            )
+            self.assertEqual(
+                mode["mOnPrimary"], vscode["button.foreground"], spec["slug"]
+            )
             self.assertEqual(mode["mOutline"], zed["border"], spec["slug"])
 
     def test_terminals_share_the_theme_background(self):
         for spec in build.load()[0]:
-            zed, vscode = build.zed_theme(spec)["style"], build.vscode_theme(spec)["colors"]
-            terminals = [zed["terminal.background"], vscode["terminal.background"],
-                         build.noctalia(spec)["dark"]["terminal"]["background"]]
+            zed, vscode = (
+                build.zed_theme(spec)["style"],
+                build.vscode_theme(spec)["colors"],
+            )
+            terminals = [
+                zed["terminal.background"],
+                vscode["terminal.background"],
+                build.noctalia(spec)["dark"]["terminal"]["background"],
+            ]
             self.assertEqual(terminals, [spec["palette"]["base00"]] * 3, spec["slug"])
 
 
@@ -141,7 +222,10 @@ class Docs(unittest.TestCase):
         return (build.ROOT / path).read_text()
 
     def test_install_from_source_names_the_current_version(self):
-        versions = re.findall(rf"{build.EXTENSION_ID}-(\d+\.\d+\.\d+)\.vsix", self.read("vscode/README.md"))
+        versions = re.findall(
+            rf"{build.EXTENSION_ID}-(\d+\.\d+\.\d+)\.vsix",
+            self.read("vscode/README.md"),
+        )
         self.assertEqual(set(versions), {build.VERSION})
 
     def test_quoted_background_is_the_default_variants(self):

@@ -1,24 +1,24 @@
 {
-  "name": "Rime Abyss",
-  "slug": "rime-abyss",
-  "description": "The coldest take: no yellow or orange anywhere, with rose as the only warm accent.",
-  "appearance": "dark",
-  "palette": {
-    "base00": "#23272e",
-    "base01": "#2b3038",
-    "base02": "#3a404b",
-    "base03": "#6b768c",
-    "base04": "#9aa4b6",
-    "base05": "#c2cde0",
-    "base06": "#dde5f2",
-    "base07": "#f2f6fc",
-    "base08": "#e8879f",
-    "base09": "#d4aaff",
-    "base0A": "#9cf0dc",
-    "base0B": "#6fd0a8",
-    "base0C": "#4fb4dc",
-    "base0D": "#6b9cf4",
-    "base0E": "#937ff2",
-    "base0F": "#7182a8"
-  }
+	"name": "Rime Abyss",
+	"slug": "rime-abyss",
+	"description": "The coldest take: no yellow or orange anywhere, with rose as the only warm accent.",
+	"appearance": "dark",
+	"palette": {
+		"base00": "#23272e",
+		"base01": "#2b3038",
+		"base02": "#3a404b",
+		"base03": "#6b768c",
+		"base04": "#9aa4b6",
+		"base05": "#c2cde0",
+		"base06": "#dde5f2",
+		"base07": "#f2f6fc",
+		"base08": "#e8879f",
+		"base09": "#d4aaff",
+		"base0A": "#9cf0dc",
+		"base0B": "#6fd0a8",
+		"base0C": "#4fb4dc",
+		"base0D": "#6b9cf4",
+		"base0E": "#937ff2",
+		"base0F": "#7182a8"
+	}
 }

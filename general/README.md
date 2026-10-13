@@ -8,16 +8,16 @@ All files are generated from `palettes/` by `tools/build.py`, so edit the palett
 
 All terminal themes use the same 16 colours:
 
-| Slot | Colour | Slot | Colour |
-|---|---|---|---|
-| 0 black | selection grey (`base02`) | 8 bright black | comment grey (`base03`) |
-| 1 red | rose | 9 bright red | lighter rose |
-| 2 green | green | 10 bright green | lighter green |
-| 3 yellow | yellow (pale aqua in Abyss) | 11 bright yellow | lighter yellow |
-| 4 blue | blue | 12 bright blue | lighter blue |
-| 5 magenta | violet | 13 bright magenta | lighter violet |
-| 6 cyan | cyan | 14 bright cyan | lighter cyan |
-| 7 white | text (`base05`) | 15 bright white | `base07` |
+| Slot      | Colour                      | Slot              | Colour                  |
+| --------- | --------------------------- | ----------------- | ----------------------- |
+| 0 black   | selection grey (`base02`)   | 8 bright black    | comment grey (`base03`) |
+| 1 red     | rose                        | 9 bright red      | lighter rose            |
+| 2 green   | green                       | 10 bright green   | lighter green           |
+| 3 yellow  | yellow (pale aqua in Abyss) | 11 bright yellow  | lighter yellow          |
+| 4 blue    | blue                        | 12 bright blue    | lighter blue            |
+| 5 magenta | violet                      | 13 bright magenta | lighter violet          |
+| 6 cyan    | cyan                        | 14 bright cyan    | lighter cyan            |
+| 7 white   | text (`base05`)             | 15 bright white   | `base07`                |
 
 Black is a visible dark grey rather than the background colour, so programs that print black text stay readable.
 
@@ -119,8 +119,8 @@ Noctalia 4 called these colour schemes and read the same file from `~/.config/no
 
 ## Other formats
 
-| Folder | Use |
-|---|---|
+| Folder    | Use                                                                                                                                                                             |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `base16/` | base16 scheme files in the [tinted-theming](https://github.com/tinted-theming/home) format. Feed them to a builder such as `tinty` to theme any app that has a base16 template. |
-| `css/` | CSS custom properties, with both the base16 slots (`--base0D`) and colour names (`--rime-blue`). |
-| `fzf/` | `source fzf/rime.sh` to add Rime colours to `FZF_DEFAULT_OPTS`. |
+| `css/`    | CSS custom properties, with both the base16 slots (`--base0D`) and colour names (`--rime-blue`).                                                                                |
+| `fzf/`    | `source fzf/rime.sh` to add Rime colours to `FZF_DEFAULT_OPTS`.                                                                                                                 |
