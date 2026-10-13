@@ -24,15 +24,24 @@ class GeneratedFiles(unittest.TestCase):
             "run python3 tools/build.py and commit the result",
         )
 
-    def test_check_compares_exact_bytes(self):
+    def test_check_ignores_formatting(self):
         with tempfile.TemporaryDirectory() as tmp, mock.patch.object(
             build, "ROOT", pathlib.Path(tmp)
         ):
-            (pathlib.Path(tmp) / "crlf").write_bytes(b"a\r\n")
-            (pathlib.Path(tmp) / "same").write_bytes(b"a\n")
+            files = {
+                "crlf.lua": ("a = 1\r\n", "a = 1\n"),
+                "indent.lua": ("\ta = 1\n", "    a = 1\n"),
+                "changed.lua": ("a = 1\n", "a = 2\n"),
+                "wrapped.json": ('{"a": [1, 2]}\n', '{\n\t"a": [\n\t\t1,\n\t\t2\n\t]\n}\n'),
+                "changed.json": ('{"a": 1}\n', '{"a": 2}\n'),
+                "broken.json": ('{"a": 1\n', '{"a": 1}\n'),
+            }
+            for path, (on_disk, _) in files.items():
+                (pathlib.Path(tmp) / path).write_bytes(on_disk.encode())
+            generated = {path: text for path, (_, text) in files.items()}
             self.assertEqual(
-                build.stale({"crlf": "a\n", "same": "a\n", "missing": "a\n"}),
-                ["crlf", "missing"],
+                build.stale(generated | {"missing.lua": "a = 1\n"}),
+                ["changed.lua", "changed.json", "broken.json", "missing.lua"],
             )
 
     def test_every_variant_names_its_appearance(self):
