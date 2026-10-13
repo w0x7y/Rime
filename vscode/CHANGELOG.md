@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.4.0
 
 - Rime Frost, a light variant: frost-white background with the same cold accents, deepened to stay readable.
 
