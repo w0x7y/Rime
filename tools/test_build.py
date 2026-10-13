@@ -97,6 +97,36 @@ class LuaMatchesPython(unittest.TestCase):
             self.assertEqual(lua, {"bg_dark": py["bg_dark"], "border": py["border"], "ansi": py["ansi"]}, spec["slug"])
 
 
+class Noctalia(unittest.TestCase):
+    """Noctalia sets text in each on_* colour on its role's fill, so a palette edit must keep them readable."""
+
+    @staticmethod
+    def contrast(a, b):
+        def luminance(h):
+            r, g, b = (v / 255 / 12.92 if v <= 10 else ((v / 255 + 0.055) / 1.055) ** 2.4 for v in build.rgb(h))
+            return 0.2126 * r + 0.7152 * g + 0.0722 * b
+        hi, lo = sorted((luminance(a), luminance(b)), reverse=True)
+        return (hi + 0.05) / (lo + 0.05)
+
+    def test_on_colours_are_readable(self):
+        for spec in build.load()[0]:
+            for mode in build.noctalia(spec).values():
+                for role in ("Primary", "Secondary", "Tertiary", "Error", "Surface", "SurfaceVariant", "Hover"):
+                    self.assertGreaterEqual(self.contrast(mode[f"mOn{role}"], mode[f"m{role}"]), 4.5,
+                                            f"{spec['slug']}: mOn{role}")
+
+    def test_shell_matches_the_editor_chrome(self):
+        for spec in build.load()[0]:
+            zed, vscode = build.zed_theme(spec)["style"], build.vscode_theme(spec)["colors"]
+            mode = build.noctalia(spec)["dark"]
+            self.assertEqual(mode["mSurface"], zed["background"], spec["slug"])
+            self.assertEqual(mode["mSurface"], vscode["statusBar.background"], spec["slug"])
+            self.assertEqual(mode["mSurfaceVariant"], zed["elevated_surface.background"], spec["slug"])
+            self.assertEqual(mode["mHover"], vscode["list.activeSelectionBackground"], spec["slug"])
+            self.assertEqual(mode["mOnPrimary"], vscode["button.foreground"], spec["slug"])
+            self.assertEqual(mode["mOutline"], zed["border"], spec["slug"])
+
+
 class Docs(unittest.TestCase):
     """Prose that quotes generated values, so a release or palette change can't leave it behind."""
 
