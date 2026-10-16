@@ -2,17 +2,18 @@
 """Generate every Rime port from the palettes in ../palettes.
 
 Usage: python3 tools/build.py            rewrite every generated file
-       python3 tools/build.py --check    list generated files that are out of date, exit 1 if any
+       python3 tools/build.py --check    list generated files that are out of date or left over, exit 1 if any
 
 The palettes are the single source of truth for colours, and SYNTAX below for which
 colour each kind of code gets. Edit either, run this script, and the Neovim modules,
-Zed theme, VS Code themes, extension manifests, icon and the terminal / general-purpose
-files are all rewritten. Only the Python standard library is used.
+Zed theme, VS Code themes, extension manifests, icon, the terminal / general-purpose
+files and the website's site/data.json are all rewritten. Only the Python standard library is used.
 """
 
 import json
 import math
 import pathlib
+import re
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -63,27 +64,31 @@ def alpha(h, a):
 # --------------------------------------------------------------------------- colour names
 
 
+# The colour name of each palette slot. lua/rime/init.lua repeats it, and a test checks the two agree.
+SLOT_NAMES = {
+    "base00": "bg",
+    "base01": "bg_alt",
+    "base02": "bg_sel",
+    "base03": "comment",
+    "base04": "muted",
+    "base05": "fg",
+    "base06": "fg_bright",
+    "base07": "white",
+    "base08": "red",
+    "base09": "pink",
+    "base0A": "yellow",
+    "base0B": "green",
+    "base0C": "cyan",
+    "base0D": "blue",
+    "base0E": "violet",
+    "base0F": "steel",
+}
+
+
 def colours(spec):
     """The colour names of a variant (bg, fg, blue...), its derived shades and its 16 ANSI colours."""
     p = spec["palette"]
-    r = {
-        "bg": p["base00"],
-        "bg_alt": p["base01"],
-        "bg_sel": p["base02"],
-        "comment": p["base03"],
-        "muted": p["base04"],
-        "fg": p["base05"],
-        "fg_bright": p["base06"],
-        "white": p["base07"],
-        "red": p["base08"],
-        "pink": p["base09"],
-        "yellow": p["base0A"],
-        "green": p["base0B"],
-        "cyan": p["base0C"],
-        "blue": p["base0D"],
-        "violet": p["base0E"],
-        "steel": p["base0F"],
-    }
+    r = {name: p[slot] for slot, name in SLOT_NAMES.items()}
     dark = spec["appearance"] == "dark"
     # derived shades, named as in lua/rime/init.lua, which blends the same way at load time.
     # bg_dark is the chrome (sidebars, bars); lighter than bg on a light variant so hovers still show
@@ -112,74 +117,75 @@ ANSI_NAMES = ["black", "red", "green", "yellow", "blue", "magenta", "cyan", "whi
 
 # --------------------------------------------------------------------------- syntax roles
 
-# The colour name and default style of every syntax role that two or more editor ports
-# share. Role names follow Neovim's treesitter captures. Each port decides which of its own
-# scopes belong to which role; the colours are decided only here. Neovim reads this table
-# from lua/rime/syntax.lua, which is generated from it. Neovim users can restyle a whole group
-# of roles at once (`styles` in lua/rime/init.lua), so roles in one group share one style.
+# The colour name, default style and a note (shown on the website's syntax roles page) of
+# every syntax role that two or more editor ports share. Role names follow Neovim's
+# treesitter captures. Each port decides which of its own scopes belong to which role; the
+# colours are decided only here. Neovim reads this table from lua/rime/syntax.lua, which is
+# generated from it. Neovim users can restyle a whole group of roles at once (`styles` in
+# lua/rime/init.lua), so roles in one group share one style.
 SYNTAX = {
-    "comment": ("comment", "italic"),
-    "comment.tag": ("muted", "italic"),  # tags inside doc comments, such as @param
-    "string": ("green", ""),
-    "string.documentation": ("green", ""),
-    "string.escape": ("cyan", ""),
-    "string.regexp": ("cyan", ""),
-    "string.special": ("cyan", ""),
-    "string.special.symbol": ("pink", ""),
-    "number": ("pink", ""),
-    "boolean": ("pink", ""),
-    "constant": ("pink", ""),  # also enum members
-    "constant.builtin": ("cyan", ""),  # null, undefined
-    "variable": ("fg", ""),
-    "variable.builtin": ("cyan", ""),  # self, this
-    "variable.parameter": ("fg", ""),
-    "variable.member": ("fg", ""),  # fields and property access
-    "property": ("red", ""),  # keys in key/value data such as JSON, YAML and CSS
-    "function": ("blue", ""),
-    "function.builtin": ("cyan", ""),
-    "function.macro": ("cyan", ""),
-    "constructor": ("cyan", ""),
-    "attribute": ("cyan", ""),  # decorators and annotations
-    "type": ("yellow", ""),
-    "type.builtin": ("cyan", ""),
-    "module": ("yellow", ""),
-    "lifetime": ("pink", "italic"),
-    "label": ("yellow", ""),
-    "keyword": ("violet", ""),
-    "keyword.conditional": ("red", "bold"),
-    "keyword.repeat": ("yellow", ""),
-    "keyword.return": ("red", ""),
-    "keyword.exception": ("red", ""),
-    "keyword.import": ("violet", ""),
-    "keyword.modifier": ("violet", ""),
-    "keyword.directive": ("yellow", ""),  # preprocessor
-    "operator": ("muted", ""),
-    "punctuation": ("steel", ""),
-    "punctuation.special": ("cyan", ""),  # string interpolation brackets
-    "tag": ("red", ""),
-    "tag.attribute": ("yellow", ""),
-    "selector": ("yellow", ""),
-    "selector.pseudo": ("violet", ""),
-    "markup.heading": ("blue", "bold"),
-    "markup.strong": (None, "bold"),
-    "markup.italic": (None, "italic"),
-    "markup.strikethrough": (None, "strikethrough"),
-    "markup.quote": ("muted", "italic"),
-    "markup.list": ("red", ""),
-    "markup.raw": ("green", ""),
-    "markup.link.label": ("cyan", ""),
-    "markup.link.url": ("blue", "underline"),
-    "diff.plus": ("green", ""),
-    "diff.minus": ("red", ""),
-    "diff.delta": ("blue", ""),
-    "diff.range": ("violet", ""),
-    "deprecated": (None, "strikethrough"),
+    "comment": ("comment", "italic", ""),
+    "comment.tag": ("muted", "italic", "tags inside doc comments, such as @param"),
+    "string": ("green", "", ""),
+    "string.documentation": ("green", "", ""),
+    "string.escape": ("cyan", "", ""),
+    "string.regexp": ("cyan", "", ""),
+    "string.special": ("cyan", "", ""),
+    "string.special.symbol": ("pink", "", ""),
+    "number": ("pink", "", ""),
+    "boolean": ("pink", "", ""),
+    "constant": ("pink", "", "also enum members"),
+    "constant.builtin": ("cyan", "", "null, undefined"),
+    "variable": ("fg", "", ""),
+    "variable.builtin": ("cyan", "", "self, this"),
+    "variable.parameter": ("fg", "", ""),
+    "variable.member": ("fg", "", "fields and property access"),
+    "property": ("red", "", "keys in key/value data such as JSON, YAML and CSS"),
+    "function": ("blue", "", ""),
+    "function.builtin": ("cyan", "", ""),
+    "function.macro": ("cyan", "", ""),
+    "constructor": ("cyan", "", ""),
+    "attribute": ("cyan", "", "decorators and annotations"),
+    "type": ("yellow", "", ""),
+    "type.builtin": ("cyan", "", ""),
+    "module": ("yellow", "", ""),
+    "lifetime": ("pink", "italic", ""),
+    "label": ("yellow", "", ""),
+    "keyword": ("violet", "", ""),
+    "keyword.conditional": ("red", "bold", ""),
+    "keyword.repeat": ("yellow", "", ""),
+    "keyword.return": ("red", "", ""),
+    "keyword.exception": ("red", "", ""),
+    "keyword.import": ("violet", "", ""),
+    "keyword.modifier": ("violet", "", ""),
+    "keyword.directive": ("yellow", "", "preprocessor"),
+    "operator": ("muted", "", ""),
+    "punctuation": ("steel", "", ""),
+    "punctuation.special": ("cyan", "", "string interpolation brackets"),
+    "tag": ("red", "", ""),
+    "tag.attribute": ("yellow", "", ""),
+    "selector": ("yellow", "", ""),
+    "selector.pseudo": ("violet", "", ""),
+    "markup.heading": ("blue", "bold", ""),
+    "markup.strong": (None, "bold", ""),
+    "markup.italic": (None, "italic", ""),
+    "markup.strikethrough": (None, "strikethrough", ""),
+    "markup.quote": ("muted", "italic", ""),
+    "markup.list": ("red", "", ""),
+    "markup.raw": ("green", "", ""),
+    "markup.link.label": ("cyan", "", ""),
+    "markup.link.url": ("blue", "underline", ""),
+    "diff.plus": ("green", "", ""),
+    "diff.minus": ("red", "", ""),
+    "diff.delta": ("blue", "", ""),
+    "diff.range": ("violet", "", ""),
+    "deprecated": (None, "strikethrough", ""),
 }
 
 
 def syntax(c, role):
     """A syntax role as (colour or None, style), with the colour name resolved."""
-    name, style = SYNTAX[role]
+    name, style, _ = SYNTAX[role]
     return (c[name] if name else None), style
 
 
@@ -206,7 +212,7 @@ def nvim_variants(specs):
 
 def nvim_syntax():
     def entry(role):
-        name, style = SYNTAX[role]
+        name, style, _ = SYNTAX[role]
         fg = f'fg = "{name}", ' if name else ""
         attrs = ", ".join(f"{a} = true" for a in style.split())
         return f'  ["{role}"] = {{ {fg}style = {{{f" {attrs} " if attrs else ""}}} }},'
@@ -1533,7 +1539,50 @@ def load():
         json.loads((ROOT / "palettes" / f"{slug}.json").read_text(encoding="utf-8"))
         for slug in ORDER
     ]
+    for spec in specs:
+        # nvim_key and the plugin's colors_name read a slug as "rime" or "rime-<key>", and it
+        # becomes part of every generated file's path
+        if not re.fullmatch(r"rime(-[a-z0-9]+)*", spec["slug"]):
+            raise ValueError(f'{spec["slug"]}: a variant\'s slug is "rime" or "rime-" and lowercase letters, digits and dashes')
     return specs, (ROOT / "LICENSE").read_text(encoding="utf-8")
+
+
+# The ports that are one file per variant: (port, its path with {slug} for the variant, its text).
+# build() writes them from here, and the website offers them as downloads.
+PER_VARIANT = [
+    ("base16", "general/base16/{slug}.yaml", base16_yaml),
+    ("kitty", "general/kitty/{slug}.conf", kitty),
+    ("alacritty", "general/alacritty/{slug}.toml", alacritty),
+    ("ghostty", "general/ghostty/{slug}", ghostty),
+    ("wezterm", "general/wezterm/{slug}.toml", wezterm),
+    ("foot", "general/foot/{slug}.ini", foot),
+    ("xresources", "general/xresources/{slug}.Xresources", xresources),
+    ("iterm2", "general/iterm2/{slug}.itermcolors", iterm),
+    ("css", "general/css/{slug}.css", css),
+    ("fzf", "general/fzf/{slug}.sh", fzf),
+    ("noctalia", "general/noctalia/{slug}.json", lambda spec: json.dumps(noctalia(spec), indent=2) + "\n"),
+]
+
+
+def site_data(specs, downloads):
+    """What site/build.ts shows: the colour names, each variant's colours, the syntax roles and each port's files."""
+    derived = [n for n, v in colours(specs[0]).items() if isinstance(v, str) and n not in SLOT_NAMES.values()]
+    return {
+        "version": VERSION,
+        "colour_names": [{"name": n, "slot": s} for s, n in SLOT_NAMES.items()] + [{"name": n, "slot": None} for n in derived],
+        "variants": [
+            {
+                "slug": spec["slug"],
+                "name": spec["name"],
+                "key": nvim_key(spec["slug"]),
+                "appearance": spec["appearance"],
+                "colours": {n: v for n, v in colours(spec).items() if isinstance(v, str)},
+            }
+            for spec in specs
+        ],
+        "syntax": [{"role": r, "colour": c, "style": st, "note": note} for r, (c, st, note) in SYNTAX.items()],
+        "downloads": downloads,
+    }
 
 
 def build(specs, licence):
@@ -1552,19 +1601,8 @@ def build(specs, licence):
         files[f"vscode/themes/{slug}-color-theme.json"] = (
             json.dumps(vscode_theme(spec), indent=2) + "\n"
         )
-        files[f"general/base16/{slug}.yaml"] = base16_yaml(spec)
-        files[f"general/kitty/{slug}.conf"] = kitty(spec)
-        files[f"general/alacritty/{slug}.toml"] = alacritty(spec)
-        files[f"general/ghostty/{slug}"] = ghostty(spec)
-        files[f"general/wezterm/{slug}.toml"] = wezterm(spec)
-        files[f"general/foot/{slug}.ini"] = foot(spec)
-        files[f"general/xresources/{slug}.Xresources"] = xresources(spec)
-        files[f"general/iterm2/{slug}.itermcolors"] = iterm(spec)
-        files[f"general/css/{slug}.css"] = css(spec)
-        files[f"general/fzf/{slug}.sh"] = fzf(spec)
-        files[f"general/noctalia/{slug}.json"] = (
-            json.dumps(noctalia(spec), indent=2) + "\n"
-        )
+        for _, path, text in PER_VARIANT:
+            files[path.format(slug=slug)] = text(spec)
         files[f"assets/palette-{slug}.svg"] = swatch_svg(spec)
     files["zed/themes/rime.json"] = (
         json.dumps(
@@ -1587,6 +1625,15 @@ def build(specs, licence):
     # extension folders are published on their own, so each carries the licence
     for folder in ("zed", "vscode"):
         files[f"{folder}/LICENSE"] = licence
+    downloads = {port: path for port, path, _ in PER_VARIANT} | {
+        "zed": "zed/themes/rime.json",
+        "windows-terminal": "general/windows-terminal/rime.json",
+    }
+    for port, path in downloads.items():
+        for spec in specs:
+            if path.format(slug=spec["slug"]) not in files:
+                raise ValueError(f"the {port} download {path} is not a file build() writes")
+    files["site/data.json"] = json.dumps(site_data(specs, downloads), indent=2) + "\n"
     return files
 
 
@@ -1613,18 +1660,37 @@ def stale(files):
     ]
 
 
+# folders that hold only generated files, so anything else in one is left over from an older build
+GENERATED_DIRS = ["general/*", "colors", "lua/lualine/themes", "lua/rime/palettes", "vscode/themes", "zed/themes"]
+
+
+def leftover(files):
+    """Files in a generated folder that `files` doesn't include, such as a renamed variant's."""
+    return sorted(
+        path.relative_to(ROOT).as_posix()
+        for pattern in GENERATED_DIRS
+        for folder in ROOT.glob(pattern)
+        if folder.is_dir()
+        for path in folder.iterdir()
+        if path.is_file() and path.relative_to(ROOT).as_posix() not in files
+    )
+
+
 def main(args):
     if args not in ([], ["--check"]):
         print(__doc__, file=sys.stderr)
         return 2
     files = build(*load())
+    old = leftover(files)
+    for path in old:
+        print(f"no longer generated, delete it: {path}")
     if args == ["--check"]:
         outdated = stale(files)
         for path in outdated:
             print(f"out of date: {path}")
         if outdated:
             print("run python3 tools/build.py to regenerate them", file=sys.stderr)
-        return 1 if outdated else 0
+        return 1 if outdated or old else 0
     outdated = stale(files)  # leave files that only differ in formatting alone
     for path in outdated:
         target = ROOT / path
