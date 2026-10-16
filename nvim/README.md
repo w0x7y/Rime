@@ -2,7 +2,7 @@
 
 ![Rime in Neovim](../assets/screenshot-rime.png)
 
-A Lua colour scheme with five variants:
+A Lua color scheme with five variants:
 
 | Command                     | Variant      |
 | --------------------------- | ------------ |
@@ -12,7 +12,7 @@ A Lua colour scheme with five variants:
 | `:colorscheme rime-abyss`   | Rime Abyss   |
 | `:colorscheme rime-frost`   | Rime Frost   |
 
-It covers the editor UI, legacy syntax groups, treesitter captures, LSP semantic tokens, diagnostics and terminal colours. It also styles gitsigns, mini.diff, telescope, fzf-lua, snacks, nvim-cmp, blink.cmp, which-key, indent-blankline, flash, noice, lazy.nvim, mason, nvim-tree, neo-tree and lualine.
+It covers the editor UI, legacy syntax groups, treesitter captures, LSP semantic tokens, diagnostics and terminal colors. It also styles gitsigns, mini.diff, telescope, fzf-lua, snacks, nvim-cmp, blink.cmp, which-key, indent-blankline, flash, noice, lazy.nvim, mason, nvim-tree, neo-tree and lualine.
 
 Tested on Neovim 0.12. Treesitter capture names follow Neovim 0.10+.
 
@@ -88,7 +88,7 @@ require("rime").setup({
 
 A style table replaces the default rather than merging into it, so `comments = {}` turns comment italics off. `keywords` applies to every keyword kind except conditionals, which use `conditionals`.
 
-`on_colors` changes the colours before any group is built. Derived shades such as `bg_dark`, `border` and the diff backgrounds follow your changes:
+`on_colors` changes the colors before any group is built. Derived shades such as `bg_dark`, `border` and the diff backgrounds follow your changes:
 
 ```lua
 require("rime").setup({
@@ -112,13 +112,13 @@ require("rime").setup({
 })
 ```
 
-Colour names available in `c`:
+Color names available in `c`:
 
-- Base colours: `bg`, `bg_alt`, `bg_sel`, `comment`, `muted`, `fg`, `fg_bright`, `white`, `red`, `pink`, `yellow`, `green`, `cyan`, `blue`, `violet`, `steel`
+- Base colors: `bg`, `bg_alt`, `bg_sel`, `comment`, `muted`, `fg`, `fg_bright`, `white`, `red`, `pink`, `yellow`, `green`, `cyan`, `blue`, `violet`, `steel`
 - Derived shades: `bg_dark` (the sidebar shade, darker than `bg` on dark variants and lighter on Rime Frost), `border`, `colorcolumn`, `whitespace`, `search`, `diff_add`, `diff_change`, `diff_text`, `diff_delete`, and the diagnostic virtual-text backgrounds `diag_error`, `diag_warn`, `diag_info`, `diag_hint`, `diag_ok`
-- `none`, meaning "NONE" (no colour)
+- `none`, meaning "NONE" (no color)
 
-## Using the colours elsewhere
+## Using the colors elsewhere
 
 ```lua
 local c = require("rime").colors("abyss") -- "rime", "glacier", "aurora", "abyss", "frost" or a full name like "rime-abyss"; on_colors is applied
@@ -133,18 +133,18 @@ lualine picks up the matching theme automatically with `theme = "auto"`. You can
 require("lualine").setup({ options = { theme = "rime-glacier" } })
 ```
 
-## Keyword colours
+## Keyword colors
 
-Rime gives each kind of keyword its own colour instead of painting them all the same:
+Rime gives each kind of keyword its own color instead of painting them all the same:
 
-| Treesitter group                                   | Colour    | Examples                      |
+| Treesitter group                                   | Color     | Examples                      |
 | -------------------------------------------------- | --------- | ----------------------------- |
 | `@keyword`, `@keyword.function`, `@keyword.import` | violet    | `const`, `function`, `import` |
 | `@keyword.repeat`                                  | yellow    | `for`, `while`, `continue`    |
 | `@keyword.conditional`                             | bold rose | `if`, `else`                  |
 | `@keyword.return`, `@keyword.exception`            | rose      | `return`, `try`, `throw`      |
 
-To make every keyword one colour, link them back in `on_highlights`:
+To make every keyword one color, link them back in `on_highlights`:
 
 ```lua
 on_highlights = function(hl)
@@ -164,6 +164,6 @@ end
 
 - `colors/*.lua`: one entry point per variant
 - `lua/lualine/themes/*.lua`: one lualine theme per variant
-- `lua/rime/palettes/*.lua`: the colours of each variant
+- `lua/rime/palettes/*.lua`: the colors of each variant
 - `lua/rime/variants.lua`: the variant names, default first
-- `lua/rime/syntax.lua`: the colour and default style of each syntax role, shared with Zed and VS Code
+- `lua/rime/syntax.lua`: the color and default style of each syntax role, shared with Zed and VS Code

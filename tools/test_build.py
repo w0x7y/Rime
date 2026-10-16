@@ -24,6 +24,12 @@ class GeneratedFiles(unittest.TestCase):
             "run python3 tools/build.py and commit the result",
         )
 
+    def test_check_flags_files_build_no_longer_writes(self):
+        files = build.build(*build.load())
+        self.assertEqual(build.leftover(files), [], "delete these, or generate them again")
+        del files["general/kitty/rime.conf"]  # as if the variant were renamed
+        self.assertEqual(build.leftover(files), ["general/kitty/rime.conf"])
+
     def test_check_ignores_formatting(self):
         with tempfile.TemporaryDirectory() as tmp, mock.patch.object(
             build, "ROOT", pathlib.Path(tmp)
@@ -111,21 +117,24 @@ class SyntaxRoles(unittest.TestCase):
     shutil.which("nvim") or os.environ.get("RIME_REQUIRE_NVIM"), "needs nvim"
 )
 class LuaMatchesPython(unittest.TestCase):
-    """Neovim blends its derived shades at load time, after on_colors. Unchanged, they must equal the generated ports'."""
+    """Neovim names the palette slots and blends its derived shades at load time, after on_colors. Unchanged, they must equal the generated ports'."""
 
     LUA = """
     local rime = require("rime")
     local out = {}
     for _, v in ipairs(rime.variants) do
       rime.load(v)
-      local c, term = rime.colors(v), {}
+      local c, names, term = rime.colors(v), {}, {}
+      for k, colour in pairs(c) do
+        if type(colour) == "string" then names[k] = colour end
+      end
       for i = 0, 15 do term[i + 1] = vim.g["terminal_color_" .. i] end
-      out[#out + 1] = { bg_dark = c.bg_dark, border = c.border, ansi = term }
+      out[#out + 1] = { names = names, ansi = term }
     end
     io.stdout:write(vim.json.encode(out))
     """
 
-    def test_derived_shades_and_terminal_colours(self):
+    def test_colour_names_derived_shades_and_terminal_colours(self):
         with tempfile.NamedTemporaryFile("w", suffix=".lua") as script:
             script.write(self.LUA)
             script.flush()
@@ -146,11 +155,10 @@ class LuaMatchesPython(unittest.TestCase):
             )
         for spec, lua in zip(build.load()[0], json.loads(run.stdout)):
             py = build.colours(spec)
-            self.assertEqual(
-                lua,
-                {"bg_dark": py["bg_dark"], "border": py["border"], "ansi": py["ansi"]},
-                spec["slug"],
-            )
+            # every colour name and derived shade the ports use; the plugin has more shades of its own
+            names = {k: v for k, v in py.items() if isinstance(v, str)}
+            self.assertEqual({k: lua["names"].get(k) for k in names}, names, spec["slug"])
+            self.assertEqual(lua["ansi"], py["ansi"], spec["slug"])
 
 
 class Noctalia(unittest.TestCase):

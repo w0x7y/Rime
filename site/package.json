@@ -1,0 +1,19 @@
+{
+  "name": "rime-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun serve.ts",
+    "build": "bun build.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@fontsource/maple-mono": "^5.3.0",
+    "marked": "^18.1.1",
+    "shiki": "^4.5.0"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.4.3",
+    "typescript": "^5.9.3"
+  }
+}

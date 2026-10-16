@@ -1,0 +1,18 @@
+version: 2
+updates:
+  # the workflows pin each action to a commit; this opens a PR when a new release comes out
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      actions:
+        patterns: ["*"]
+  # the site's build packages, from site/bun.lock
+  - package-ecosystem: bun
+    directory: /site
+    schedule:
+      interval: monthly
+    groups:
+      site:
+        patterns: ["*"]

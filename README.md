@@ -1,10 +1,10 @@
 **Rime**
 
-a colder colorscheme
+a colder colorscheme. [website](https://w0x7y.github.io/Rime/)
 
 <img width="370" alt="rust code in rime" src="assets/demo.png" />
 
-It is a opposite of [bark](https://github.com/if-not-nil/bark) with a mix of [one dark pro](https://github.com/Binaryify/OneDark-Pro)
+the opposite of [bark](https://github.com/if-not-nil/bark), with a little [one dark pro](https://github.com/Binaryify/OneDark-Pro) mixed in
 
 **variants**
 
@@ -79,12 +79,16 @@ for kitty, put `general/kitty/rime.conf` into `~/.config/kitty/rime.conf`, then 
 
 **[changing colors](./palettes)**
 
-every variant is 16 colors in `palettes/`. which color each kind of code gets (functions, keywords, comments) is the `SYNTAX` table in `tools/build.py`, shared by neovim, zed and vscode. edit either and run `python3 tools/build.py`. it rewrites the neovim, zed, vscode and terminal files with only the python standard library
+every variant is 16 colors in `palettes/`. which color each kind of code gets (functions, keywords, comments) is the `SYNTAX` table in `tools/build.py`, shared by neovim, zed and vscode. edit either and run `python3 tools/build.py`. it rewrites the neovim, zed, vscode and terminal files and the website's data with only the python standard library
 
-`python3 tools/build.py --check` lists anything out of date and `python3 -m unittest discover -s tools` runs the tests. the screenshots and the vscode icon png come from `python3 tools/screenshots/render.py`
+`python3 tools/build.py --check` lists anything out of date or no longer generated, and `python3 -m unittest discover -s tools` runs the tests. the screenshots and the vscode icon png come from `python3 tools/screenshots/render.py`
+
+**[website](./site)**
+
+the site at [w0x7y.github.io/Rime](https://w0x7y.github.io/Rime/) is built from `site/` and deployed from `main`. how to run it is in [site/](./site)
 
 **[your own](https://github.com/w0x7y/Rime/pulls)**
 
-if you port it into your software of choice, open a pull request
+if you port it into your software of choice, open a pull request. the [porting guide](https://w0x7y.github.io/Rime/docs/porting/) shows how ports are made
 
 _credits: [bark](https://github.com/if-not-nil/bark) by if-not-nil, the warm scheme rime flips around. license: [mit](./LICENSE)_

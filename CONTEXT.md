@@ -6,24 +6,25 @@ A cold colorscheme, shipped as several variants and ported to many editors and t
 
 **Variant**:
 One complete colorscheme: Rime, Rime Glacier, Rime Aurora, Rime Abyss or Rime Frost. The first, Rime, is the default. Each variant has an appearance, dark or light; Rime Frost is light and the other four are dark.
-_Avoid_: flavour, style, theme (when you mean one variant)
+_Avoid_: flavor, style, theme (when you mean one variant)
 
 **Palette**:
-The 16 base16 colours that define a variant. Every other colour in every port comes from it.
+The 16 base16 colors that define a variant. Every other color in every port comes from it.
 _Avoid_: colorscheme, theme file
 
 **Port**:
 Rime's files for one piece of software, such as Neovim, Zed, VS Code or kitty.
 _Avoid_: integration, extension (that is a Zed and VS Code packaging term)
 
-**Colour name**:
+**Color name**:
 The meaning given to one palette slot, such as `bg`, `comment`, `fg` or `blue`.
 _Avoid_: semantic role, role (a role is what a token is, see Syntax role)
+Code in `tools/` spells it colour (`colours()`, `colour_names`); keep those identifiers, and use color in new names and prose.
 
 **Syntax role**:
-What a piece of code is, such as a function, keyword, comment or JSON key, and the colour name and style it gets. Roles are shared by the editor ports; each port decides which of its own token names belong to which role.
+What a piece of code is, such as a function, keyword, comment or JSON key, and the color name and style it gets. Roles are shared by the editor ports; each port decides which of its own token names belong to which role.
 _Avoid_: token type, scope, highlight group, capture (those are one editor's names for a role)
 
 **Derived shade**:
-A colour made by blending colour names, such as `bg_dark`, `border` or a diff background.
-_Avoid_: computed colour, extra colour
+A color made by blending color names, such as `bg_dark`, `border` or a diff background.
+_Avoid_: computed color, extra color

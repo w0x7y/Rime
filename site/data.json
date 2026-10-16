@@ -1,0 +1,562 @@
+{
+  "version": "0.4.0",
+  "colour_names": [
+    {
+      "name": "bg",
+      "slot": "base00"
+    },
+    {
+      "name": "bg_alt",
+      "slot": "base01"
+    },
+    {
+      "name": "bg_sel",
+      "slot": "base02"
+    },
+    {
+      "name": "comment",
+      "slot": "base03"
+    },
+    {
+      "name": "muted",
+      "slot": "base04"
+    },
+    {
+      "name": "fg",
+      "slot": "base05"
+    },
+    {
+      "name": "fg_bright",
+      "slot": "base06"
+    },
+    {
+      "name": "white",
+      "slot": "base07"
+    },
+    {
+      "name": "red",
+      "slot": "base08"
+    },
+    {
+      "name": "pink",
+      "slot": "base09"
+    },
+    {
+      "name": "yellow",
+      "slot": "base0A"
+    },
+    {
+      "name": "green",
+      "slot": "base0B"
+    },
+    {
+      "name": "cyan",
+      "slot": "base0C"
+    },
+    {
+      "name": "blue",
+      "slot": "base0D"
+    },
+    {
+      "name": "violet",
+      "slot": "base0E"
+    },
+    {
+      "name": "steel",
+      "slot": "base0F"
+    },
+    {
+      "name": "bg_dark",
+      "slot": null
+    },
+    {
+      "name": "border",
+      "slot": null
+    }
+  ],
+  "variants": [
+    {
+      "slug": "rime",
+      "name": "Rime",
+      "key": "rime",
+      "appearance": "dark",
+      "colours": {
+        "bg": "#23272e",
+        "bg_alt": "#2b3038",
+        "bg_sel": "#3a404b",
+        "comment": "#6b768c",
+        "muted": "#9aa4b6",
+        "fg": "#c3ccd9",
+        "fg_bright": "#dce2eb",
+        "white": "#f0f3f8",
+        "red": "#d98a9c",
+        "pink": "#e8a8cc",
+        "yellow": "#e4d098",
+        "green": "#9ad8ac",
+        "cyan": "#7cc4d0",
+        "blue": "#7aa4e4",
+        "violet": "#bb98d6",
+        "steel": "#7987a1",
+        "bg_dark": "#1d2026",
+        "border": "#333842"
+      }
+    },
+    {
+      "slug": "rime-glacier",
+      "name": "Rime Glacier",
+      "key": "glacier",
+      "appearance": "dark",
+      "colours": {
+        "bg": "#23272e",
+        "bg_alt": "#2b3038",
+        "bg_sel": "#3a404b",
+        "comment": "#6b768c",
+        "muted": "#9aa4b6",
+        "fg": "#c5cedd",
+        "fg_bright": "#dfe5ee",
+        "white": "#f3f6fa",
+        "red": "#e07a90",
+        "pink": "#f2a7e0",
+        "yellow": "#e3dc9e",
+        "green": "#88d8a0",
+        "cyan": "#6fd0d8",
+        "blue": "#6eaaf0",
+        "violet": "#ae94f0",
+        "steel": "#788bb0",
+        "bg_dark": "#1d2026",
+        "border": "#333842"
+      }
+    },
+    {
+      "slug": "rime-aurora",
+      "name": "Rime Aurora",
+      "key": "aurora",
+      "appearance": "dark",
+      "colours": {
+        "bg": "#23272e",
+        "bg_alt": "#2b3038",
+        "bg_sel": "#3a404b",
+        "comment": "#6b768c",
+        "muted": "#9aa4b6",
+        "fg": "#c8d2e2",
+        "fg_bright": "#e0e7f2",
+        "white": "#f5f8fc",
+        "red": "#ff6f91",
+        "pink": "#ff8fe0",
+        "yellow": "#e6f07c",
+        "green": "#5ef0a6",
+        "cyan": "#38dce8",
+        "blue": "#4fa2ff",
+        "violet": "#9b7dff",
+        "steel": "#7084b7",
+        "bg_dark": "#1d2026",
+        "border": "#333842"
+      }
+    },
+    {
+      "slug": "rime-abyss",
+      "name": "Rime Abyss",
+      "key": "abyss",
+      "appearance": "dark",
+      "colours": {
+        "bg": "#23272e",
+        "bg_alt": "#2b3038",
+        "bg_sel": "#3a404b",
+        "comment": "#6b768c",
+        "muted": "#9aa4b6",
+        "fg": "#c2cde0",
+        "fg_bright": "#dde5f2",
+        "white": "#f2f6fc",
+        "red": "#e8879f",
+        "pink": "#d4aaff",
+        "yellow": "#9cf0dc",
+        "green": "#6fd0a8",
+        "cyan": "#4fb4dc",
+        "blue": "#6b9cf4",
+        "violet": "#937ff2",
+        "steel": "#7182a8",
+        "bg_dark": "#1d2026",
+        "border": "#333842"
+      }
+    },
+    {
+      "slug": "rime-frost",
+      "name": "Rime Frost",
+      "key": "frost",
+      "appearance": "light",
+      "colours": {
+        "bg": "#eef1f5",
+        "bg_alt": "#e3e7ee",
+        "bg_sel": "#d2d8e2",
+        "comment": "#7f899b",
+        "muted": "#566073",
+        "fg": "#363d4a",
+        "fg_bright": "#272d37",
+        "white": "#181c23",
+        "red": "#b83d63",
+        "pink": "#a34396",
+        "yellow": "#866405",
+        "green": "#267b4f",
+        "cyan": "#0f7480",
+        "blue": "#2e62c0",
+        "violet": "#7650c4",
+        "steel": "#5f7090",
+        "bg_dark": "#f7f8fa",
+        "border": "#dbe0e8"
+      }
+    }
+  ],
+  "syntax": [
+    {
+      "role": "comment",
+      "colour": "comment",
+      "style": "italic",
+      "note": ""
+    },
+    {
+      "role": "comment.tag",
+      "colour": "muted",
+      "style": "italic",
+      "note": "tags inside doc comments, such as @param"
+    },
+    {
+      "role": "string",
+      "colour": "green",
+      "style": "",
+      "note": ""
+    },
+    {
+      "role": "string.documentation",
+      "colour": "green",
+      "style": "",
+      "note": ""
+    },
+    {
+      "role": "string.escape",
+      "colour": "cyan",
+      "style": "",
+      "note": ""
+    },
+    {
+      "role": "string.regexp",
+      "colour": "cyan",
+      "style": "",
+      "note": ""
+    },
+    {
+      "role": "string.special",
+      "colour": "cyan",
+      "style": "",
+      "note": ""
+    },
+    {
+      "role": "string.special.symbol",
+      "colour": "pink",
+      "style": "",
+      "note": ""
+    },
+    {
+      "role": "number",
+      "colour": "pink",
+      "style": "",
+      "note": ""
+    },
+    {
+      "role": "boolean",
+      "colour": "pink",
+      "style": "",
+      "note": ""
+    },
+    {
+      "role": "constant",
+      "colour": "pink",
+      "style": "",
+      "note": "also enum members"
+    },
+    {
+      "role": "constant.builtin",
+      "colour": "cyan",
+      "style": "",
+      "note": "null, undefined"
+    },
+    {
+      "role": "variable",
+      "colour": "fg",
+      "style": "",
+      "note": ""
+    },
+    {
+      "role": "variable.builtin",
+      "colour": "cyan",
+      "style": "",
+      "note": "self, this"
+    },
+    {
+      "role": "variable.parameter",
+      "colour": "fg",
+      "style": "",
+      "note": ""
+    },
+    {
+      "role": "variable.member",
+      "colour": "fg",
+      "style": "",
+      "note": "fields and property access"
+    },
+    {
+      "role": "property",
+      "colour": "red",
+      "style": "",
+      "note": "keys in key/value data such as JSON, YAML and CSS"
+    },
+    {
+      "role": "function",
+      "colour": "blue",
+      "style": "",
+      "note": ""
+    },
+    {
+      "role": "function.builtin",
+      "colour": "cyan",
+      "style": "",
+      "note": ""
+    },
+    {
+      "role": "function.macro",
+      "colour": "cyan",
+      "style": "",
+      "note": ""
+    },
+    {
+      "role": "constructor",
+      "colour": "cyan",
+      "style": "",
+      "note": ""
+    },
+    {
+      "role": "attribute",
+      "colour": "cyan",
+      "style": "",
+      "note": "decorators and annotations"
+    },
+    {
+      "role": "type",
+      "colour": "yellow",
+      "style": "",
+      "note": ""
+    },
+    {
+      "role": "type.builtin",
+      "colour": "cyan",
+      "style": "",
+      "note": ""
+    },
+    {
+      "role": "module",
+      "colour": "yellow",
+      "style": "",
+      "note": ""
+    },
+    {
+      "role": "lifetime",
+      "colour": "pink",
+      "style": "italic",
+      "note": ""
+    },
+    {
+      "role": "label",
+      "colour": "yellow",
+      "style": "",
+      "note": ""
+    },
+    {
+      "role": "keyword",
+      "colour": "violet",
+      "style": "",
+      "note": ""
+    },
+    {
+      "role": "keyword.conditional",
+      "colour": "red",
+      "style": "bold",
+      "note": ""
+    },
+    {
+      "role": "keyword.repeat",
+      "colour": "yellow",
+      "style": "",
+      "note": ""
+    },
+    {
+      "role": "keyword.return",
+      "colour": "red",
+      "style": "",
+      "note": ""
+    },
+    {
+      "role": "keyword.exception",
+      "colour": "red",
+      "style": "",
+      "note": ""
+    },
+    {
+      "role": "keyword.import",
+      "colour": "violet",
+      "style": "",
+      "note": ""
+    },
+    {
+      "role": "keyword.modifier",
+      "colour": "violet",
+      "style": "",
+      "note": ""
+    },
+    {
+      "role": "keyword.directive",
+      "colour": "yellow",
+      "style": "",
+      "note": "preprocessor"
+    },
+    {
+      "role": "operator",
+      "colour": "muted",
+      "style": "",
+      "note": ""
+    },
+    {
+      "role": "punctuation",
+      "colour": "steel",
+      "style": "",
+      "note": ""
+    },
+    {
+      "role": "punctuation.special",
+      "colour": "cyan",
+      "style": "",
+      "note": "string interpolation brackets"
+    },
+    {
+      "role": "tag",
+      "colour": "red",
+      "style": "",
+      "note": ""
+    },
+    {
+      "role": "tag.attribute",
+      "colour": "yellow",
+      "style": "",
+      "note": ""
+    },
+    {
+      "role": "selector",
+      "colour": "yellow",
+      "style": "",
+      "note": ""
+    },
+    {
+      "role": "selector.pseudo",
+      "colour": "violet",
+      "style": "",
+      "note": ""
+    },
+    {
+      "role": "markup.heading",
+      "colour": "blue",
+      "style": "bold",
+      "note": ""
+    },
+    {
+      "role": "markup.strong",
+      "colour": null,
+      "style": "bold",
+      "note": ""
+    },
+    {
+      "role": "markup.italic",
+      "colour": null,
+      "style": "italic",
+      "note": ""
+    },
+    {
+      "role": "markup.strikethrough",
+      "colour": null,
+      "style": "strikethrough",
+      "note": ""
+    },
+    {
+      "role": "markup.quote",
+      "colour": "muted",
+      "style": "italic",
+      "note": ""
+    },
+    {
+      "role": "markup.list",
+      "colour": "red",
+      "style": "",
+      "note": ""
+    },
+    {
+      "role": "markup.raw",
+      "colour": "green",
+      "style": "",
+      "note": ""
+    },
+    {
+      "role": "markup.link.label",
+      "colour": "cyan",
+      "style": "",
+      "note": ""
+    },
+    {
+      "role": "markup.link.url",
+      "colour": "blue",
+      "style": "underline",
+      "note": ""
+    },
+    {
+      "role": "diff.plus",
+      "colour": "green",
+      "style": "",
+      "note": ""
+    },
+    {
+      "role": "diff.minus",
+      "colour": "red",
+      "style": "",
+      "note": ""
+    },
+    {
+      "role": "diff.delta",
+      "colour": "blue",
+      "style": "",
+      "note": ""
+    },
+    {
+      "role": "diff.range",
+      "colour": "violet",
+      "style": "",
+      "note": ""
+    },
+    {
+      "role": "deprecated",
+      "colour": null,
+      "style": "strikethrough",
+      "note": ""
+    }
+  ],
+  "downloads": {
+    "base16": "general/base16/{slug}.yaml",
+    "kitty": "general/kitty/{slug}.conf",
+    "alacritty": "general/alacritty/{slug}.toml",
+    "ghostty": "general/ghostty/{slug}",
+    "wezterm": "general/wezterm/{slug}.toml",
+    "foot": "general/foot/{slug}.ini",
+    "xresources": "general/xresources/{slug}.Xresources",
+    "iterm2": "general/iterm2/{slug}.itermcolors",
+    "css": "general/css/{slug}.css",
+    "fzf": "general/fzf/{slug}.sh",
+    "noctalia": "general/noctalia/{slug}.json",
+    "zed": "zed/themes/rime.json",
+    "windows-terminal": "general/windows-terminal/rime.json"
+  }
+}

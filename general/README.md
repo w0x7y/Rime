@@ -4,13 +4,13 @@ Every file here comes in five variants (`rime`, `rime-glacier`, `rime-aurora`, `
 
 All files are generated from `palettes/` by `tools/build.py`, so edit the palettes rather than these files.
 
-## Terminal colours
+## Terminal colors
 
-The dark variants use these 16 colours:
+The dark variants use these 16 colors:
 
-| Slot      | Colour                      | Slot              | Colour                  |
+| Slot      | Color                       | Slot              | Color                   |
 | --------- | --------------------------- | ----------------- | ----------------------- |
-| 0 black   | selection grey (`base02`)   | 8 bright black    | comment grey (`base03`) |
+| 0 black   | selection gray (`base02`)   | 8 bright black    | comment gray (`base03`) |
 | 1 red     | rose                        | 9 bright red      | lighter rose            |
 | 2 green   | green                       | 10 bright green   | lighter green           |
 | 3 yellow  | yellow (pale aqua in Abyss) | 11 bright yellow  | lighter yellow          |
@@ -19,9 +19,9 @@ The dark variants use these 16 colours:
 | 6 cyan    | cyan                        | 14 bright cyan    | lighter cyan            |
 | 7 white   | text (`base05`)             | 15 bright white   | `base07`                |
 
-Black is a visible dark grey rather than the background colour, so programs that print black text stay readable.
+Black is a visible dark gray rather than the background color, so programs that print black text stay readable.
 
-Rime Frost keeps black dark and white light, as most light terminal themes do: black is the text colour (`base05`), white a readable grey (`base03`), bright black `base04` and bright white a lighter grey. Its bright accents are darker than the normal ones rather than lighter, so they stand out on the light background.
+Rime Frost keeps black dark and white light, as most light terminal themes do: black is the text color (`base05`), white a readable gray (`base03`), bright black `base04` and bright white a lighter gray. Its bright accents are darker than the normal ones rather than lighter, so they stand out on the light background.
 
 ### kitty
 
@@ -63,7 +63,7 @@ cp wezterm/rime.toml ~/.config/wezterm/colors/
 
 ```lua
 -- wezterm.lua
-config.color_scheme = "Rime"  -- or "Rime Glacier", "Rime Aurora", "Rime Abyss"
+config.color_scheme = "Rime"  -- or "Rime Glacier", "Rime Aurora", "Rime Abyss", "Rime Frost"
 ```
 
 ### foot
@@ -113,16 +113,16 @@ custom_palette = "rime"  # or "rime-glacier", "rime-aurora", "rime-abyss", "rime
 
 You can also pick the palette in Noctalia's settings after choosing the custom source, or run `noctalia msg color-scheme-set custom rime`.
 
-The shell takes its colours from Rime's Zed and VS Code themes. The bar and panels use the editors' background, cards use their popup background, and hovered items use the grey of their list selection. Blue is the primary accent, violet the secondary and cyan the tertiary. Its terminal colours are the 16 above, and Noctalia's terminal templates (kitty, foot, Ghostty, Alacritty and others) pass them on.
+The shell takes its colors from Rime's Zed and VS Code themes. The bar and panels use the editors' background, cards use their popup background, and hovered items use the gray of their list selection. Blue is the primary accent, violet the secondary and cyan the tertiary. Its terminal colors are the 16 above, and Noctalia's terminal templates (kitty, foot, Ghostty, Alacritty and others) pass them on.
 
-Each palette holds one variant, so Noctalia uses the same colours in light and dark mode. With a dark variant, keep `mode = "dark"` so the apps Noctalia themes stay dark as well; with `rime-frost`, set `mode = "light"`.
+Each palette holds one variant, so Noctalia uses the same colors in light and dark mode. With a dark variant, keep `mode = "dark"` so the apps Noctalia themes stay dark as well; with `rime-frost`, set `mode = "light"`.
 
-Noctalia 4 called these colour schemes and read the same file from `~/.config/noctalia/colorschemes/rime/rime.json`.
+Noctalia 4 called these color schemes and read the same file from `~/.config/noctalia/colorschemes/rime/rime.json`.
 
 ## Other formats
 
 | Folder    | Use                                                                                                                                                                             |
 | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `base16/` | base16 scheme files in the [tinted-theming](https://github.com/tinted-theming/home) format. Feed them to a builder such as `tinty` to theme any app that has a base16 template. |
-| `css/`    | CSS custom properties, with both the base16 slots (`--base0D`) and colour names (`--rime-blue`).                                                                                |
-| `fzf/`    | `source fzf/rime.sh` to add Rime colours to `FZF_DEFAULT_OPTS`.                                                                                                                 |
+| `css/`    | CSS custom properties, with both the base16 slots (`--base0D`) and color names (`--rime-blue`).                                                                                 |
+| `fzf/`    | `source fzf/rime.sh` to add Rime colors to `FZF_DEFAULT_OPTS`.                                                                                                                  |
