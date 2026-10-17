@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Regenerate the README screenshots from real Neovim highlighting, and the VS Code icon.
 
-Needs: nvim 0.10+ with the typescript and rust treesitter parsers, chromium, Pillow,
+Needs: nvim 0.12+ (for :packadd nvim.tohtml) with the typescript and rust treesitter parsers, chromium, Pillow,
 and the Maple Mono NF font installed. Run tools/build.py first so the colorschemes are current.
 
 Usage: python3 tools/screenshots/render.py [dir containing parser/typescript.so and queries]
@@ -140,6 +140,9 @@ def main(args):
         if args
         else str(pathlib.Path.home() / ".local/share/nvim/lazy/nvim-treesitter")
     )
+    for shot in SHOTS:
+        if sum(shot["rows"]) != len(shot["variants"]):
+            sys.exit(f"{shot['out']}: rows {shot['rows']} hold {sum(shot['rows'])} panes for {len(shot['variants'])} variants; change rows in SHOTS")
     with tempfile.TemporaryDirectory() as work:
         work = pathlib.Path(work)
         exported = {}  # (variant, sample) -> html, so each pair is exported once
