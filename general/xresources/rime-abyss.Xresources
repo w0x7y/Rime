@@ -1,10 +1,10 @@
-! Rime Abyss: The coldest take: no yellow or orange anywhere, with rose as the only warm accent.
+! Rime Abyss: The coldest take, on a darker background: no yellow or orange anywhere, with rose as the only warm accent.
 ! https://github.com/w0x7y/Rime
 
 *.foreground: #c2cde0
-*.background: #23272e
+*.background: #15171c
 *.cursorColor: #c2cde0
-*.color0: #3a404b
+*.color0: #2c3039
 *.color1: #e8879f
 *.color2: #6fd0a8
 *.color3: #9cf0dc

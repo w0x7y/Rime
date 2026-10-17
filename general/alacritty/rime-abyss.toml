@@ -1,30 +1,30 @@
-# Rime Abyss: The coldest take: no yellow or orange anywhere, with rose as the only warm accent.
+# Rime Abyss: The coldest take, on a darker background: no yellow or orange anywhere, with rose as the only warm accent.
 # https://github.com/w0x7y/Rime
 
 [colors.primary]
-background = "#23272e"
+background = "#15171c"
 foreground = "#c2cde0"
 dim_foreground = "#9aa4b6"
 bright_foreground = "#dde5f2"
 
 [colors.cursor]
-text = "#23272e"
+text = "#15171c"
 cursor = "#c2cde0"
 
 [colors.selection]
 text = "CellForeground"
-background = "#3a404b"
+background = "#2c3039"
 
 [colors.search.matches]
-foreground = "#23272e"
+foreground = "#15171c"
 background = "#9cf0dc"
 
 [colors.search.focused_match]
-foreground = "#23272e"
+foreground = "#15171c"
 background = "#6b9cf4"
 
 [colors.normal]
-black = "#3a404b"
+black = "#2c3039"
 red = "#e8879f"
 green = "#6fd0a8"
 yellow = "#9cf0dc"
@@ -44,11 +44,11 @@ cyan = "#76c5e4"
 white = "#f2f6fc"
 
 [colors.dim]
-black = "#323741"
-red = "#a36577"
-green = "#54957d"
-yellow = "#72aa9f"
-blue = "#5273af"
-magenta = "#6c60ad"
-cyan = "#40839f"
-white = "#8a93a2"
+black = "#24272f"
+red = "#9e6071"
+green = "#508f77"
+yellow = "#6da499"
+blue = "#4d6da8"
+magenta = "#675ba7"
+cyan = "#3b7d99"
+white = "#858d9b"

@@ -11,6 +11,8 @@ every variant is 16 colors, the base16 slots `base00` to `base0F`. rime gives ea
 
 `bg_dark` and `border` are derived shades, blends of the color names. `bg_dark` is the chrome: sidebars and bars. it's darker than `bg` on the dark variants and lighter on rime frost, so hovers still show.
 
+glacier has a lighter background (`bg`), and aurora and abyss darker ones. glacier's `comment` is a little lighter too, so comments stay readable on it.
+
 neovim's `on_colors` gets the same names, plus more derived shades: `colorcolumn`, `whitespace`, `search`, the diff backgrounds `diff_add`, `diff_change`, `diff_text` and `diff_delete`, and the diagnostic backgrounds `diag_error`, `diag_warn`, `diag_info`, `diag_hint` and `diag_ok`. those extra shades are the plugin's own. `bg_dark` and `border` are the only shades the other ports use, and the plugin blends them the same way `tools/build.py` does, so they match in every port.
 
 ## terminal colors

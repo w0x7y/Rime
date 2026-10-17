@@ -13,6 +13,8 @@ cool grays and soft, cold accents. five variants, for neovim, vs code, zed, eigh
 
 ## variants
 
+glacier has a lighter background, and aurora and abyss darker ones.
+
 {{variants}}
 
 ## ports

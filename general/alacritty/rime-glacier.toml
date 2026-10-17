@@ -1,30 +1,30 @@
-# Rime Glacier: Crisper accents with clear separation between every syntax role.
+# Rime Glacier: Crisper accents with clear separation between every syntax role, on a lighter background.
 # https://github.com/w0x7y/Rime
 
 [colors.primary]
-background = "#23272e"
+background = "#2a2f37"
 foreground = "#c5cedd"
 dim_foreground = "#9aa4b6"
 bright_foreground = "#dfe5ee"
 
 [colors.cursor]
-text = "#23272e"
+text = "#2a2f37"
 cursor = "#c5cedd"
 
 [colors.selection]
 text = "CellForeground"
-background = "#3a404b"
+background = "#414854"
 
 [colors.search.matches]
-foreground = "#23272e"
+foreground = "#2a2f37"
 background = "#e3dc9e"
 
 [colors.search.focused_match]
-foreground = "#23272e"
+foreground = "#2a2f37"
 background = "#6eaaf0"
 
 [colors.normal]
-black = "#3a404b"
+black = "#414854"
 red = "#e07a90"
 green = "#88d8a0"
 yellow = "#e3dc9e"
@@ -34,7 +34,7 @@ cyan = "#6fd0d8"
 white = "#c5cedd"
 
 [colors.bright]
-black = "#6b768c"
+black = "#737e94"
 red = "#e797a8"
 green = "#a2e1b5"
 yellow = "#e9e4b3"
@@ -44,11 +44,11 @@ cyan = "#8fdae1"
 white = "#f3f6fa"
 
 [colors.dim]
-black = "#323741"
-red = "#9e5d6e"
-green = "#659a78"
-yellow = "#a09d77"
-blue = "#547cac"
-magenta = "#7d6eac"
-cyan = "#54959d"
-white = "#8c94a0"
+black = "#393f4a"
+red = "#a06071"
+green = "#679d7b"
+yellow = "#a29f7a"
+blue = "#567faf"
+magenta = "#8071af"
+cyan = "#5798a0"
+white = "#8f96a3"
