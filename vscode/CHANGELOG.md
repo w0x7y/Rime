@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.1
+
+- The repository moved to `w0x7y/rime`, so the extension's repository, issues and homepage links point there.
+
 ## 0.5.0
 
 - Each dark variant has its own background. Rime keeps `#23272e`; Rime Glacier is lighter (`#2a2f37`) and its comments are a little lighter to stay readable; Rime Aurora (`#1c1f25`) and Rime Abyss (`#15171c`) are darker. Sidebars, panels and the selection color change to match.
