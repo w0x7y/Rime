@@ -412,6 +412,7 @@ async function build() {
   };
   walk(CONTENT);
   for (const p of PORTS) if (!pages.some((page) => page.path === `ports/${p.slug}`)) throw new Error(`content/ports/${p.slug}.md is missing`);
+  for (const page of pages) if (page.path.startsWith("ports/") && !PORTS.some((p) => `ports/${p.slug}` === page.path)) throw new Error(`content/${page.path}.md has no entry in PORTS`);
   for (const slug of Object.keys(DATA.downloads)) if (!PORTS.some((p) => p.slug === slug)) throw new Error(`tools/build.py writes files for a port named ${slug}, which PORTS doesn't list`);
 
   const stars = await starCount();

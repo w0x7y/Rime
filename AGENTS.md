@@ -16,7 +16,13 @@ Most ports are generated. Edit the source, then run `python3 tools/build.py` and
 | The website                                                   | `site/` (see `site/README.md`); it reads `site/data.json`, which the build writes                           |
 | A new port                                                    | a generator in `tools/build.py`, a page in `site/content/ports/` and an entry in `PORTS` in `site/build.ts` |
 
-A port with one file per variant is a line in `PER_VARIANT`; the site's build fails if a port has files but no page or `PORTS` entry. A generated file is anything `build()` in `tools/build.py` returns; `python3 tools/build.py --check` names the stale ones, and any file in a generated folder it no longer writes. `tools/build.py` uses only the Python standard library.
+A port with one file per variant is a line in `PER_VARIANT`, and one with every variant in one file a line in `ALL_IN_ONE`; the site's build fails if a port has files but no page or `PORTS` entry, or a page but no `PORTS` entry. A generated file is anything `build()` in `tools/build.py` returns; `python3 tools/build.py --check` names the stale ones, and any old generated file it no longer writes, such as a renamed variant's. `tools/build.py` uses only the Python standard library.
+
+## Palettes
+
+- Rime Glacier has a lighter background, and Rime Aurora and Rime Abyss darker ones.
+- In every dark variant, `base01` is `base00` plus 8, 9 and 10 in red, green and blue, and `base02` is `base00` plus 23, 25 and 29. Shift all three by the same amount; a test checks the steps.
+- In a dark variant, comments (`base03`) need about 3.3:1 contrast against `base00`, as in Rime; the tests fail below 3.2. Glacier's comments are lighter for that reason. `contrast()` in `tools/test_build.py` computes the ratio.
 
 ## Syntax roles
 

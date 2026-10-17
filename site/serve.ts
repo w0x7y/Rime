@@ -1,5 +1,5 @@
 // Builds the site, serves dist/ under BASE as GitHub Pages would, and rebuilds
-// when content/, style.css or build.ts changes. Each build runs build.ts in a
+// when content/, style.css, build.ts or data.json changes. Each build runs build.ts in a
 // fresh process, so an edit to build.ts itself takes effect too.
 
 import { watch } from "node:fs";
@@ -18,6 +18,7 @@ const rebuild = () => {
 watch(join(import.meta.dir, "content"), { recursive: true }, rebuild);
 watch(join(import.meta.dir, "style.css"), rebuild);
 watch(join(import.meta.dir, "build.ts"), rebuild);
+watch(join(import.meta.dir, "data.json"), rebuild); // rewritten by tools/build.py
 
 const server = Bun.serve({
   port: Number(process.env.PORT ?? 4321),

@@ -16,6 +16,20 @@ from unittest import mock
 import build
 
 
+def contrast(a, b):
+    """The WCAG contrast ratio of two hex colours, from 1 to 21."""
+
+    def luminance(h):
+        r, g, b = (
+            v / 255 / 12.92 if v <= 10 else ((v / 255 + 0.055) / 1.055) ** 2.4
+            for v in build.rgb(h)
+        )
+        return 0.2126 * r + 0.7152 * g + 0.0722 * b
+
+    hi, lo = sorted((luminance(a), luminance(b)), reverse=True)
+    return (hi + 0.05) / (lo + 0.05)
+
+
 class GeneratedFiles(unittest.TestCase):
     def test_committed_files_match_the_palettes(self):
         self.assertEqual(
@@ -50,9 +64,41 @@ class GeneratedFiles(unittest.TestCase):
                 ["changed.lua", "changed.json", "broken.json", "missing.lua"],
             )
 
-    def test_every_variant_names_its_appearance(self):
-        for spec in build.load()[0]:
-            self.assertIn(spec.get("appearance"), ("dark", "light"), spec["slug"])
+    def test_load_rejects_a_palette_with_the_wrong_slug_or_appearance(self):
+        rime = json.loads((build.ROOT / "palettes/rime.json").read_text())
+        cases = {
+            "a copy that keeps its slug": (rime, "rime-copy"),
+            "a mistyped appearance": (rime | {"slug": "rime-copy", "appearance": "Dark"}, "appearance"),
+        }
+        for case, (copy, error) in cases.items():
+            with self.subTest(case), tempfile.TemporaryDirectory() as tmp, mock.patch.object(
+                build, "ROOT", pathlib.Path(tmp)
+            ), mock.patch.object(build, "ORDER", ["rime", "rime-copy"]):
+                (pathlib.Path(tmp) / "palettes").mkdir()
+                (pathlib.Path(tmp) / "palettes/rime.json").write_text(json.dumps(rime))
+                (pathlib.Path(tmp) / "palettes/rime-copy.json").write_text(json.dumps(copy))
+                (pathlib.Path(tmp) / "LICENSE").write_text("")
+                with self.assertRaisesRegex(ValueError, error):
+                    build.load()
+
+
+class Palettes(unittest.TestCase):
+    """The rules in AGENTS.md for moving a dark variant's background."""
+
+    def dark(self):
+        return [s for s in build.load()[0] if s["appearance"] == "dark"]
+
+    def test_panel_and_selection_keep_their_step_from_the_background(self):
+        for spec in self.dark():
+            p = spec["palette"]
+            bg = build.rgb(p["base00"])
+            steps = [[a - b for a, b in zip(build.rgb(p[slot]), bg)] for slot in ("base01", "base02")]
+            self.assertEqual(steps, [[8, 9, 10], [23, 25, 29]], spec["slug"])
+
+    def test_comments_stay_readable_on_the_background(self):
+        for spec in self.dark():
+            p = spec["palette"]
+            self.assertGreaterEqual(contrast(p["base03"], p["base00"]), 3.2, spec["slug"])
 
 
 class SyntaxRoles(unittest.TestCase):
@@ -119,6 +165,19 @@ class SyntaxRoles(unittest.TestCase):
 class LuaMatchesPython(unittest.TestCase):
     """Neovim names the palette slots and blends its derived shades at load time, after on_colors. Unchanged, they must equal the generated ports'."""
 
+    def nvim(self, lua):
+        """What a Lua script run with the plugin on the runtimepath writes to stdout, as JSON."""
+        with tempfile.NamedTemporaryFile("w", suffix=".lua") as script:
+            script.write(lua)
+            script.flush()
+            run = subprocess.run(
+                ["nvim", "--headless", "-u", "NONE", "--cmd", f"set rtp^={build.ROOT}", "-l", script.name],
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+        return json.loads(run.stdout)
+
     LUA = """
     local rime = require("rime")
     local out = {}
@@ -135,46 +194,36 @@ class LuaMatchesPython(unittest.TestCase):
     """
 
     def test_colour_names_derived_shades_and_terminal_colours(self):
-        with tempfile.NamedTemporaryFile("w", suffix=".lua") as script:
-            script.write(self.LUA)
-            script.flush()
-            run = subprocess.run(
-                [
-                    "nvim",
-                    "--headless",
-                    "-u",
-                    "NONE",
-                    "--cmd",
-                    f"set rtp^={build.ROOT}",
-                    "-l",
-                    script.name,
-                ],
-                capture_output=True,
-                text=True,
-                check=True,
-            )
-        for spec, lua in zip(build.load()[0], json.loads(run.stdout)):
+        for spec, lua in zip(build.load()[0], self.nvim(self.LUA)):
             py = build.colours(spec)
             # every colour name and derived shade the ports use; the plugin has more shades of its own
             names = {k: v for k, v in py.items() if isinstance(v, str)}
             self.assertEqual({k: lua["names"].get(k) for k in names}, names, spec["slug"])
             self.assertEqual(lua["ansi"], py["ansi"], spec["slug"])
 
+    def test_options_the_readme_documents(self):
+        lua = self.nvim("""
+        local rime = require("rime")
+        rime.setup({
+          on_colors = function(c) c.bg = "#101010"; c.border = "#123456" end,
+          styles = { comments = {} },
+        })
+        rime.load("rime")
+        local c = rime.colors("rime")
+        local comment = vim.api.nvim_get_hl(0, { name = "Comment" })
+        io.stdout:write(vim.json.encode({ bg_dark = c.bg_dark, border = c.border, italic = comment.italic == true }))
+        """)
+        spec = build.load()[0][0]
+        changed = spec | {"palette": spec["palette"] | {"base00": "#101010"}}
+        # a derived shade follows a colour on_colors changes; one on_colors sets is kept
+        self.assertEqual(lua["bg_dark"], build.colours(changed)["bg_dark"])
+        self.assertEqual(lua["border"], "#123456")
+        # a style replaces the default instead of merging into it
+        self.assertFalse(lua["italic"])
+
 
 class Noctalia(unittest.TestCase):
     """Noctalia sets text in each on_* colour on its role's fill, so a palette edit must keep them readable."""
-
-    @staticmethod
-    def contrast(a, b):
-        def luminance(h):
-            r, g, b = (
-                v / 255 / 12.92 if v <= 10 else ((v / 255 + 0.055) / 1.055) ** 2.4
-                for v in build.rgb(h)
-            )
-            return 0.2126 * r + 0.7152 * g + 0.0722 * b
-
-        hi, lo = sorted((luminance(a), luminance(b)), reverse=True)
-        return (hi + 0.05) / (lo + 0.05)
 
     def test_on_colours_are_readable(self):
         for spec in build.load()[0]:
@@ -189,7 +238,7 @@ class Noctalia(unittest.TestCase):
                     "Hover",
                 ):
                     self.assertGreaterEqual(
-                        self.contrast(mode[f"mOn{role}"], mode[f"m{role}"]),
+                        contrast(mode[f"mOn{role}"], mode[f"m{role}"]),
                         4.5,
                         f"{spec['slug']}: mOn{role}",
                     )
@@ -245,13 +294,13 @@ class Docs(unittest.TestCase):
         )
         self.assertEqual(set(versions), {build.VERSION})
 
-    def test_quoted_background_is_the_default_variants(self):
-        bg = build.load()[0][0]["palette"]["base00"]
+    def test_quoted_backgrounds_are_current(self):
+        backgrounds = {spec["palette"]["base00"] for spec in build.load()[0]}
         for path in ("README.md", "vscode/README.md"):
             for line in self.read(path).splitlines():
                 if "background" in line:
                     for quoted in re.findall(r"`(#[0-9a-fA-F]{6})`", line):
-                        self.assertEqual(quoted.lower(), bg, f"{path}: {line}")
+                        self.assertIn(quoted.lower(), backgrounds, f"{path}: {line}")
 
 
 if __name__ == "__main__":
