@@ -17,7 +17,7 @@ import re
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-VERSION = "0.4.0"
+VERSION = "0.5.0"
 REPO = "https://github.com/w0x7y/Rime"
 AUTHOR = "Idan Gilboa"
 EXTENSION_ID = "rime-theme"  # the Zed and VS Code extension id
