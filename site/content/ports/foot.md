@@ -10,7 +10,7 @@ description: rime for the foot terminal.
 ## install
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/w0x7y/Rime/main/general/foot/{{slug}}.ini -o ~/.config/foot/{{slug}}.ini
+curl -fsSL https://raw.githubusercontent.com/w0x7y/rime/main/general/foot/{{slug}}.ini -o ~/.config/foot/{{slug}}.ini
 ```
 
 then include it:

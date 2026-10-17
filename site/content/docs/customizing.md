@@ -56,7 +56,7 @@ every color in every port comes from the palettes in `palettes/`. this is the de
 edit it, then run the build. it rewrites the neovim, zed, vs code and terminal files and this site's data, using only the python standard library:
 
 ```sh
-git clone https://github.com/w0x7y/Rime && cd Rime
+git clone https://github.com/w0x7y/rime && cd rime
 python3 tools/build.py
 ```
 

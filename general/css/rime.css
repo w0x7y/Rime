@@ -1,39 +1,39 @@
 /* Rime: Soft and muted pastels for long sessions. */
-/* https://github.com/w0x7y/Rime */
+/* https://github.com/w0x7y/rime */
 :root {
-	/* base16 slots */
-	--base00: #23272e;
-	--base01: #2b3038;
-	--base02: #3a404b;
-	--base03: #6b768c;
-	--base04: #9aa4b6;
-	--base05: #c3ccd9;
-	--base06: #dce2eb;
-	--base07: #f0f3f8;
-	--base08: #d98a9c;
-	--base09: #e8a8cc;
-	--base0A: #e4d098;
-	--base0B: #9ad8ac;
-	--base0C: #7cc4d0;
-	--base0D: #7aa4e4;
-	--base0E: #bb98d6;
-	--base0F: #7987a1;
+  /* base16 slots */
+  --base00: #23272e;
+  --base01: #2b3038;
+  --base02: #3a404b;
+  --base03: #6b768c;
+  --base04: #9aa4b6;
+  --base05: #c3ccd9;
+  --base06: #dce2eb;
+  --base07: #f0f3f8;
+  --base08: #d98a9c;
+  --base09: #e8a8cc;
+  --base0A: #e4d098;
+  --base0B: #9ad8ac;
+  --base0C: #7cc4d0;
+  --base0D: #7aa4e4;
+  --base0E: #bb98d6;
+  --base0F: #7987a1;
 
-	/* colour names */
-	--rime-bg: #23272e;
-	--rime-bg-alt: #2b3038;
-	--rime-bg-sel: #3a404b;
-	--rime-comment: #6b768c;
-	--rime-muted: #9aa4b6;
-	--rime-fg: #c3ccd9;
-	--rime-fg-bright: #dce2eb;
-	--rime-white: #f0f3f8;
-	--rime-red: #d98a9c;
-	--rime-pink: #e8a8cc;
-	--rime-yellow: #e4d098;
-	--rime-green: #9ad8ac;
-	--rime-cyan: #7cc4d0;
-	--rime-blue: #7aa4e4;
-	--rime-violet: #bb98d6;
-	--rime-steel: #7987a1;
+  /* colour names */
+  --rime-bg: #23272e;
+  --rime-bg-alt: #2b3038;
+  --rime-bg-sel: #3a404b;
+  --rime-comment: #6b768c;
+  --rime-muted: #9aa4b6;
+  --rime-fg: #c3ccd9;
+  --rime-fg-bright: #dce2eb;
+  --rime-white: #f0f3f8;
+  --rime-red: #d98a9c;
+  --rime-pink: #e8a8cc;
+  --rime-yellow: #e4d098;
+  --rime-green: #9ad8ac;
+  --rime-cyan: #7cc4d0;
+  --rime-blue: #7aa4e4;
+  --rime-violet: #bb98d6;
+  --rime-steel: #7987a1;
 }

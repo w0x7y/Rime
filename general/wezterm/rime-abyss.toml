@@ -1,5 +1,5 @@
 # Rime Abyss: The coldest take, on a darker background: no yellow or orange anywhere, with rose as the only warm accent.
-# https://github.com/w0x7y/Rime
+# https://github.com/w0x7y/rime
 
 [colors]
 foreground = "#c2cde0"
@@ -28,4 +28,4 @@ fg_color = "#6b768c"
 [metadata]
 name = "Rime Abyss"
 author = "Idan Gilboa"
-origin_url = "https://github.com/w0x7y/Rime"
+origin_url = "https://github.com/w0x7y/rime"

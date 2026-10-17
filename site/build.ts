@@ -7,13 +7,13 @@ import { dirname, join } from "node:path";
 import { Marked, type Tokens } from "marked";
 import { createHighlighter } from "shiki";
 
-/** Where the site is served from: /Rime/ on GitHub Pages. */
-export const BASE = process.env.BASE ?? "/Rime/";
+/** Where the site is served from: /rime/ on GitHub Pages. */
+export const BASE = process.env.BASE ?? "/rime/";
 export const OUT = join(import.meta.dir, "dist");
 const ROOT = join(import.meta.dir, "..");
 const CONTENT = join(import.meta.dir, "content");
-const REPO = "https://github.com/w0x7y/Rime";
-const SITE_URL = "https://w0x7y.github.io/Rime/";
+const REPO = "https://github.com/w0x7y/rime";
+const SITE_URL = "https://w0x7y.github.io/rime/";
 
 const json = (path: string) => JSON.parse(readFileSync(join(ROOT, path), "utf8"));
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -248,7 +248,7 @@ const NAV = [
 /** The repository's star count, or undefined when GitHub doesn't answer: offline, or over its rate limit. */
 async function starCount(): Promise<number | undefined> {
   try {
-    const res = await fetch("https://api.github.com/repos/w0x7y/Rime", {
+    const res = await fetch("https://api.github.com/repos/w0x7y/rime", {
       headers: process.env.GITHUB_TOKEN ? { Authorization: `Bearer ${process.env.GITHUB_TOKEN}` } : {},
       signal: AbortSignal.timeout(5000),
     });
@@ -317,7 +317,7 @@ let cached = null;
 try { cached = JSON.parse(localStorage.getItem("rime:stars")); } catch (e) {}
 if (cached) show(cached.n);
 if (!cached || Date.now() - cached.t > 36e5)
-  fetch("https://api.github.com/repos/w0x7y/Rime")
+  fetch("https://api.github.com/repos/w0x7y/rime")
     .then((r) => (r.ok ? r.json() : Promise.reject()))
     .then((d) => {
       show(d.stargazers_count);

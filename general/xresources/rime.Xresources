@@ -1,5 +1,5 @@
 ! Rime: Soft and muted pastels for long sessions.
-! https://github.com/w0x7y/Rime
+! https://github.com/w0x7y/rime
 
 *.foreground: #c3ccd9
 *.background: #23272e

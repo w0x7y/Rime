@@ -36,8 +36,8 @@ to follow the system's light and dark mode:
 ## from source
 
 ```sh
-git clone https://github.com/w0x7y/Rime
-cd Rime/vscode
+git clone https://github.com/w0x7y/rime
+cd rime/vscode
 npx @vscode/vsce package
 code --install-extension rime-theme-*.vsix
 ```

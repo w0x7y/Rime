@@ -2,7 +2,7 @@
 
 A cold theme in five variants: **Rime**, **Rime Glacier**, **Rime Aurora** and **Rime Abyss**, which are dark, and the light **Rime Frost**.
 
-![Rime variants](https://raw.githubusercontent.com/w0x7y/Rime/main/assets/screenshot-all.png)
+![Rime variants](https://raw.githubusercontent.com/w0x7y/rime/main/assets/screenshot-all.png)
 
 The dark four have cool gray backgrounds, lighter in Rime Glacier and darker in Rime Aurora and Rime Abyss. Rime Frost is frost white. All lean on blues, teals and violets. Keywords are split by kind: declarations are violet, loops yellow, conditionals bold rose, and returns and exceptions rose.
 
@@ -21,8 +21,8 @@ Then run **Preferences: Color Theme** and pick a Rime variant.
 ## Install from source
 
 ```sh
-git clone https://github.com/w0x7y/Rime
-cd Rime/vscode
+git clone https://github.com/w0x7y/rime
+cd rime/vscode
 npx @vscode/vsce package
 code --install-extension rime-theme-0.5.0.vsix
 ```

@@ -11,7 +11,7 @@ description: rime for the alacritty terminal.
 
 ```sh
 mkdir -p ~/.config/alacritty/themes
-curl -fsSL https://raw.githubusercontent.com/w0x7y/Rime/main/general/alacritty/{{slug}}.toml -o ~/.config/alacritty/themes/{{slug}}.toml
+curl -fsSL https://raw.githubusercontent.com/w0x7y/rime/main/general/alacritty/{{slug}}.toml -o ~/.config/alacritty/themes/{{slug}}.toml
 ```
 
 then import it:

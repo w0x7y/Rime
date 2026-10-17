@@ -11,7 +11,7 @@ description: rime for the kitty terminal.
 
 ```sh
 mkdir -p ~/.config/kitty
-curl -fsSL https://raw.githubusercontent.com/w0x7y/Rime/main/general/kitty/{{slug}}.conf -o ~/.config/kitty/{{slug}}.conf
+curl -fsSL https://raw.githubusercontent.com/w0x7y/rime/main/general/kitty/{{slug}}.conf -o ~/.config/kitty/{{slug}}.conf
 echo 'include {{slug}}.conf' >> ~/.config/kitty/kitty.conf
 ```
 

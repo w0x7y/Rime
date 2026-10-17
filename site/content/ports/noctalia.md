@@ -13,7 +13,7 @@ for the [noctalia](https://github.com/noctalia-dev/noctalia) desktop shell, vers
 
 ```sh
 mkdir -p ~/.config/noctalia/palettes
-curl -fsSL https://raw.githubusercontent.com/w0x7y/Rime/main/general/noctalia/{{slug}}.json -o ~/.config/noctalia/palettes/{{slug}}.json
+curl -fsSL https://raw.githubusercontent.com/w0x7y/rime/main/general/noctalia/{{slug}}.json -o ~/.config/noctalia/palettes/{{slug}}.json
 ```
 
 ```toml

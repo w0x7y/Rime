@@ -11,7 +11,7 @@ description: rime for the wezterm terminal.
 
 ```sh
 mkdir -p ~/.config/wezterm/colors
-curl -fsSL https://raw.githubusercontent.com/w0x7y/Rime/main/general/wezterm/{{slug}}.toml -o ~/.config/wezterm/colors/{{slug}}.toml
+curl -fsSL https://raw.githubusercontent.com/w0x7y/rime/main/general/wezterm/{{slug}}.toml -o ~/.config/wezterm/colors/{{slug}}.toml
 ```
 
 then pick the scheme by name:

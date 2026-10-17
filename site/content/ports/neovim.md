@@ -15,7 +15,7 @@ with [lazy.nvim](https://github.com/folke/lazy.nvim):
 
 ```lua
 {
-  "w0x7y/Rime",
+  "w0x7y/rime",
   lazy = false,
   priority = 1000,
   config = function()
@@ -28,14 +28,14 @@ with [lazy.nvim](https://github.com/folke/lazy.nvim):
 with `vim.pack`, on neovim 0.12 and later:
 
 ```lua
-vim.pack.add({ "https://github.com/w0x7y/Rime" })
+vim.pack.add({ "https://github.com/w0x7y/rime" })
 vim.cmd.colorscheme("{{slug}}")
 ```
 
 with vim-plug:
 
 ```vim
-Plug 'w0x7y/Rime'
+Plug 'w0x7y/rime'
 " after plug#end()
 colorscheme {{slug}}
 ```
@@ -43,7 +43,7 @@ colorscheme {{slug}}
 with packer.nvim:
 
 ```lua
-use("w0x7y/Rime")
+use("w0x7y/rime")
 -- after packer has loaded it
 vim.cmd.colorscheme("{{slug}}")
 ```
@@ -51,7 +51,7 @@ vim.cmd.colorscheme("{{slug}}")
 or by hand:
 
 ```sh
-git clone https://github.com/w0x7y/Rime ~/.local/share/nvim/site/pack/rime/start/rime
+git clone https://github.com/w0x7y/rime ~/.local/share/nvim/site/pack/rime/start/rime
 ```
 
 ## variants

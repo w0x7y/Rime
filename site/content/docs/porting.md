@@ -5,7 +5,7 @@ description: how rime's ports are built, and how to add one for software it does
 
 # porting
 
-if you port rime to your software of choice, open a [pull request](https://github.com/w0x7y/Rime/pulls).
+if you port rime to your software of choice, open a [pull request](https://github.com/w0x7y/rime/pulls).
 
 ## how ports are made
 

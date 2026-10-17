@@ -1,6 +1,6 @@
 # Rime's website
 
-The site at <https://w0x7y.github.io/Rime/>: static HTML and one stylesheet, built by one script. No framework and no client-side app; the only JavaScript is the dark/light switch and a refresh of the GitHub star count, which the build writes into every page (with `GITHUB_TOKEN` when it's set) and the browser updates at most once an hour.
+The site at <https://w0x7y.github.io/rime/>: static HTML and one stylesheet, built by one script. No framework and no client-side app; the only JavaScript is the dark/light switch and a refresh of the GitHub star count, which the build writes into every page (with `GITHUB_TOKEN` when it's set) and the browser updates at most once an hour.
 
 ## Develop
 
@@ -9,12 +9,12 @@ Needs [Bun](https://bun.sh).
 ```sh
 cd site
 bun install
-bun run dev        # http://localhost:4321/Rime/, rebuilds when content/, style.css or build.ts changes
+bun run dev        # http://localhost:4321/rime/, rebuilds when content/, style.css or build.ts changes
 bun run typecheck
 bun run build      # static site in dist/
 ```
 
-`BASE=/ bun run build` builds for the root of a domain instead of `/Rime/`.
+`BASE=/ bun run build` builds for the root of a domain instead of `/rime/`.
 
 ## How it works
 

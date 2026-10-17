@@ -1,39 +1,39 @@
 /* Rime Glacier: Crisper accents with clear separation between every syntax role, on a lighter background. */
-/* https://github.com/w0x7y/Rime */
+/* https://github.com/w0x7y/rime */
 :root {
-	/* base16 slots */
-	--base00: #2a2f37;
-	--base01: #323841;
-	--base02: #414854;
-	--base03: #737e94;
-	--base04: #9aa4b6;
-	--base05: #c5cedd;
-	--base06: #dfe5ee;
-	--base07: #f3f6fa;
-	--base08: #e07a90;
-	--base09: #f2a7e0;
-	--base0A: #e3dc9e;
-	--base0B: #88d8a0;
-	--base0C: #6fd0d8;
-	--base0D: #6eaaf0;
-	--base0E: #ae94f0;
-	--base0F: #788bb0;
+  /* base16 slots */
+  --base00: #2a2f37;
+  --base01: #323841;
+  --base02: #414854;
+  --base03: #737e94;
+  --base04: #9aa4b6;
+  --base05: #c5cedd;
+  --base06: #dfe5ee;
+  --base07: #f3f6fa;
+  --base08: #e07a90;
+  --base09: #f2a7e0;
+  --base0A: #e3dc9e;
+  --base0B: #88d8a0;
+  --base0C: #6fd0d8;
+  --base0D: #6eaaf0;
+  --base0E: #ae94f0;
+  --base0F: #788bb0;
 
-	/* colour names */
-	--rime-bg: #2a2f37;
-	--rime-bg-alt: #323841;
-	--rime-bg-sel: #414854;
-	--rime-comment: #737e94;
-	--rime-muted: #9aa4b6;
-	--rime-fg: #c5cedd;
-	--rime-fg-bright: #dfe5ee;
-	--rime-white: #f3f6fa;
-	--rime-red: #e07a90;
-	--rime-pink: #f2a7e0;
-	--rime-yellow: #e3dc9e;
-	--rime-green: #88d8a0;
-	--rime-cyan: #6fd0d8;
-	--rime-blue: #6eaaf0;
-	--rime-violet: #ae94f0;
-	--rime-steel: #788bb0;
+  /* colour names */
+  --rime-bg: #2a2f37;
+  --rime-bg-alt: #323841;
+  --rime-bg-sel: #414854;
+  --rime-comment: #737e94;
+  --rime-muted: #9aa4b6;
+  --rime-fg: #c5cedd;
+  --rime-fg-bright: #dfe5ee;
+  --rime-white: #f3f6fa;
+  --rime-red: #e07a90;
+  --rime-pink: #f2a7e0;
+  --rime-yellow: #e3dc9e;
+  --rime-green: #88d8a0;
+  --rime-cyan: #6fd0d8;
+  --rime-blue: #6eaaf0;
+  --rime-violet: #ae94f0;
+  --rime-steel: #788bb0;
 }

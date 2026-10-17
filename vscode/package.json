@@ -7,7 +7,7 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/w0x7y/Rime"
+		"url": "https://github.com/w0x7y/rime"
 	},
 	"engines": {
 		"vscode": "^1.70.0"

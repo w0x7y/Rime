@@ -12,6 +12,6 @@ for xterm, urxvt, st and anything else that reads xresources.
 ## install
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/w0x7y/Rime/main/general/xresources/{{slug}}.Xresources -o ~/{{slug}}.Xresources
+curl -fsSL https://raw.githubusercontent.com/w0x7y/rime/main/general/xresources/{{slug}}.Xresources -o ~/{{slug}}.Xresources
 xrdb -merge ~/{{slug}}.Xresources
 ```

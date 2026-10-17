@@ -1,5 +1,5 @@
 # Rime Glacier: Crisper accents with clear separation between every syntax role, on a lighter background.
-# https://github.com/w0x7y/Rime
+# https://github.com/w0x7y/rime
 
 [colors]
 foreground = "#c5cedd"
@@ -28,4 +28,4 @@ fg_color = "#737e94"
 [metadata]
 name = "Rime Glacier"
 author = "Idan Gilboa"
-origin_url = "https://github.com/w0x7y/Rime"
+origin_url = "https://github.com/w0x7y/rime"

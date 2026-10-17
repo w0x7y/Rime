@@ -5,4 +5,4 @@ version = "0.5.0"
 schema_version = 1
 authors = ["Idan Gilboa"]
 description = "A cold theme in five variants: Rime, Glacier, Aurora and Abyss, and the light Frost."
-repository = "https://github.com/w0x7y/Rime"
+repository = "https://github.com/w0x7y/rime"

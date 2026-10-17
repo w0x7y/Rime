@@ -1,6 +1,6 @@
 **Rime**
 
-a colder colorscheme. [website](https://w0x7y.github.io/Rime/)
+a colder colorscheme. [website](https://w0x7y.github.io/rime/)
 
 <img width="370" alt="rust code in rime" src="assets/demo.png" />
 
@@ -36,7 +36,7 @@ with lazy.nvim
 
 ```lua
 {
-  "w0x7y/Rime",
+  "w0x7y/rime",
   lazy = false,
   priority = 1000,
   config = function()
@@ -83,10 +83,10 @@ every variant is 16 colors in `palettes/`. which color each kind of code gets (f
 
 **[website](./site)**
 
-the site at [w0x7y.github.io/Rime](https://w0x7y.github.io/Rime/) is built from `site/` and deployed from `main`. how to run it is in [site/](./site)
+the site at [w0x7y.github.io/rime](https://w0x7y.github.io/rime/) is built from `site/` and deployed from `main`. how to run it is in [site/](./site)
 
-**[your own](https://github.com/w0x7y/Rime/pulls)**
+**[your own](https://github.com/w0x7y/rime/pulls)**
 
-if you port it into your software of choice, open a pull request. the [porting guide](https://w0x7y.github.io/Rime/docs/porting/) shows how ports are made
+if you port it into your software of choice, open a pull request. the [porting guide](https://w0x7y.github.io/rime/docs/porting/) shows how ports are made
 
 _credits: [bark](https://github.com/if-not-nil/bark) by if-not-nil, the warm scheme rime flips around. license: [mit](./LICENSE)_

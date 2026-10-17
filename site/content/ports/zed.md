@@ -15,7 +15,7 @@ put the file in zed's themes folder:
 
 ```sh
 mkdir -p ~/.config/zed/themes
-curl -fsSL https://raw.githubusercontent.com/w0x7y/Rime/main/zed/themes/rime.json -o ~/.config/zed/themes/rime.json
+curl -fsSL https://raw.githubusercontent.com/w0x7y/rime/main/zed/themes/rime.json -o ~/.config/zed/themes/rime.json
 ```
 
 or install it as a dev extension: clone the repository, run `zed: install dev extension` from the command palette and pick the `zed/` folder.

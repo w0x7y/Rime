@@ -11,6 +11,6 @@ description: rime for the ghostty terminal.
 
 ```sh
 mkdir -p ~/.config/ghostty/themes
-curl -fsSL https://raw.githubusercontent.com/w0x7y/Rime/main/general/ghostty/{{slug}} -o ~/.config/ghostty/themes/{{slug}}
+curl -fsSL https://raw.githubusercontent.com/w0x7y/rime/main/general/ghostty/{{slug}} -o ~/.config/ghostty/themes/{{slug}}
 echo 'theme = {{slug}}' >> ~/.config/ghostty/config
 ```
