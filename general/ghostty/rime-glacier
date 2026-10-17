@@ -1,7 +1,7 @@
-# Rime Glacier: Crisper accents with clear separation between every syntax role.
+# Rime Glacier: Crisper accents with clear separation between every syntax role, on a lighter background.
 # https://github.com/w0x7y/Rime
 
-palette = 0=#3a404b
+palette = 0=#414854
 palette = 1=#e07a90
 palette = 2=#88d8a0
 palette = 3=#e3dc9e
@@ -9,7 +9,7 @@ palette = 4=#6eaaf0
 palette = 5=#ae94f0
 palette = 6=#6fd0d8
 palette = 7=#c5cedd
-palette = 8=#6b768c
+palette = 8=#737e94
 palette = 9=#e797a8
 palette = 10=#a2e1b5
 palette = 11=#e9e4b3
@@ -17,9 +17,9 @@ palette = 12=#8ebdf3
 palette = 13=#c0acf3
 palette = 14=#8fdae1
 palette = 15=#f3f6fa
-background = #23272e
+background = #2a2f37
 foreground = #c5cedd
 cursor-color = #c5cedd
-cursor-text = #23272e
-selection-background = #3a404b
+cursor-text = #2a2f37
+selection-background = #414854
 selection-foreground = #dfe5ee

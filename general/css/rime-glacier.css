@@ -1,11 +1,11 @@
-/* Rime Glacier: Crisper accents with clear separation between every syntax role. */
+/* Rime Glacier: Crisper accents with clear separation between every syntax role, on a lighter background. */
 /* https://github.com/w0x7y/Rime */
 :root {
 	/* base16 slots */
-	--base00: #23272e;
-	--base01: #2b3038;
-	--base02: #3a404b;
-	--base03: #6b768c;
+	--base00: #2a2f37;
+	--base01: #323841;
+	--base02: #414854;
+	--base03: #737e94;
 	--base04: #9aa4b6;
 	--base05: #c5cedd;
 	--base06: #dfe5ee;
@@ -20,10 +20,10 @@
 	--base0F: #788bb0;
 
 	/* colour names */
-	--rime-bg: #23272e;
-	--rime-bg-alt: #2b3038;
-	--rime-bg-sel: #3a404b;
-	--rime-comment: #6b768c;
+	--rime-bg: #2a2f37;
+	--rime-bg-alt: #323841;
+	--rime-bg-sel: #414854;
+	--rime-comment: #737e94;
 	--rime-muted: #9aa4b6;
 	--rime-fg: #c5cedd;
 	--rime-fg-bright: #dfe5ee;

@@ -1,7 +1,7 @@
-# Rime Abyss: The coldest take: no yellow or orange anywhere, with rose as the only warm accent.
+# Rime Abyss: The coldest take, on a darker background: no yellow or orange anywhere, with rose as the only warm accent.
 # https://github.com/w0x7y/Rime
 
-palette = 0=#3a404b
+palette = 0=#2c3039
 palette = 1=#e8879f
 palette = 2=#6fd0a8
 palette = 3=#9cf0dc
@@ -17,9 +17,9 @@ palette = 12=#8cb2f6
 palette = 13=#ab9bf5
 palette = 14=#76c5e4
 palette = 15=#f2f6fc
-background = #23272e
+background = #15171c
 foreground = #c2cde0
 cursor-color = #c2cde0
-cursor-text = #23272e
-selection-background = #3a404b
+cursor-text = #15171c
+selection-background = #2c3039
 selection-foreground = #dde5f2

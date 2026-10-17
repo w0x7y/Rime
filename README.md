@@ -8,21 +8,19 @@ the opposite of [bark](https://github.com/if-not-nil/bark), with a little [one d
 
 **variants**
 
-four dark ones on the same `#23272e` background, and a light one
-
 - **rime**: soft and muted pastels.
 
     ![rime palette](assets/palette-rime.svg)
 
-- **rime glacier**: crisper accents that keep every syntax role apart.
+- **rime glacier**: crisper accents that keep every syntax role apart, on a lighter background.
 
     ![rime glacier palette](assets/palette-rime-glacier.svg)
 
-- **rime aurora**: vivid neon.
+- **rime aurora**: vivid neon on a darker background.
 
     ![rime aurora palette](assets/palette-rime-aurora.svg)
 
-- **rime abyss**: the coldest one.
+- **rime abyss**: the coldest one, on a darker background.
 
     ![rime abyss palette](assets/palette-rime-abyss.svg)
 
